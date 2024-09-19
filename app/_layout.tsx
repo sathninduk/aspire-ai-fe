@@ -1,3 +1,10 @@
+// import React from 'react';
+// import MainNavigator from '@/app/navigation/MainNavigator';
+//
+// export default function App() {
+//   return <MainNavigator />;
+// }
+
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -28,7 +35,10 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+      <Stack initialRouteName="login">
+        <Stack.Screen name="login" />
+        <Stack.Screen name="onboarding1" />
+        <Stack.Screen name="onboarding2" />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
