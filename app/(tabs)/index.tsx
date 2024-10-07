@@ -1,11 +1,19 @@
 import { Image, StyleSheet, Platform } from 'react-native';
-
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from '@/app/types';
+import {useEffect} from "react"; // Adjust the import path as necessary
 
 export default function HomeScreen() {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+    useEffect(() => {
+        navigation.navigate('login');
+    }, []); // Add this line
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
