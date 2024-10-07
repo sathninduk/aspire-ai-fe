@@ -1,0 +1,8 @@
+// app/types.ts
+export type RootStackParamList = {
+  Login: undefined;
+  Onboarding1: undefined;
+  Onboarding2: undefined;
+  MainTabs: undefined;
+  // Add other routes here
+};

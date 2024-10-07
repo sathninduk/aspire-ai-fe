@@ -1,3 +1,4 @@
+// app/navigation/MainNavigator.tsx
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -5,10 +6,13 @@ import LoginScreen from '@/app/login';
 import Step1 from '@/app/onboarding/step1';
 import Step2 from '@/app/onboarding/step2';
 import TabLayout from '@/app/(tabs)/_layout';
+import { useAuthRedirect } from '@/app/hooks/useAuthRedirect';
 
 const Stack = createStackNavigator();
 
 export default function MainNavigator() {
+  useAuthRedirect();
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
