@@ -1,10 +1,11 @@
 import * as React from "react";
-import {Image, Pressable, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Image, Linking, Pressable, StyleSheet, Text, View} from "react-native";
 import Svg, {Path} from "react-native-svg";
-import { Dimensions } from 'react-native';
-import { TextInput } from 'react-native';
+import {TextInput} from 'react-native-paper';
+import { Picker } from '@react-native-picker/picker';
+import {Link} from "expo-router";
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const SignIn = () => {
     return (
@@ -23,29 +24,33 @@ const SignIn = () => {
                     </Text>
                 </Text>
             </Pressable>
-            <Pressable style={styles.verifyYourNumberWrapper} onPress={() => {
-            }}>
-                <Text style={[styles.verifyYourNumber, styles.text2Typo]}>Verify Your Number</Text>
-            </Pressable>
+            <Link style={styles.verifyYourNumberWrapper}
+                    href="/login/otp"
+            >
+                <Text
+                    style={[styles.verifyYourNumber, styles.text2Typo]}>Verify Your Number</Text>
+            </Link>
             <View style={styles.signInInner}>
                 <View style={styles.frameParent}>
-                    <View style={[styles.wrapper, styles.parentBorder]}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', width: 340}}>
                         <TextInput
-                            style={[styles.text2, styles.text2Typo]}
-                            value="81313782"
+                            style={[styles.text2, styles.text2Typo, {width: 87, marginRight: 14}]}
+                            label="+94"
                             editable={false}
                         />
-                    </View>
-                    <View style={[styles.parent, styles.parentBorder]}>
                         <TextInput
-                            style={[styles.text2, styles.text2Typo]}
-                            value="+94"
-                            editable={false}
+                            style={[styles.text2, styles.text2Typo, {flex: 1}]}
+                            label="Phone Number"
                         />
-                        <Svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-                            <Path d="M0 0.571568L6 7.42871L12 0.571568H0Z" fill="#130160"/>
-                        </Svg>
                     </View>
+                    {/*<TextInput*/}
+                    {/*    style={[styles.text2, styles.text2Typo]}*/}
+                    {/*    value="+94"*/}
+                    {/*    editable={false}*/}
+                    {/*/>*/}
+                    <Svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                        <Path d="M0 0.571568L6 7.42871L12 0.571568H0Z" fill="#130160"/>
+                    </Svg>
                 </View>
             </View>
             <Image style={styles.riarrowUpSLineIcon} resizeMode="cover"
