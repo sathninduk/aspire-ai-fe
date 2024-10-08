@@ -36,12 +36,12 @@ const JobSkillsHomeScreen: React.FC = () => {
         <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel}>Interviews</Button>
       </View>
 
-      <Text style={styles.subTitle}>Top Searched Companies</Text>
+      {/* <Text style={styles.subTitle}>Top Searched Companies</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.companyRow}>
         {["WSO2", "Codegen", "IFS", "Virtusa", "Cambio"].map((company, index) => (
           <Button key={index} mode="outlined" style={styles.companyButton} labelStyle={styles.buttonLabel}>{company}</Button>
         ))}
-      </ScrollView>
+      </ScrollView> */}
 
       <View style={styles.searchContainer}>
         <Searchbar
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 20,
+    marginTop: 20
   },
   title: {
     fontSize: 24,
