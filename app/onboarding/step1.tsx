@@ -5,7 +5,7 @@ import { ThemedView } from '@/components/ThemedView';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from "@/app/navigation/types";
 
-export default function Step1() {
+export default function OnboardingStep1() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
