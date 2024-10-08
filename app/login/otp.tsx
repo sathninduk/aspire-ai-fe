@@ -1,212 +1,186 @@
 import * as React from "react";
-import {Dimensions} from "react-native";
+import {Image, Pressable, StyleSheet, Text, View} from "react-native";
+import {Link} from "expo-router";
 
-const {width, height} = Dimensions.get('window');
+const OtpVerfication = () => {
 
-const OTP = () => {
     return (
-        <div style={{
-            width: '100%',
-            height: '100%',
-            position: 'relative',
-            background: '#F9F9F9',
-            overflow: 'hidden'
-        }}>
-            <div style={{
-                left: 32,
-                top: 558,
-                position: 'absolute',
-                color: '#0D0140',
-                fontSize: 28,
-                fontFamily: 'DM Sans',
-                fontWeight: '700',
-                wordWrap: 'break-word'
-            }}>Verify Your Number
-            </div>
-            <div style={{
-                width: 32,
-                height: 35,
-                left: 371,
-                top: 795,
-                position: 'absolute',
-                transform: 'rotate(90deg)',
-                transformOrigin: '0 0'
-            }}>
-                <div style={{
-                    width: 16.97,
-                    height: 11.34,
-                    left: 7.51,
-                    top: 11.67,
-                    position: 'absolute',
-                    background: 'white'
-                }}></div>
-            </div>
-            <div style={{
-                left: 32,
-                top: 599,
-                position: 'absolute',
-                color: '#524B6B',
-                fontSize: 14,
-                fontFamily: 'DM Sans',
-                fontWeight: '400',
-                wordWrap: 'break-word'
-            }}>Enter the four digit code sent to +94 711427657
-            </div>
-            <div style={{
-                width: 193,
-                height: 207,
-                left: -95,
-                top: -14,
-                borderRadius: 300,
-                position: 'absolute',
-                background: '#6A41FF'
-            }}></div>
-            <div style={{
-                width: 193,
-                height: 207,
-                left: 27,
-                top: -117,
-                borderRadius: 300,
-                position: 'absolute',
-                background: '#150B3D'
-            }}></div>
-            <div style={{
-                width: 150,
-                height: 143,
-                left: 336,
-                top: 292,
-                position: 'absolute',
-                borderRadius: 300,
-                background: '#6A41FF'
-            }}></div>
-            <div style={{width: 341, height: 56, left: 36, top: 670, position: 'absolute'}}>
-                <div style={{
-                    width: 66,
-                    height: 56,
-                    left: 92,
-                    top: 0,
-                    position: 'absolute',
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-start',
-                    gap: 5,
-                    display: 'inline-flex'
-                }}>
-                    <div style={{
-                        width: 66,
-                        height: 56,
-                        background: 'rgba(225.21, 216.87, 255, 0.30)',
-                        borderTopLeftRadius: 8,
-                        borderTopRightRadius: 8,
-                        borderBottom: '1px #6A41FF solid'
-                    }}/>
-                </div>
-                <div style={{
-                    width: 66,
-                    height: 56,
-                    left: 0,
-                    top: 0,
-                    position: 'absolute',
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-start',
-                    gap: 5,
-                    display: 'inline-flex'
-                }}>
-                    <div style={{
-                        width: 66,
-                        height: 56,
-                        background: 'rgba(225.21, 216.87, 255, 0.30)',
-                        borderTopLeftRadius: 8,
-                        borderTopRightRadius: 8,
-                        borderBottom: '1px #6A41FF solid'
-                    }}/>
-                </div>
-                <div style={{
-                    width: 65,
-                    height: 56,
-                    left: 183,
-                    top: 0,
-                    position: 'absolute',
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-start',
-                    gap: 5,
-                    display: 'inline-flex'
-                }}>
-                    <div style={{
-                        height: 56,
-                        justifyContent: 'flex-start',
-                        alignItems: 'flex-start',
-                        gap: 5,
-                        display: 'flex'
-                    }}>
-                        <div style={{
-                            width: 65,
-                            height: 56,
-                            background: 'rgba(225.21, 216.87, 255, 0.30)',
-                            borderTopLeftRadius: 8,
-                            borderTopRightRadius: 8,
-                            borderBottom: '1px #6A41FF solid'
-                        }}/>
-                    </div>
-                </div>
-                <div style={{
-                    width: 66,
-                    height: 56,
-                    left: 275,
-                    top: 0,
-                    position: 'absolute',
-                    background: 'rgba(225.21, 216.87, 255, 0.30)',
-                    borderTopLeftRadius: 8,
-                    borderTopRightRadius: 8,
-                    borderBottom: '1px #6A41FF solid'
-                }}/>
-            </div>
-            <div style={{
-                width: 'calc(100% - 98px)',
-                height: 48,
-                paddingTop: 8,
-                paddingBottom: 8,
-                paddingLeft: 17,
-                paddingRight: 16,
-                left: 28,
-                top: 779,
-                position: 'absolute',
-                background: '#130160',
-                borderRadius: 14,
-                border: '1.20px rgba(255, 255, 255, 0.20) solid',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                gap: 37,
-                display: 'inline-flex'
-            }}>
-                <div style={{
-                    width: '100%',
-                    color: 'white',
-                    fontSize: 14,
-                    fontFamily: 'DM Sans',
-                    fontWeight: '700',
-                    lineHeight: 24,
-                    wordWrap: 'break-word'
-                }}>Next
-                </div>
-                <div style={{
-                    width: 32,
-                    height: 35,
-                    position: 'relative',
-                    transform: 'rotate(90deg)',
-                    transformOrigin: '0 0'
-                }}>
-                    <div style={{
-                        width: 16.97,
-                        height: 11.34,
-                        left: 7.51,
-                        top: 11.67,
-                        position: 'absolute',
-                        background: 'white'
-                    }}></div>
-                </div>
-            </div>
-        </div>
-    );
+        <View style={styles.otpVerfication}>
+            <Text style={styles.verifyYourNumber}>Verify Your Number</Text>
+
+            <View style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout, styles.ball]}/>
+
+            <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to +94 711427657</Text>
+
+            <View style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, {backgroundColor: '#6A41FF'}]}/>
+            <View style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, {backgroundColor: '#150B3D'}]}/>
+            <View style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
+
+            <View style={styles.otpPad}>
+                <View style={[styles.otpPadInner, styles.otpPosition]}>
+                    <View style={[styles.frameChild, styles.frameBorder]}/>
+                </View>
+                <View style={[styles.otpPadChild, styles.otpPosition]}>
+                    <View style={[styles.frameChild, styles.frameBorder]}/>
+                </View>
+                <View style={[styles.frameView, styles.otpPosition]}>
+                    <View style={styles.rectangleWrapper}>
+                        <View style={[styles.frameInner, styles.frameBorder]}/>
+                    </View>
+                </View>
+                <View style={[styles.otpPadItem, styles.frameBorder]}/>
+            </View>
+            <Link style={styles.nextParent}  href="/login/splash">
+                <Text style={[styles.next, styles.nextTypo]}>Next</Text>
+                <Image style={styles.riarrowIconLayout} resizeMode="cover"
+                       source={require('@/assets/images/signin/arrow-up-s-line.svg')}/>
+            </Link>
+        </View>);
 };
 
-export default OTP;
+const styles = StyleSheet.create({
+    riarrowIconLayout: {
+        height: 32,
+        width: 35,
+        overflow: "hidden"
+    },
+    nextTypo: {
+        fontSize: 14,
+        textAlign: "left"
+    },
+    otpLayout: {
+        height: 207,
+        width: 193,
+        position: "absolute"
+    },
+    riarrowUpSLineIconPosition: {
+        left: 336,
+        position: "absolute"
+    },
+    otpPosition: {
+        top: 0,
+        position: "absolute"
+    },
+    frameBorder: {
+        height: 57,
+        borderBottomWidth: 1,
+        borderColor: "#6a41ff",
+        backgroundColor: "rgba(225, 217, 255, 0.3)",
+        borderTopRightRadius: 8,
+        borderTopLeftRadius: 8,
+        borderStyle: "solid"
+    },
+    verifyYourNumber: {
+        top: 558,
+        fontSize: 28,
+        color: "#0d0140",
+        textAlign: "left",
+        fontFamily: "DM Sans",
+        fontWeight: "700",
+        left: 32,
+        position: "absolute"
+    },
+    riarrowUpSLineIcon: {
+        top: 795,
+        left: 336,
+        position: "absolute"
+    },
+    enterTheFour: {
+        top: 599,
+        fontFamily: "DM Sans",
+        color: "#524b6b",
+        fontSize: 14,
+        left: 32,
+        position: "absolute"
+    },
+    otpVerficationChild: {
+        top: -14,
+        left: -95
+    },
+    otpVerficationItem: {
+        top: -117,
+        left: 27
+    },
+    otpVerficationInner: {
+        top: 292,
+        width: 150,
+        height: 143
+    },
+    frameChild: {
+        width: 66
+    },
+    otpPadInner: {
+        left: 92,
+        flexDirection: "row"
+    },
+    otpPadChild: {
+        left: 0,
+        width: 66,
+        flexDirection: "row"
+    },
+    frameInner: {
+        width: 65
+    },
+    rectangleWrapper: {
+        width: 65,
+        flexDirection: "row"
+    },
+    frameView: {
+        left: 183,
+        flexDirection: "row"
+    },
+    otpPadItem: {
+        left: 275,
+        width: 66,
+        top: 0,
+        position: "absolute"
+    },
+    otpPad: {
+        top: 670,
+        left: 36,
+        width: 341,
+        height: 56,
+        position: "absolute"
+    },
+    next: {
+        lineHeight: 24,
+        color: "#fff",
+        width: 263,
+        fontFamily: "DM Sans",
+        fontWeight: "700",
+        fontSize: 14
+    },
+    nextParent: {
+        marginLeft: -179,
+        top: 779,
+        left: "50%",
+        borderRadius: 14,
+        backgroundColor: "#130160",
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderWidth: 1.2,
+        width: 358,
+        height: 48,
+        alignItems: "center",
+        paddingLeft: 17,
+        paddingTop: 8,
+        paddingRight: 16,
+        paddingBottom: 8,
+        gap: 37,
+        borderStyle: "solid",
+        flexDirection: "row",
+        position: "absolute"
+    },
+    otpVerfication: {
+        backgroundColor: "#f9f9f9",
+        flex: 1,
+        width: "100%",
+        height: 896,
+        overflow: "hidden"
+    },
+    ball: {
+        borderRadius: 100, // Makes the view circular
+        backgroundColor: "#000", // Adjust color as needed
+    },
+});
+
+export default OtpVerfication;
