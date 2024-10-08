@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Button, Searchbar, IconButton } from 'react-native-paper';
+import { TouchableOpacity } from "react-native";
+import { router } from "expo-router";
 
 const JobSkillsHomeScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -50,13 +52,14 @@ const JobSkillsHomeScreen: React.FC = () => {
           value={searchQuery}
           style={styles.searchBar}
         />
-        <IconButton
-          icon="filter-outline" 
-          size={38}
-          onPress={() => console.log("Filter button pressed")} 
-          style={styles.filterButton}
-          iconColor="#FFFFFF" 
-        />
+        <TouchableOpacity onPress={() => router.push("/careers\filter")}>
+          <IconButton
+            icon="filter-outline"
+            size={38}
+            style={styles.filterButton}
+            iconColor="#FFFFFF"
+          />
+        </TouchableOpacity>
       </View>
 
       {searchResults.length > 0 && (
