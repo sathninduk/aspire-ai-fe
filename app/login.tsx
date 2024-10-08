@@ -1,8 +1,12 @@
 import * as React from "react";
 import {Image, Pressable, StyleSheet, Text, View} from "react-native";
+import Svg, {Path} from "react-native-svg";
+import { Dimensions } from 'react-native';
+import { TextInput } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 const SignIn = () => {
-
     return (
         <View style={styles.signIn}>
             <Text style={styles.signIn1}>Sign In</Text>
@@ -26,22 +30,38 @@ const SignIn = () => {
             <View style={styles.signInInner}>
                 <View style={styles.frameParent}>
                     <View style={[styles.wrapper, styles.parentBorder]}>
-                        <Text style={[styles.text2, styles.text2Typo]}>81313782</Text>
+                        <TextInput
+                            style={[styles.text2, styles.text2Typo]}
+                            value="81313782"
+                            editable={false}
+                        />
                     </View>
                     <View style={[styles.parent, styles.parentBorder]}>
-                        <Text style={[styles.text2, styles.text2Typo]}>+94</Text>
-                        <Image style={styles.subtractIcon} resizeMode="cover"
-                               source={{uri: "/assets/images/signin/Substract.svg"}}/>
+                        <TextInput
+                            style={[styles.text2, styles.text2Typo]}
+                            value="+94"
+                            editable={false}
+                        />
+                        <Svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                            <Path d="M0 0.571568L6 7.42871L12 0.571568H0Z" fill="#130160"/>
+                        </Svg>
                     </View>
                 </View>
             </View>
             <Image style={styles.riarrowUpSLineIcon} resizeMode="cover"
-                   source={{uri: "/assets/images/signin/arrow-up-s-line.svg"}}/>
+                   source={require('@/assets/images/signin/arrow-up-s-line.svg')}/>
             <Text style={[styles.enterYourPhone, styles.textTypo]}>Enter your phone number to sign in</Text>
-            <View style={[styles.signInChild, styles.signLayout, styles.ball, {backgroundColor: '#000'}]}/>
-            <View style={[styles.signInItem, styles.signLayout, styles.ball, {backgroundColor: '#000'}]}/>
-            <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: '#000'}]}/>
-            <View style={[styles.signInChild1, styles.ball, {backgroundColor: '#000'}]}/>
+
+            <View style={[styles.signInChild, styles.signLayout, styles.ball, {
+                backgroundColor: '#130160',
+                borderRadius: 600
+            }]}/>
+            <View style={[styles.signInItem, styles.signLayout, styles.ball, {
+                backgroundColor: '#6646E1',
+                borderRadius: 600
+            }]}/>
+            <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
+            <View style={[styles.signInChild1, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
         </View>);
 };
 
@@ -122,7 +142,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderStyle: "solid",
         height: 48,
-        width: 311,
+        width: "83%",
         left: 34,
         position: "absolute"
     },
@@ -134,7 +154,7 @@ const styles = StyleSheet.create({
     wrapper: {
         left: 85,
         borderBottomWidth: 1.2,
-        width: 226,
+        width: "83%",
         paddingHorizontal: 16,
         paddingVertical: 8,
         overflow: "hidden"
@@ -155,7 +175,7 @@ const styles = StyleSheet.create({
         left: 0,
         top: 0,
         height: 48,
-        width: 311,
+        width: "100%",
         position: "absolute"
     },
     signInInner: {
@@ -207,8 +227,8 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: "#f9f9f9",
         flex: 1,
-        width: "100%",
-        maxHeight: "100%",
+        width: width,
+        height: height,
         overflow: "hidden"
     },
     ball: {
