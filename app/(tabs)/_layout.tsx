@@ -24,13 +24,40 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+          name="skill"
+          options={{
+              title: 'Skill',
+              tabBarIcon: ({ color, focused }) => (
+                  <TabBarIcon name={focused ? 'book' : 'book-outline'} color={color} />
+              ),
+          }}
+      />
+      <Tabs.Screen
+        name="ai"
         options={{
-          title: 'Explore',
+          title: 'AI',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'star' : 'star-outline'} color={color} />
           ),
         }}
+      />
+      <Tabs.Screen
+          name="job"
+          options={{
+              title: 'Job',
+              tabBarIcon: ({ color, focused }) => (
+                  <TabBarIcon name={focused ? 'briefcase' : 'briefcase-outline'} color={color} />
+              ),
+          }}
+      />
+      <Tabs.Screen
+          name="profile"
+          options={{
+              title: 'Profile',
+              tabBarIcon: ({ color, focused }) => (
+                  <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
+              ),
+          }}
       />
     </Tabs>
   );
