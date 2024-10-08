@@ -43,9 +43,14 @@ export default function RootLayout() {
         <Stack.Screen name="onboard/check-status" options={{ headerShown: false }} />
         <Stack.Screen name="onboard/employment-details" options={{ headerShown: false }} />
         <Stack.Screen name="onboard/welcome" options={{ headerShown: false }} />
+        <Stack.Screen name="onboard/building" options={{ headerShown: false }} />
+        <Stack.Screen name="onboard/reveal-ladder" options={{ headerShown: false }} />
 
-        <Stack.Screen name="onboarding/step1" />
-        <Stack.Screen name="onboarding/step2" />
+        <Stack.Screen name="questions/step1" options={{ headerShown: false }} />
+        <Stack.Screen name="questions/step2" options={{ headerShown: false }} />
+        <Stack.Screen name="questions/step3" options={{ headerShown: false }} />
+        <Stack.Screen name="questions/step4" options={{ headerShown: false }} />
+        <Stack.Screen name="questions/step5" options={{ headerShown: false }} />
 
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />

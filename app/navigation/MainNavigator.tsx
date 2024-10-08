@@ -3,8 +3,8 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '@/app/login';
-import Step1 from '@/app/onboarding/step1';
-import Step2 from '@/app/onboarding/step2';
+import Step1 from '@/app/questions/step1';
+import Step2 from '@/app/questions/step2';
 import TabLayout from '@/app/(tabs)/_layout';
 import { useAuthRedirect } from '@/app/hooks/useAuthRedirect';
 
