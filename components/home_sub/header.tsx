@@ -52,14 +52,14 @@ const JobSkillsHomeScreen: React.FC = () => {
           value={searchQuery}
           style={styles.searchBar}
         />
-        <TouchableOpacity onPress={() => router.push("/careers\filter")}>
+        {/* <TouchableOpacity onPress={() => router.push("/careers\filter")}> */}
           <IconButton
             icon="filter-outline"
             size={38}
             style={styles.filterButton}
             iconColor="#FFFFFF"
           />
-        </TouchableOpacity>
+        {/* </TouchableOpacity> */}
       </View>
 
       {searchResults.length > 0 && (
