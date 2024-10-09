@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     },
     preferencesTypo: {
         textAlign: "left",
-        fontFamily: "DMSans-Bold",
+        fontFamily: "DM Sans",
         fontWeight: "700",
         position: "absolute"
     },
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     },
     nextjsTypo: {
         color: "#524b6b",
-        fontFamily: "DMSans-Regular",
+        fontFamily: "DM Sans",
         left: 24,
         top: 38,
         fontSize: 12,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         textAlign: "left",
         color: "#150b3d",
-        fontFamily: "DMSans-Bold",
+        fontFamily: "DM Sans",
         fontWeight: "700",
         left: 0,
         top: 0,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         width: 123,
         color: "#150b3d",
         textAlign: "left",
-        fontFamily: "DMSans-Bold",
+        fontFamily: "DM Sans",
         fontWeight: "700",
         left: 0,
         top: 0
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         width: 136
     },
     skillsToDevelop: {
-        width: 96
+        width: '100%'
     },
     company: {
         top: 138
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         width: 105
     },
     preferredIndustries: {
-        width: 118
+        width: '100%'
     },
     company2: {
         top: 310
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
         width: 157
     },
     preferredCourses: {
-        width: 107
+        width: '100%'
     },
     company3: {
         top: 396
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         width: 152,
         textAlign: "left",
-        fontFamily: "DMSans-Bold",
+        fontFamily: "DM Sans",
         fontWeight: "700"
     },
     save: {
@@ -202,7 +202,6 @@ const styles = StyleSheet.create({
         left: 39
     },
     preferences: {
-        borderRadius: 30,
         backgroundColor: "#f9f9f9",
         flex: 1,
         width: "100%",
