@@ -3,8 +3,21 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'rea
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/types'; // Adjust the path based on your structure
+import { CompositeNavigationProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { Link } from 'expo-router'; // Import the Link component
+
+
+type ProfileScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<RootStackParamList, 'MainTabs'>,
+  StackNavigationProp<RootStackParamList>
+>;
 
 export default function TabProfileScreen() {
+    const navigation = useNavigation<ProfileScreenNavigationProp>(); // Specify the type for navigation
     return (
         <ScrollView style={styles.container}>
             {/* Header */}
@@ -15,10 +28,18 @@ export default function TabProfileScreen() {
                 />
                 <Text style={styles.name}>Sathnindu Kottage</Text>
                 <Text style={styles.location}>Colombo, Sri Lanka</Text>
-                <TouchableOpacity style={styles.editButton}>
+                <Link 
+                    href="/profile/editProfile" // Set the href to the EditProfile route
+                    style={styles.editButton} // Apply the same styles as before
+                    >
+                <Ionicons name="pencil" size={20} color="#fff" />
+                <Text style={styles.editText}>Edit profile</Text>
+                 </Link>
+                {/*<TouchableOpacity style={styles.editButton}
+                onPress={() => navigation.navigate('EditProfile')}>
                     <Ionicons name="pencil" size={20} color="#fff" />
                     <Text style={styles.editText}>Edit profile</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
 
             {/* Menu Sections */}

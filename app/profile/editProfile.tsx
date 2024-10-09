@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/types'; // Adjust this import as necessary
+import {useNavigation, ParamListBase} from "@react-navigation/native";
 
-export default function EditProfileScreen() {
+
+// Define the navigation prop type
+type EditProfileScreenProps = {
+    navigation: StackNavigationProp<RootStackParamList, 'EditProfile'>; // Navigation prop
+    route: RouteProp<RootStackParamList, 'EditProfile'>; // Route prop (if needed)
+};
+
+// Functional component
+const EditProfileScreen: React.FC<EditProfileScreenProps> = ({ navigation }) => {
     const [name, setName] = useState('Sathindu Kottage');
     const [location, setLocation] = useState('Colombo, Sri Lanka');
     const [aboutMe, setAboutMe] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
@@ -10,6 +22,11 @@ export default function EditProfileScreen() {
     const [company, setCompany] = useState('CodeGen International');
     const [educationDegree, setEducationDegree] = useState('Information Technology');
     const [school, setSchool] = useState('Sri Lanka Institute of Information Technology');
+
+    const handleSave = () => {
+        // Save logic here, e.g., sending data to an API
+        navigation.goBack(); // Navigate back to the profile screen
+    };
 
     return (
         <ScrollView style={styles.container}>
@@ -33,7 +50,7 @@ export default function EditProfileScreen() {
                         />
                     </View>
                 </View>
-                <TouchableOpacity style={styles.editButton}>
+                <TouchableOpacity style={styles.editButton} onPress={handleSave}>
                     <Ionicons name="save" size={20} color="#fff" />
                 </TouchableOpacity>
             </View>
@@ -49,6 +66,7 @@ export default function EditProfileScreen() {
                     value={aboutMe}
                     onChangeText={setAboutMe}
                     multiline
+                    textAlignVertical="top" // Ensures text starts from the top
                 />
             </View>
 
@@ -63,11 +81,13 @@ export default function EditProfileScreen() {
                         style={styles.jobTitleInput}
                         value={jobTitle}
                         onChangeText={setJobTitle}
+                        placeholder="Job Title"
                     />
                     <TextInput
                         style={styles.companyInput}
                         value={company}
                         onChangeText={setCompany}
+                        placeholder="Company"
                     />
                 </View>
             </View>
@@ -83,11 +103,13 @@ export default function EditProfileScreen() {
                         style={styles.degreeInput}
                         value={educationDegree}
                         onChangeText={setEducationDegree}
+                        placeholder="Degree"
                     />
                     <TextInput
                         style={styles.schoolInput}
                         value={school}
                         onChangeText={setSchool}
+                        placeholder="School"
                     />
                 </View>
             </View>
@@ -98,7 +120,6 @@ export default function EditProfileScreen() {
                     <Text style={styles.sectionTitle}>Skills</Text>
                     <Ionicons name="pencil-outline" size={20} color="#6c63ff" />
                 </View>
-                {/* Skill Tags (Static for now, can be changed to editable) */}
                 <View style={styles.skillTags}>
                     <Text style={styles.skill}>Leadership</Text>
                     <Text style={styles.skill}>Teamwork</Text>
@@ -121,7 +142,7 @@ export default function EditProfileScreen() {
             </View>
         </ScrollView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -222,3 +243,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+
+export default EditProfileScreen;
