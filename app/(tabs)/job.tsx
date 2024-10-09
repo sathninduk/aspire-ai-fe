@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import JobSkillsHomeHeader from '@/components/home_sub/header';
 import SpecializationList from '@/components/home_sub/SpecializationList';
+import JobCard from '@/components/home_sub/JobCard';
 
 export default function TabJobScreen() {
     const [specializations, setSpecializations] = useState([
