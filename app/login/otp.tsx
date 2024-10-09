@@ -1,40 +1,34 @@
 import * as React from "react";
-import {Image, Pressable, StyleSheet, Text, View} from "react-native";
-import {Link} from "expo-router";
+import {Text, StyleSheet, Image, View, Pressable} from "react-native";
 
 const OtpVerfication = () => {
 
     return (
         <View style={styles.otpVerfication}>
             <Text style={styles.verifyYourNumber}>Verify Your Number</Text>
-
-            <View style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout, styles.ball]}/>
-
+            {/*<Image style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
             <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to +94 711427657</Text>
-
             <View style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, {backgroundColor: '#6A41FF'}]}/>
             <View style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, {backgroundColor: '#150B3D'}]}/>
             <View style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
-
             <View style={styles.otpPad}>
                 <View style={[styles.otpPadInner, styles.otpPosition]}>
-                    <View style={[styles.frameChild, styles.frameBorder]}/>
+                    <View style={[styles.frameChild, styles.frameBorder]} />
                 </View>
                 <View style={[styles.otpPadChild, styles.otpPosition]}>
-                    <View style={[styles.frameChild, styles.frameBorder]}/>
+                    <View style={[styles.frameChild, styles.frameBorder]} />
                 </View>
                 <View style={[styles.frameView, styles.otpPosition]}>
                     <View style={styles.rectangleWrapper}>
-                        <View style={[styles.frameInner, styles.frameBorder]}/>
+                        <View style={[styles.frameInner, styles.frameBorder]} />
                     </View>
                 </View>
-                <View style={[styles.otpPadItem, styles.frameBorder]}/>
+                <View style={[styles.otpPadItem, styles.frameBorder]} />
             </View>
-            <Link style={styles.nextParent}  href="/login/splash">
+            <Pressable style={styles.nextParent} onPress={()=>{}}>
                 <Text style={[styles.next, styles.nextTypo]}>Next</Text>
-                <Image style={styles.riarrowIconLayout} resizeMode="cover"
-                       source={require('@/assets/images/signin/arrow-up-s-line.svg')}/>
-            </Link>
+                {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+            </Pressable>
         </View>);
 };
 
@@ -152,7 +146,7 @@ const styles = StyleSheet.create({
     },
     nextParent: {
         marginLeft: -179,
-        top: 779,
+        top: 791,
         left: "50%",
         borderRadius: 14,
         backgroundColor: "#130160",
@@ -178,9 +172,8 @@ const styles = StyleSheet.create({
         overflow: "hidden"
     },
     ball: {
-        borderRadius: 100, // Makes the view circular
-        backgroundColor: "#000", // Adjust color as needed
-    },
+        borderRadius: 1000
+    }
 });
 
 export default OtpVerfication;
