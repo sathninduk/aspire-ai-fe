@@ -5,22 +5,19 @@ const SplashScreen = () => {
 
     return (
         <View style={styles.splashScreen}>
-    <Image style={styles.splashScreenChild} resizeMode="cover" source={require('@/assets/images/signin/arrow-up-s-line.svg')} />
-    <Text style={styles.aiDrivenGuideToContainer}>
-        <Text style={styles.aiDriven}>{`AI-driven `}</Text>
-        <Text style={styles.blankLine}>{`guide to personalized career success`}</Text>
-    </Text>
-    <Text style={[styles.aspireaiIsYour, styles.continueTypo]}>{`AspireAI is your AI-powered career coach, offering
-personalized pathways and resources to help you achieve your professional goals.`}</Text>
-    <Image style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout]} resizeMode="cover" source={require('@/assets/images/signin/arrow-up-s-line.svg')} />
-    <View style={[styles.splashScreenItem, styles.splashLayout, styles.ball, {backgroundColor: '#6646E1'}]} />
-    <View style={[styles.splashScreenInner, styles.splashLayout, styles.ball, {backgroundColor: '#130160'}]} />
-    <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: '#6A41FF'}]} />
-    <Pressable style={styles.continueParent} onPress={()=>{}}>
-        <Text style={[styles.continue, styles.continueTypo]}>Continue</Text>
-        <Image style={styles.riarrowIconLayout} resizeMode="cover" source={require('@/assets/images/signin/arrow-up-s-line.svg')} />
-    </Pressable>
-</View>);
+            <Text style={styles.aiDrivenGuideToContainer}>
+                <Text style={styles.blankLine}>{`AI-driven guide to personalized career\nsuccess`}</Text>
+            </Text>
+            <Text style={[styles.aspireaiIsYour, styles.continueTypo]}>{`AspireAI is your AI-powered career coach, offering personalized pathways and resources to help you\nachieve your professional goals.`}</Text>
+            {/*<Image style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+            <View style={[styles.splashScreenItem, styles.splashLayout, styles.ball, {backgroundColor: '#6646E1'}]} />
+            <View style={[styles.splashScreenInner, styles.splashLayout, styles.ball, {backgroundColor: '#130160'}]} />
+            <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: '#6A41FF'}]} />
+            <Pressable style={styles.continueParent} onPress={()=>{}}>
+                <Text style={[styles.continue, styles.continueTypo]}>Continue</Text>
+                {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+            </Pressable>
+        </View>);
 };
 
 const styles = StyleSheet.create({
@@ -101,7 +98,7 @@ const styles = StyleSheet.create({
     },
     continueParent: {
         marginLeft: -179,
-        top: 780,
+        top: 791,
         left: "50%",
         borderRadius: 14,
         backgroundColor: "#130160",
@@ -127,9 +124,8 @@ const styles = StyleSheet.create({
         overflow: "hidden"
     },
     ball: {
-        borderRadius: 100, // Makes the view circular
-        backgroundColor: "#000", // Adjust color as needed
-    },
+        borderRadius: 1000
+    }
 });
 
 export default SplashScreen;
