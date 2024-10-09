@@ -5,7 +5,9 @@ import JobSkillsHomeHeader from '@/components/home_sub/header';
 import SpecializationList from '@/components/home_sub/SpecializationList';
 import JobCard from '@/components/home_sub/JobCard';
 
+
 export default function TabJobScreen() {
+
     const [specializations, setSpecializations] = useState([
         { id: '1', title: 'Software Engineering', jobCount: 140, icon: 'code-slash' },
         { id: '2', title: 'Finance', jobCount: 250, icon: 'cash-outline' },
@@ -13,12 +15,15 @@ export default function TabJobScreen() {
         { id: '4', title: 'Restaurant', jobCount: 85, icon: 'restaurant-outline' },
         { id: '5', title: 'Health', jobCount: 235, icon: 'heart-outline' },
         { id: '6', title: 'Programmer', jobCount: 412, icon: 'desktop-outline' },
-    ]);
+      ]);
+    
 
     return (
         <ScrollView style={styles.container}>
             <JobSkillsHomeHeader />
+
             <SpecializationList specializations={specializations} />
+            
         </ScrollView>
     );
 }

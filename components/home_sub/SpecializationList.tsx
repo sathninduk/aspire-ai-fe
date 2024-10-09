@@ -39,7 +39,6 @@ const SpecializationList: React.FC<SpecializationListProps> = ({ specializations
 
 const styles = StyleSheet.create({
   container: {
-    
     paddingTop: 20,
     backgroundColor: '#FFFFFF',
   },
