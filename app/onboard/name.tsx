@@ -1,48 +1,65 @@
 import * as React from "react";
-import {Image, StyleSheet, Text, View, Pressable} from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
-import {useNavigation, ParamListBase} from "@react-navigation/native";
+import {Image, Pressable, StyleSheet, Text, TextInput, View} from "react-native";
+import {StackNavigationProp} from '@react-navigation/stack';
+import {ParamListBase, useNavigation} from "@react-navigation/native";
 
 const EnterYourDetails = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
     return (
         <View style={styles.enterYourDetails}>
-            <View style={[styles.email, styles.emailPosition]}>
-                {/*<Image style={[styles.emailChild, styles.childLayout]} resizeMode="cover" source="Rectangle 59.png" />*/}
-                <Text style={[styles.brandonelouis, styles.brandonelouisTypo]}>{`Brandonelouis `}</Text>
-                <Text style={[styles.whatsYourUsername, styles.whatsTypo]}>What’s Your Username ?</Text>
-            </View>
             <View style={[styles.fullName, styles.emailPosition]}>
-                {/*<Image style={[styles.fullNameChild, styles.childLayout]} resizeMode="cover" source="Rectangle 59.png" />*/}
-                <Text style={[styles.brandoneLouis, styles.brandonelouisTypo]}>{`Brandone Louis `}</Text>
+                <Text style={[styles.brandoneLouis, styles.brandonelouisTypo]}>{`Brandone Louis`}</Text>
                 <Text style={[styles.whatsYourFull, styles.whatsTypo]}>What’s Your Full Name?</Text>
+            </View>
+            <View style={[styles.email, styles.emailPosition]}>
+                <Text style={[styles.whatsYourUsername, styles.whatsTypo]}>What’s Your Username ?</Text>
+                <TextInput style={[styles.emailChild, styles.childLayout, styles.inputStyle]}
+                           placeholder="Enter your username"
+                           placeholderTextColor="rgba(13,1,64,0.60)"
+                />
             </View>
             <Text style={[styles.enterYourDetails1, styles.whatsTypo]}>Enter Your Details</Text>
             <View style={styles.progressBar}>
-                <View style={[styles.track, styles.barPosition]} />
-                <View style={[styles.bar, styles.barPosition]} />
+                <View style={[styles.track, styles.barPosition]}/>
+                <View style={[styles.bar, styles.barPosition]}/>
             </View>
-            <Pressable style={[styles.frameParent, styles.frameParentLayout]} onPress={()=>{}}>
+            <Pressable style={[styles.frameParent, styles.frameParentLayout]} onPress={() => {
+            }}>
                 <View style={[styles.nextWrapper, styles.nextWrapperLayout]}>
                     <Text style={styles.next}>Next</Text>
                 </View>
-                {/*<Image style={[styles.riarrowUpSLineIcon, styles.nextWrapperLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+                <Image style={[styles.riarrowUpSLineIcon, styles.nextWrapperLayout]} resizeMode="cover"
+                       source={require('@/assets/images/onboard/next.svg')}
+                />
             </Pressable>
-            {/*<Image style={styles.enterYourDetailsChild} resizeMode="cover" source="Group 31.png" />*/}
-            {/*<Image style={styles.enterYourDetailsItem} resizeMode="cover" source="Group 23.png" />*/}
+            <Image style={styles.enterYourDetailsChild} resizeMode="cover"
+                   source={require('@/assets/images/onboard/profile.svg')}
+            />
+            <Image style={styles.enterYourDetailsItem} resizeMode="cover"
+                   source={require('@/assets/images/onboard/new_image.svg')}
+            />
             <Pressable style={[styles.backArrow, styles.emailPosition]} onPress={() => navigation.goBack()}>
-                {/*<Image style={styles.icon} resizeMode="cover" source="back arrow.png" />*/}
+                <Image style={styles.icon} resizeMode="cover"
+                       source={require('@/assets/images/onboard/back_arrow.svg')}
+                />
             </Pressable>
-            {/*<Image style={styles.enterYourDetailsInner} resizeMode="cover" source="Ellipse 151.png" />*/}
-            {/*<Image style={styles.ellipseIcon} resizeMode="cover" source="Ellipse 154.png" />*/}
+            <View style={[styles.enterYourDetailsInner, styles.ball, {backgroundColor: "#130160"}]}/>
+            <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: "#6A41FF"}]}/>
         </View>);
 };
 
 const styles = StyleSheet.create({
+    inputStyle: {
+        padding: 20,
+        fontSize: 12,
+    },
+    ball: {
+        borderRadius: 1000,
+    },
     emailPosition: {
         left: 30,
-        position: "absolute"
+        position: "absolute",
     },
     childLayout: {
         height: 50,
@@ -191,8 +208,8 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     enterYourDetailsItem: {
-        marginLeft: 23,
-        top: 252,
+        marginLeft: 20,
+        top: 286,
         left: "50%",
         width: 24,
         height: 24,
