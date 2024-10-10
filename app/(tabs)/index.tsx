@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Text, StyleSheet, Image, View, Pressable, ScrollView} from "react-native";
+import {Link} from "expo-router";
 
 const Pathway = () => {
 
@@ -215,7 +216,11 @@ const Pathway = () => {
             {/*<Image style={[styles.editIcon, styles.iconLayout]} resizeMode="cover" source="Edit.png" />*/}
             <Text style={[styles.courseSuggestions, styles.frameChildLayout]}>Course Suggestions</Text>
             <View style={[styles.youMightNeedToFillBelowGWrapper, styles.youWrapperPosition]}>
-                <Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`You might need to fill below gaps for your career enhancement`}</Text>
+                {/*<Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`You might need to fill below gaps for your career enhancement`}</Text>*/}
+                <Link href={"/login"}>Login</Link>
+                <Link href={"/login/otp"}>Login - OTP</Link>
+                <Link href={"/login/splash"}>Login - splash</Link>
+                <Link href={"/onboard/name"}>Onboard - name</Link>
             </View>
             <View style={[styles.onceYouSatisfiesWithYourGWrapper, styles.youWrapperPosition]}>
                 <Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`Once you satisfies with your gap filling, try to
