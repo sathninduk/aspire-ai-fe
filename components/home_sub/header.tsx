@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native";
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from "@/app/navigation/types";
 import JobCard from './JobCard';  // Import the JobCard component
+import { BACKEND_URL } from '@/config';
 
 const JobSkillsHomeScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -26,7 +27,7 @@ const JobSkillsHomeScreen: React.FC = () => {
       setError(null);
     
       try {
-        const response = await fetch(`http://localhost:6340/job?keyword=${encodeURIComponent(searchQuery)}&location=${encodeURIComponent(location)}&page=1`);
+        const response = await fetch(`${BACKEND_URL}/job?keyword=${encodeURIComponent(searchQuery)}&location=${encodeURIComponent(location)}&page=1`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

@@ -218,7 +218,9 @@ const Pathway = () => {
             <View style={[styles.youMightNeedToFillBelowGWrapper, styles.youWrapperPosition]}>
                 {/*<Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`You might need to fill below gaps for your career enhancement`}</Text>*/}
                 <Link href={"/login"}>Login</Link>
+                <Link href={"/signup"}>Sign up</Link>
                 <Link href={"/login/otp"}>Login - OTP</Link>
+                <Link href={"/signup/otp"}>Sign Up - OTP</Link>
                 <Link href={"/login/splash"}>Login - splash</Link>
                 <Link href={"/onboard/name"}>Onboard - name</Link>
                 <Link href={"/onboard/check-employed"}>Onboard - Check Employed</Link>
