@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Button, Searchbar, IconButton } from 'react-native-paper';
+import { TouchableOpacity } from "react-native";
+import { router } from "expo-router";
 
 const JobSkillsHomeScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -36,12 +38,12 @@ const JobSkillsHomeScreen: React.FC = () => {
         <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel}>Interviews</Button>
       </View>
 
-      <Text style={styles.subTitle}>Top Searched Companies</Text>
+      {/* <Text style={styles.subTitle}>Top Searched Companies</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.companyRow}>
         {["WSO2", "Codegen", "IFS", "Virtusa", "Cambio"].map((company, index) => (
           <Button key={index} mode="outlined" style={styles.companyButton} labelStyle={styles.buttonLabel}>{company}</Button>
         ))}
-      </ScrollView>
+      </ScrollView> */}
 
       <View style={styles.searchContainer}>
         <Searchbar
@@ -50,13 +52,14 @@ const JobSkillsHomeScreen: React.FC = () => {
           value={searchQuery}
           style={styles.searchBar}
         />
-        <IconButton
-          icon="filter-outline" 
-          size={38}
-          onPress={() => console.log("Filter button pressed")} 
-          style={styles.filterButton}
-          iconColor="#FFFFFF" 
-        />
+        {/* <TouchableOpacity onPress={() => router.push("/careers\filter")}> */}
+          <IconButton
+            icon="filter-outline"
+            size={38}
+            style={styles.filterButton}
+            iconColor="#FFFFFF"
+          />
+        {/* </TouchableOpacity> */}
       </View>
 
       {searchResults.length > 0 && (
@@ -74,7 +77,7 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 20,
+    marginTop: 20
   },
   title: {
     fontSize: 24,
