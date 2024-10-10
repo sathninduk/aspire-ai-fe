@@ -1,51 +1,104 @@
 import * as React from "react";
-import {Text, StyleSheet, Pressable, Image, View} from "react-native";
+import { useState } from "react";
+import {
+    Image,
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableWithoutFeedback,
+    View
+} from "react-native";
+import { formatPhoneNumber } from "react-phone-number-input";
 
-const SignUp = () => {
+const SignIn = () => {
+    const [phoneNumber, setPhoneNumber] = useState("");
 
     return (
-        <View style={styles.signUp}>
-            <Text style={styles.createYourAccount}>Create Your Account</Text>
-            <Pressable style={styles.alreadyHaveAnContainer} onPress={()=>{}}>
-                <Text style={styles.textTypo}>
-                    <Text style={styles.alreadyHaveAnAccountYet}>
-                        <Text style={styles.alreadyHaveAn}>Already have an account yet ?</Text>
-                        <Text style={styles.text1Typo}>{` `}</Text>
-                    </Text>
-                    <Text style={styles.text1Typo}>
-                        <Text style={styles.sign}> Sign</Text>
-                        <Text style={styles.in}> In</Text>
-                    </Text>
-                </Text>
-            </Pressable>
-            <Pressable style={styles.verifyYourNumberParent} onPress={()=>{}}>
-                <Text style={[styles.verifyYourNumber, styles.text2Typo]}>Verify Your Number</Text>
-                {/*<Image style={styles.riarrowUpSLineIcon} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
-            </Pressable>
-            <Text style={[styles.enterYourPhone, styles.textTypo]}>Enter your phone number to get started</Text>
-            {/*<Image style={[styles.signUpChild, styles.signLayout]} resizeMode="cover" source="Ellipse 151.png" />*/}
-            {/*<Image style={[styles.signUpItem, styles.signLayout]} resizeMode="cover" source="Ellipse 152.png" />*/}
-            {/*<Image style={styles.signUpInner} resizeMode="cover" source="Ellipse 153.png" />*/}
-            {/*<Image style={styles.ellipseIcon} resizeMode="cover" source="Ellipse 154.png" />*/}
-            <View style={[styles.frameView, styles.frameLayout]}>
-                <View style={[styles.frameParent, styles.frameLayout]}>
-                    <View style={[styles.wrapper, styles.parentBorder]}>
-                        <Text style={[styles.text2, styles.text2Typo]}>81313782</Text>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <View style={styles.signIn}>
+                    <Text style={styles.signIn1}>Create Your Account</Text>
+                    <Pressable style={styles.dontHaveAnContainer} onPress={() => {}}>
+                        <Text style={styles.textTypo}>
+                            <Text style={styles.dontHaveAnAccountYet}>
+                                <Text style={styles.dontHaveAn}>Already have an account?</Text>
+                                <Text style={styles.text1Typo}>{` `}</Text>
+                            </Text>
+                            <Text style={styles.text1Typo}>
+                                <Text style={styles.sign}>Sign In</Text>
+                            </Text>
+                        </Text>
+                    </Pressable>
+                    <View style={styles.signInInner}>
+                        <View style={styles.frameParent}>
+                            <TextInput
+                                style={[
+                                    styles.emailChild,
+                                    styles.childLayout,
+                                    styles.inputStyle
+                                ]}
+                                placeholder="Enter your phone number"
+                                placeholderTextColor="rgba(13,1,64,0.60)"
+                                value={phoneNumber}
+                                onChangeText={setPhoneNumber}
+                                keyboardType="phone-pad"
+                            />
+                        </View>
                     </View>
-                    <View style={[styles.parent, styles.parentBorder]}>
-                        <Text style={[styles.text2, styles.text2Typo]}>+94</Text>
-                        {/*<Image style={styles.subtractIcon} resizeMode="cover" source="Subtract.png" />*/}
-                    </View>
+                    <Text style={[styles.enterYourPhone, styles.textTypo]}>Enter your phone number to get started</Text>
+
+                    <View style={[styles.signInChild, styles.signLayout, styles.ball, {
+                        backgroundColor: '#130160',
+                        borderRadius: 600
+                    }]}/>
+                    <View style={[styles.signInItem, styles.signLayout, styles.ball, {
+                        backgroundColor: '#6646E1',
+                        borderRadius: 600
+                    }]}/>
+                    <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
+                    <View style={[styles.signInChild1, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
+                    <Pressable style={[styles.verifyYourNumberParent, styles.parentFlexBox]} onPress={() => {}}>
+                        <Text style={[styles.verifyYourNumber, styles.text2Typo]}>Verify Your Number</Text>
+                        <Image style={styles.riarrowIconLayout} resizeMode="cover"
+                               source={require('@/assets/images/signin/arrow-up-s-line.svg')}/>
+                    </Pressable>
                 </View>
-            </View>
-        </View>);
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+    },
+    parentFlexBox: {
+        alignItems: "center",
+        flexDirection: "row",
+        borderStyle: "solid",
+        height: 48,
+        position: "absolute"
+    },
     text2Typo: {
         lineHeight: 24,
         fontSize: 14,
         textAlign: "left"
+    },
+    riarrowIconLayout: {
+        height: 32,
+        width: 35,
+        overflow: "hidden"
     },
     textTypo: {
         fontSize: 14,
@@ -56,112 +109,60 @@ const styles = StyleSheet.create({
         width: 193,
         position: "absolute"
     },
-    frameLayout: {
-        width: 344,
-        height: 48,
-        position: "absolute"
-    },
-    parentBorder: {
-        borderColor: "#6a41ff",
-        backgroundColor: "rgba(225, 217, 255, 0.3)",
-        borderTopRightRadius: 12,
-        borderTopLeftRadius: 12,
+    emailChild: {
         top: 0,
-        alignItems: "center",
-        flexDirection: "row",
-        height: 48,
-        borderStyle: "solid",
+        width: 350,
+        left: 2
+    },
+    childLayout: {
+        height: 50,
+        borderRadius: 10,
         position: "absolute"
     },
-    createYourAccount: {
-        top: 528,
+    inputStyle: {
+        fontSize: 15,
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: "rgba(13,1,64,0.20)",
+    },
+    signIn: {
+        backgroundColor: "#f9f9f9",
+        flex: 1,
+        width: "100%",
+        height: 896,
+        overflow: "hidden"
+    },
+    signIn1: {
+        top: 529,
         fontSize: 28,
         color: "#0d0140",
         textAlign: "left",
         fontFamily: "DM Sans",
         fontWeight: "700",
-        left: 34,
+        left: 28,
         position: "absolute"
     },
-    alreadyHaveAn: {
+    dontHaveAn: {
         fontFamily: "DM Sans"
     },
     text1Typo: {
         fontFamily: "DM Sans",
         fontWeight: "700"
     },
-    alreadyHaveAnAccountYet: {
+    dontHaveAnAccountYet: {
         color: "#524b6b"
     },
     sign: {
         color: "#150b3d"
     },
-    in: {
+    up: {
         color: "#130160"
     },
-    alreadyHaveAnContainer: {
-        left: 36,
-        top: 571,
-        position: "absolute"
-    },
-    verifyYourNumber: {
-        color: "#fff",
-        width: 278,
-        fontFamily: "DM Sans",
-        fontWeight: "700"
-    },
-    riarrowUpSLineIcon: {
-        width: 35,
-        height: 32,
-        overflow: "hidden"
-    },
-    verifyYourNumberParent: {
-        marginLeft: -175,
-        top: 790,
-        left: "50%",
-        borderRadius: 14,
-        backgroundColor: "#130160",
-        borderColor: "rgba(255, 255, 255, 0.2)",
-        borderWidth: 1.2,
-        width: 350,
-        paddingLeft: 17,
-        paddingTop: 8,
-        paddingRight: 16,
-        paddingBottom: 8,
-        gap: 8,
-        alignItems: "center",
-        flexDirection: "row",
-        height: 48,
-        borderStyle: "solid",
-        position: "absolute"
-    },
-    enterYourPhone: {
-        top: 642,
-        left: 32,
-        fontFamily: "DM Sans",
-        color: "#524b6b",
-        position: "absolute"
-    },
-    signUpChild: {
-        top: -61,
-        left: 202
-    },
-    signUpItem: {
-        left: 291,
-        top: 0
-    },
-    signUpInner: {
-        top: 231,
-        left: -89,
-        width: 171,
-        height: 159,
-        position: "absolute"
-    },
-    ellipseIcon: {
-        top: 338,
-        left: 344,
-        width: 115,
-        height: 105,
+    dontHaveAnContainer: {
+        left: 30,
+        top: 572,
         position: "absolute"
     },
     text2: {
@@ -170,11 +171,18 @@ const styles = StyleSheet.create({
         color: "#130160"
     },
     wrapper: {
-        left: 94,
+        left: 85,
         borderBottomWidth: 1.2,
-        width: 250,
+        width: 270,
         paddingHorizontal: 16,
         paddingVertical: 8,
+        borderColor: "#6a41ff",
+        backgroundColor: "rgba(225, 217, 255, 0.3)",
+        borderTopRightRadius: 12,
+        borderTopLeftRadius: 12,
+        flexDirection: "row",
+        borderStyle: "solid",
+        top: 0,
         overflow: "hidden"
     },
     subtractIcon: {
@@ -183,28 +191,94 @@ const styles = StyleSheet.create({
     },
     parent: {
         borderBottomWidth: 1,
-        width: 79,
+        width: 71,
         paddingHorizontal: 12,
         paddingVertical: 0,
         gap: 10,
+        borderColor: "#6a41ff",
+        backgroundColor: "rgba(225, 217, 255, 0.3)",
+        borderTopRightRadius: 12,
+        borderTopLeftRadius: 12,
+        flexDirection: "row",
+        borderStyle: "solid",
+        top: 0,
         left: 0
     },
     frameParent: {
+        width: 355,
         left: 0,
-        top: 0
+        top: 0,
+        height: 48,
+        position: "absolute"
     },
-    frameView: {
-        top: 677,
-        left: 34,
-        width: 344
+    signInInner: {
+        top: 678,
+        width: 311,
+        height: 48,
+        left: 28,
+        position: "absolute"
     },
-    signUp: {
-        backgroundColor: "#f9f9f9",
-        flex: 1,
-        width: "100%",
-        height: 896,
-        overflow: "hidden"
+    riarrowUpSLineIcon: {
+        top: 718,
+        left: 336,
+        position: "absolute"
+    },
+    enterYourPhone: {
+        top: 639,
+        fontFamily: "DM Sans",
+        color: "#524b6b",
+        left: 28,
+        fontSize: 14,
+        position: "absolute"
+    },
+    signInChild: {
+        top: -70,
+        left: 214
+    },
+    signInItem: {
+        top: 13,
+        left: 281
+    },
+    ellipseIcon: {
+        top: 233,
+        left: -103,
+        width: 171,
+        height: 159,
+        position: "absolute"
+    },
+    signInChild1: {
+        top: 374,
+        left: 352,
+        width: 115,
+        height: 105,
+        position: "absolute"
+    },
+    verifyYourNumber: {
+        color: "#fff",
+        width: 263,
+        fontFamily: "DM Sans",
+        fontWeight: "700"
+    },
+    verifyYourNumberParent: {
+        marginLeft: -179,
+        top: 791,
+        left: "50%",
+        borderRadius: 14,
+        backgroundColor: "#130160",
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderWidth: 1.2,
+        width: 358,
+        paddingLeft: 17,
+        paddingTop: 8,
+        paddingRight: 16,
+        paddingBottom: 8,
+        gap: 37,
+        flexDirection: "row",
+        borderStyle: "solid"
+    },
+    ball: {
+        borderRadius: 1000
     }
 });
 
-export default SignUp;
+export default SignIn;

@@ -1,26 +1,21 @@
 import * as React from "react";
-import {Text, StyleSheet, View, Image, Pressable} from "react-native";
+import {Text, StyleSheet, Image, View, Pressable} from "react-native";
 
-const OtpVerification = () => {
+const OtpVerfication = () => {
 
     return (
         <View style={styles.otpVerfication}>
             <Text style={styles.verifyYourNumber}>Verify Your Number</Text>
-            <Pressable style={styles.frameParent} onPress={()=>{}}>
-                <View style={styles.nextWrapper}>
-                    <Text style={[styles.next, styles.nextTypo]}>Next</Text>
-                </View>
-                {/*<Image style={styles.riarrowUpSLineIcon} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
-            </Pressable>
-            <Text style={[styles.enterTheFour, styles.nextTypo]}>{`Enter the four  digit  code  sent to +62 81313782 `}</Text>
-            {/*<Image style={[styles.otpVerficationChild, styles.otpLayout]} resizeMode="cover" source="Ellipse 152.png" />*/}
-            {/*<Image style={styles.otpVerficationItem} resizeMode="cover" source="Ellipse 153.png" />*/}
-            {/*<Image style={[styles.otpVerficationInner, styles.otpLayout]} resizeMode="cover" source="Ellipse 151.png" />*/}
-            <View style={[styles.otpPad, styles.otpPadPosition]}>
+            {/*<Image style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+            <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to +94 711427657</Text>
+            <View style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, {backgroundColor: '#6A41FF'}]}/>
+            <View style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, {backgroundColor: '#150B3D'}]}/>
+            <View style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
+            <View style={styles.otpPad}>
                 <View style={[styles.otpPadInner, styles.otpPosition]}>
                     <View style={[styles.frameChild, styles.frameBorder]} />
                 </View>
-                <View style={styles.otpPadChild}>
+                <View style={[styles.otpPadChild, styles.otpPosition]}>
                     <View style={[styles.frameChild, styles.frameBorder]} />
                 </View>
                 <View style={[styles.frameView, styles.otpPosition]}>
@@ -30,10 +25,19 @@ const OtpVerification = () => {
                 </View>
                 <View style={[styles.otpPadItem, styles.frameBorder]} />
             </View>
+            <Pressable style={styles.nextParent} onPress={()=>{}}>
+                <Text style={[styles.next, styles.nextTypo]}>Next</Text>
+                {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+            </Pressable>
         </View>);
 };
 
 const styles = StyleSheet.create({
+    riarrowIconLayout: {
+        height: 32,
+        width: 35,
+        overflow: "hidden"
+    },
     nextTypo: {
         fontSize: 14,
         textAlign: "left"
@@ -43,8 +47,8 @@ const styles = StyleSheet.create({
         width: 193,
         position: "absolute"
     },
-    otpPadPosition: {
-        left: 32,
+    riarrowUpSLineIconPosition: {
+        left: 336,
         position: "absolute"
     },
     otpPosition: {
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
         borderStyle: "solid"
     },
     verifyYourNumber: {
-        top: 557,
+        top: 558,
         fontSize: 28,
         color: "#0d0140",
         textAlign: "left",
@@ -70,68 +74,31 @@ const styles = StyleSheet.create({
         left: 32,
         position: "absolute"
     },
-    next: {
-        lineHeight: 24,
-        color: "#fff",
-        fontFamily: "DM Sans",
-        fontWeight: "700",
-        fontSize: 14
-    },
-    nextWrapper: {
-        backgroundColor: "#130160",
-        borderColor: "rgba(255, 255, 255, 0.2)",
-        borderWidth: 1.2,
-        alignItems: "center",
-        paddingLeft: 17,
-        paddingTop: 8,
-        paddingRight: 16,
-        paddingBottom: 8,
-        flexDirection: "row",
-        borderStyle: "solid",
-        borderRadius: 14,
-        left: 0,
-        top: 0,
-        height: 48,
-        width: 350,
-        position: "absolute"
-    },
     riarrowUpSLineIcon: {
-        top: 8,
-        left: 304,
-        width: 35,
-        height: 32,
-        borderRadius: 14,
-        position: "absolute",
-        overflow: "hidden"
-    },
-    frameParent: {
-        top: 790,
-        height: 48,
-        width: 350,
-        left: 32,
+        top: 795,
+        left: 336,
         position: "absolute"
     },
     enterTheFour: {
-        top: 598,
+        top: 599,
         fontFamily: "DM Sans",
         color: "#524b6b",
+        fontSize: 14,
         left: 32,
         position: "absolute"
     },
     otpVerficationChild: {
-        top: 29,
-        left: -78
+        top: -14,
+        left: -95
     },
     otpVerficationItem: {
-        top: 236,
-        left: 319,
-        width: 171,
-        height: 159,
-        position: "absolute"
+        top: -117,
+        left: 27
     },
     otpVerficationInner: {
-        top: -74,
-        left: -15
+        top: 292,
+        width: 150,
+        height: 143
     },
     frameChild: {
         width: 66
@@ -141,11 +108,9 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     otpPadChild: {
-        width: 66,
-        flexDirection: "row",
         left: 0,
-        top: 0,
-        position: "absolute"
+        width: 66,
+        flexDirection: "row"
     },
     frameInner: {
         width: 65
@@ -165,9 +130,39 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     otpPad: {
-        top: 669,
+        top: 670,
+        left: 36,
         width: 341,
-        height: 56
+        height: 56,
+        position: "absolute"
+    },
+    next: {
+        lineHeight: 24,
+        color: "#fff",
+        width: 263,
+        fontFamily: "DM Sans",
+        fontWeight: "700",
+        fontSize: 14
+    },
+    nextParent: {
+        marginLeft: -179,
+        top: 791,
+        left: "50%",
+        borderRadius: 14,
+        backgroundColor: "#130160",
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderWidth: 1.2,
+        width: 358,
+        height: 48,
+        alignItems: "center",
+        paddingLeft: 17,
+        paddingTop: 8,
+        paddingRight: 16,
+        paddingBottom: 8,
+        gap: 37,
+        borderStyle: "solid",
+        flexDirection: "row",
+        position: "absolute"
     },
     otpVerfication: {
         backgroundColor: "#f9f9f9",
@@ -175,7 +170,10 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 896,
         overflow: "hidden"
+    },
+    ball: {
+        borderRadius: 1000
     }
 });
 
-export default OtpVerification;
+export default OtpVerfication;
