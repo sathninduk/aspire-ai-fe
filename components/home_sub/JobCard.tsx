@@ -1,78 +1,114 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 
 interface JobCardProps {
-  logo: string; // URL for the company logo
   position: string;
   company: string;
   location: string;
   tags: string[];
+  source: string;  
+  url: string;   
 }
 
-const JobCard: React.FC<JobCardProps> = ({ logo, position, company, location, tags }) => {
+const JobCard: React.FC<JobCardProps> = ({ position, company, location, tags, source, url }) => {
+  const handleViewPlatform = () => {
+   
+    Linking.openURL(url).catch((err) => console.error('Failed to open URL:', err));
+  };
+
+  const handleSourceLink = () => {
+    // Check if the source URL starts with http:// or https://
+    let platformUrl = source;
+    if (!/^https?:\/\//.test(source)) {
+      platformUrl = 'http://' + source; // Prepend http:// if not present
+    }
+    Linking.openURL(platformUrl).catch((err) => console.error('Failed to open platform link:', err));
+  };
+
   return (
-    <View style={styles.card}>
-      <Image source={{ uri: logo }} style={styles.logo} />
-      <Text style={styles.position}>{position}</Text>
-      <Text style={styles.company}>{company}</Text>
-      <Text style={styles.location}>{location}</Text>
+    <View style={styles.cardContainer}>
+      {/* Display source as the platform name, which is clickable */}
+      <TouchableOpacity onPress={handleSourceLink} style={styles.sourceContainer}>
+        <Text style={styles.sourceText}>{source}</Text>
+      </TouchableOpacity>
+      
+      <Text style={styles.positionText}>{position}</Text>
+      <Text style={styles.companyText}>{company}</Text>
+      <Text style={styles.locationText}>{location}</Text>
+      
+      {/* Display tags if there are any */}
       <View style={styles.tagsContainer}>
         {tags.map((tag, index) => (
-          <View key={index} style={styles.tag}>
-            <Text style={styles.tagText}>{tag}</Text>
-          </View>
+          <Text key={index} style={styles.tagText}>{tag}</Text>
         ))}
       </View>
+
+      {/* Button to view the platform link */}
+      <TouchableOpacity
+        style={styles.viewButton}
+        onPress={handleViewPlatform}
+      >
+        <Text style={styles.viewButtonText}>View</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
+  cardContainer: {
+    padding: 10,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
     backgroundColor: '#fff',
-    padding: 15,
-    marginVertical: 10,
-    borderRadius: 15,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 5 },
-    shadowRadius: 10,
-    elevation: 3,
+    width: '100%',
   },
-  logo: {
-    width: 40,
-    height: 40,
-    resizeMode: 'contain',
+  sourceContainer: {
     marginBottom: 10,
   },
-  position: {
+  sourceText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#524B6B',
+  },
+  positionText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#1E0E62',
+    color: '#0D0140',
   },
-  company: {
-    fontSize: 14,
-    color: '#7B7B7B',
+  companyText: {
+    fontSize: 16,
+    color: '#6A41FF',
+    marginVertical: 5,
   },
-  location: {
+  locationText: {
     fontSize: 14,
-    color: '#7B7B7B',
-    marginBottom: 10,
+    color: '#524B6B',
   },
   tagsContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  tag: {
-    backgroundColor: '#E0E0E0',
-    borderRadius: 8,
-    padding: 5,
-    marginRight: 5,
-    marginBottom: 5,
+    marginTop: 10,
   },
   tagText: {
     fontSize: 12,
-    color: '#524B6B',
+    color: '#6A41FF',
+    marginRight: 10,
+  },
+  viewButton: {
+    marginTop: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10, 
+    backgroundColor: '#6A41FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%', 
+  },
+  viewButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

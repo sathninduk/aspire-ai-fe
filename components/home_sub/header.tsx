@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Button, Searchbar, IconButton } from 'react-native-paper';
 import { TouchableOpacity } from "react-native";
-import { router } from "expo-router";
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from "@/app/navigation/types";
+import JobCard from './JobCard';  // Import the JobCard component
 
 const JobSkillsHomeScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const location = "Remote";
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -14,17 +21,25 @@ const JobSkillsHomeScreen: React.FC = () => {
         setSearchResults([]);
         return;
       }
-
+    
+      setLoading(true);
+      setError(null);
+    
       try {
-        const response = await fetch(`https://api.example.com/jobs?query=${searchQuery}`);
+        const response = await fetch(`http://localhost:6340/job?keyword=${encodeURIComponent(searchQuery)}&location=${encodeURIComponent(location)}&page=1`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
         const data = await response.json();
-        setSearchResults(data.jobs); // Assuming `data.jobs` is the array of job results
+        setSearchResults(data);
       } catch (error) {
         console.error('Error fetching search results:', error);
+        setError('Failed to fetch jobs, please try again later.');
+      } finally {
+        setLoading(false);
       }
     };
-
-    const debounceTimeout = setTimeout(fetchSearchResults, 300); // Debounce API calls
+    const debounceTimeout = setTimeout(fetchSearchResults, 300); 
     return () => clearTimeout(debounceTimeout);
   }, [searchQuery]);
 
@@ -38,13 +53,6 @@ const JobSkillsHomeScreen: React.FC = () => {
         <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel}>Interviews</Button>
       </View>
 
-      {/* <Text style={styles.subTitle}>Top Searched Companies</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.companyRow}>
-        {["WSO2", "Codegen", "IFS", "Virtusa", "Cambio"].map((company, index) => (
-          <Button key={index} mode="outlined" style={styles.companyButton} labelStyle={styles.buttonLabel}>{company}</Button>
-        ))}
-      </ScrollView> */}
-
       <View style={styles.searchContainer}>
         <Searchbar
           placeholder="Search"
@@ -52,20 +60,30 @@ const JobSkillsHomeScreen: React.FC = () => {
           value={searchQuery}
           style={styles.searchBar}
         />
-        {/* <TouchableOpacity onPress={() => router.push("/careers\filter")}> */}
-          <IconButton
-            icon="filter-outline"
-            size={38}
-            style={styles.filterButton}
-            iconColor="#FFFFFF"
-          />
-        {/* </TouchableOpacity> */}
+        <IconButton
+          icon="filter-outline" 
+          size={38}
+          onPress={() => navigation.navigate('Filter')} // Navigate to the FilterScreen
+          style={styles.filterButton}
+          iconColor="#FFFFFF" 
+        />
       </View>
+
+      {loading && <Text>Loading...</Text>}
+      {error && <Text style={styles.errorText}>{error}</Text>}
 
       {searchResults.length > 0 && (
         <View style={styles.resultsContainer}>
           {searchResults.map((result, index) => (
-            <Text key={index} style={styles.resultItem}>{result}</Text>
+            <JobCard
+              key={index}
+              position={result.position}
+              company={result.company}
+              location={result.location}
+              tags={result.tags || []} 
+              source={result.source} 
+              url={result.url} 
+            />
           ))}
         </View>
       )}
@@ -77,7 +95,7 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 20
+    marginTop: 20,
   },
   title: {
     fontSize: 24,
@@ -111,23 +129,6 @@ const styles = StyleSheet.create({
     color: '#6A41FF',
     fontWeight: 'bold',
   },
-  subTitle: {
-    fontSize: 16,
-    color: '#150B3D',
-    marginVertical: 10,
-    alignSelf: 'flex-start',
-  },
-  companyRow: {
-    flexDirection: 'row',
-    paddingVertical: 10,
-  },
-  companyButton: {
-    backgroundColor: '#F2F2F2',
-    margin: 5,
-    borderRadius: 10,
-    borderColor: '#fff',
-    paddingHorizontal: 15,
-  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -147,14 +148,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
   },
-  resultItem: {
-    padding: 10,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 8,
-    marginBottom: 10,
+  errorText: {
+    color: 'red',
   },
 });
 
 export default JobSkillsHomeScreen;
-
-
