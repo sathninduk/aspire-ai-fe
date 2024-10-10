@@ -8,7 +8,7 @@ const CurrentyEmployed = () => {
 
     return (
         <View style={[styles.currentyEmployed, styles.iconLayout]}>
-            <Text style={styles.areYouCurrently}>{`Are You Currently Employed ?`}</Text>
+            <Text style={styles.areYouCurrently}>{`Are You Currently\nEmployed?`}</Text>
             <View style={styles.frameParent}>
                 <View style={[styles.nextWrapper, styles.saveChildBg]}>
                     <Text style={styles.next}>Next</Text>

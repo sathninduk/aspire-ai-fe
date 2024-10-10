@@ -1,53 +1,73 @@
 import * as React from "react";
-import {Text, StyleSheet, View, Image, Pressable, TextInput} from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
-import {useNavigation, ParamListBase} from "@react-navigation/native";
+import {
+    Image,
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableWithoutFeedback,
+    View
+} from "react-native";
+import {StackNavigationProp} from '@react-navigation/stack';
+import {ParamListBase, useNavigation} from "@react-navigation/native";
 
 const CurrentlyEmployedYes = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
     return (
-        <View style={styles.currentlyEmployedYes}>
-            <Text style={styles.enterYourEmployment}>{`Enter Your Employment Details`}</Text>
-            <Pressable style={[styles.frameParent, styles.frameParentLayout]} onPress={()=>{}}>
-                <View style={[styles.nextWrapper, styles.whatsPosition]}>
-                    <Text style={[styles.next, styles.whatsTypo]}>Next</Text>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={{flex: 1}}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.currentlyEmployedYes}>
+                    <Text style={styles.enterYourEmployment}>{`Enter Your Employment Details`}</Text>
+                    <Pressable style={[styles.frameParent, styles.frameParentLayout]} onPress={() => {
+                    }}>
+                        <View style={[styles.nextWrapper, styles.whatsPosition]}>
+                            <Text style={[styles.next, styles.whatsTypo]}>Next</Text>
+                        </View>
+                        <Image style={[styles.riarrowUpSLineIcon, styles.riarrowUpSLineIconPosition]} resizeMode="cover"
+                               source={
+                                   require("@/assets/images/onboard/next.png")
+                               }/>
+                    </Pressable>
+                    <Pressable style={[styles.backArrow, styles.backArrowPosition]} onPress={() => navigation.goBack()}>
+                        <Image style={styles.icon} resizeMode="cover"
+                               source={
+                                   require("@/assets/images/onboard/back_arrow.png")
+                               }
+                        />
+                    </Pressable>
+                    <View style={[styles.email, styles.emailLayout]}>
+                        <TextInput
+                            style={[styles.emailChild, styles.whatsPosition, styles.inputStyle]}
+                            placeholder="Enter your company"
+                            placeholderTextColor="rgba(13,1,64,0.60)"
+                        />
+                        <Text style={[styles.whatsYourCompany, styles.whatsTypo]}>What’s Your Company ?</Text>
+                    </View>
+                    <View style={[styles.fullName, styles.emailLayout]}>
+                        <Text style={[styles.whatsYourJob, styles.whatsTypo]}>What’s Your Job Title?</Text>
+                        <TextInput
+                            style={[styles.emailChild, styles.whatsPosition, styles.inputStyle]}
+                            placeholder="Enter your job title"
+                            placeholderTextColor="rgba(13,1,64,0.60)"
+                        />
+                    </View>
+                    <View style={styles.progressBar}>
+                        <View style={[styles.track, styles.barPosition]}/>
+                        <View style={[styles.bar, styles.barPosition]}/>
+                    </View>
+                    <View style={[styles.currentlyEmployedYesChild, styles.ball, {backgroundColor: "#130160"}]}/>
+                    <View style={[styles.currentlyEmployedYesItem, styles.ball, {backgroundColor: "#6A41FF"}]}/>
                 </View>
-                <Image style={[styles.riarrowUpSLineIcon, styles.riarrowUpSLineIconPosition]} resizeMode="cover"
-                       source={
-                           require("@/assets/images/onboard/next.png")
-                       } />
-            </Pressable>
-            <Pressable style={[styles.backArrow, styles.backArrowPosition]} onPress={() => navigation.goBack()}>
-                <Image style={styles.icon} resizeMode="cover"
-                       source={
-                           require("@/assets/images/onboard/back_arrow.png")
-                       }
-                />
-            </Pressable>
-            <View style={[styles.email, styles.emailLayout]}>
-                <TextInput
-                    style={[styles.emailChild, styles.whatsPosition, styles.inputStyle]}
-                    placeholder="Enter your company"
-                    placeholderTextColor="rgba(13,1,64,0.60)"
-                />
-                <Text style={[styles.whatsYourCompany, styles.whatsTypo]}>What’s Your Company ?</Text>
-            </View>
-            <View style={[styles.fullName, styles.emailLayout]}>
-                <Text style={[styles.whatsYourJob, styles.whatsTypo]}>What’s Your Job Title?</Text>
-                <TextInput
-                    style={[styles.emailChild, styles.whatsPosition, styles.inputStyle]}
-                    placeholder="Enter your job title"
-                    placeholderTextColor="rgba(13,1,64,0.60)"
-                />
-            </View>
-            <View style={styles.progressBar}>
-                <View style={[styles.track, styles.barPosition]} />
-                <View style={[styles.bar, styles.barPosition]} />
-            </View>
-            <View style={[styles.currentlyEmployedYesChild, styles.ball, {backgroundColor: "#130160"}]}/>
-            <View style={[styles.currentlyEmployedYesItem, styles.ball, {backgroundColor: "#6A41FF"}]}/>
-        </View>);
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+    );
 };
 
 const styles = StyleSheet.create({
