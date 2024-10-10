@@ -1,58 +1,88 @@
 import * as React from "react";
-import {Text, StyleSheet, Pressable, View, Image} from "react-native";
+import { useState } from "react";
+import {
+    Image,
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableWithoutFeedback,
+    View
+} from "react-native";
+import { formatPhoneNumber } from "react-phone-number-input";
 
 const SignIn = () => {
+    const [phoneNumber, setPhoneNumber] = useState("");
 
     return (
-        <View style={styles.signIn}>
-            <Text style={styles.signIn1}>Sign In</Text>
-            <Pressable style={styles.dontHaveAnContainer} onPress={()=>{}}>
-                <Text style={styles.textTypo}>
-                    <Text style={styles.dontHaveAnAccountYet}>
-                        <Text style={styles.dontHaveAn}>Don’t have an account yet ?</Text>
-                        <Text style={styles.text1Typo}>{` `}</Text>
-                    </Text>
-                    <Text style={styles.text1Typo}>
-                        <Text style={styles.sign}> Sign</Text>
-                        <Text style={styles.up}> Up</Text>
-                    </Text>
-                </Text>
-            </Pressable>
-            <View style={styles.signInInner}>
-                <View style={styles.frameParent}>
-                    <View style={[styles.wrapper, styles.parentFlexBox]}>
-                        <Text style={[styles.text2, styles.text2Typo]}>81313782</Text>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <View style={styles.signIn}>
+                    <Text style={styles.signIn1}>Sign In</Text>
+                    <Pressable style={styles.dontHaveAnContainer} onPress={() => {}}>
+                        <Text style={styles.textTypo}>
+                            <Text style={styles.dontHaveAnAccountYet}>
+                                <Text style={styles.dontHaveAn}>Don’t have an account yet?</Text>
+                                <Text style={styles.text1Typo}>{` `}</Text>
+                            </Text>
+                            <Text style={styles.text1Typo}>
+                                <Text style={styles.sign}> Sign Up</Text>
+                            </Text>
+                        </Text>
+                    </Pressable>
+                    <View style={styles.signInInner}>
+                        <View style={styles.frameParent}>
+                            <TextInput
+                                style={[
+                                    styles.emailChild,
+                                    styles.childLayout,
+                                    styles.inputStyle
+                                ]}
+                                placeholder="Enter your phone number"
+                                placeholderTextColor="rgba(13,1,64,0.60)"
+                                value={phoneNumber}
+                                onChangeText={setPhoneNumber}
+                                keyboardType="phone-pad"
+                            />
+                        </View>
                     </View>
-                    <View style={[styles.parent, styles.parentFlexBox]}>
-                        <Text style={[styles.text2, styles.text2Typo]}>+94</Text>
-                        <Image style={styles.subtractIcon} resizeMode="cover" source={
-                            require('@/assets/images/signin/Substract.svg')
-                        } />
-                    </View>
-                </View>
-            </View>
-            <Image style={styles.riarrowUpSLineIcon} resizeMode="cover"
-                   source={require('@/assets/images/signin/arrow-up-s-line.svg')}/>
-            <Text style={[styles.enterYourPhone, styles.textTypo]}>Enter your phone number to sign in</Text>
+                    <Text style={[styles.enterYourPhone, styles.textTypo]}>Enter your phone number to sign in</Text>
 
-            <View style={[styles.signInChild, styles.signLayout, styles.ball, {
-                backgroundColor: '#130160',
-                borderRadius: 600
-            }]}/>
-            <View style={[styles.signInItem, styles.signLayout, styles.ball, {
-                backgroundColor: '#6646E1',
-                borderRadius: 600
-            }]}/>
-            <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
-            <View style={[styles.signInChild1, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
-            <Pressable style={[styles.verifyYourNumberParent, styles.parentFlexBox]} onPress={()=>{}}>
-                <Text style={[styles.verifyYourNumber, styles.text2Typo]}>Verify Your Number</Text>
-                {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
-            </Pressable>
-        </View>);
+                    <View style={[styles.signInChild, styles.signLayout, styles.ball, {
+                        backgroundColor: '#130160',
+                        borderRadius: 600
+                    }]}/>
+                    <View style={[styles.signInItem, styles.signLayout, styles.ball, {
+                        backgroundColor: '#6646E1',
+                        borderRadius: 600
+                    }]}/>
+                    <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
+                    <View style={[styles.signInChild1, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
+                    <Pressable style={[styles.verifyYourNumberParent, styles.parentFlexBox]} onPress={() => {}}>
+                        <Text style={[styles.verifyYourNumber, styles.text2Typo]}>Verify Your Number</Text>
+                        <Image style={styles.riarrowIconLayout} resizeMode="cover"
+                               source={require('@/assets/images/signin/arrow-up-s-line.svg')}/>
+                    </Pressable>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+    },
     parentFlexBox: {
         alignItems: "center",
         flexDirection: "row",
@@ -78,6 +108,31 @@ const styles = StyleSheet.create({
         height: 207,
         width: 193,
         position: "absolute"
+    },
+    emailChild: {
+        top: 0,
+        width: 350,
+        left: 2
+    },
+    childLayout: {
+        height: 50,
+        borderRadius: 10,
+        position: "absolute"
+    },
+    inputStyle: {
+        fontSize: 15,
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: "rgba(13,1,64,0.20)",
+    },
+    signIn: {
+        backgroundColor: "#f9f9f9",
+        flex: 1,
+        width: "100%",
+        height: 896,
+        overflow: "hidden"
     },
     signIn1: {
         top: 529,
@@ -221,15 +276,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderStyle: "solid"
     },
-    signIn: {
-        backgroundColor: "#f9f9f9",
-        flex: 1,
-        width: "100%",
-        height: 896,
-        overflow: "hidden"
-    },
     ball: {
-        //
+        borderRadius: 1000
     }
 });
 

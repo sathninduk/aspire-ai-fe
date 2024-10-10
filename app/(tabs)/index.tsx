@@ -228,6 +228,12 @@ const Pathway = () => {
 
                 <Link href={"/onboard/building"}>Onboard - Building</Link>
                 <Link href={"/onboard/reveal-ladder"}>Onboard - Reveal Ladder</Link>
+
+                <Link href={"/questions/step1"}>Questions - Step 1</Link>
+                <Link href={"/questions/step2"}>Questions - Step 2</Link>
+                <Link href={"/questions/step3"}>Questions - Step 3</Link>
+                <Link href={"/questions/step4"}>Questions - Step 4</Link>
+                <Link href={"/questions/step5"}>Questions - Step 5</Link>
             </View>
             <View style={[styles.onceYouSatisfiesWithYourGWrapper, styles.youWrapperPosition]}>
                 <Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`Once you satisfies with your gap filling, try to
@@ -518,7 +524,7 @@ const styles = StyleSheet.create({
     },
     youWrapperPosition: {
         // height: 74, - change here
-        height: 200,
+        height: 400,
         left: "50%",
         position: "absolute",
         overflow: "hidden",
