@@ -8,23 +8,28 @@ const CurrentlyEmployedNo = () => {
 
     return (
         <View style={[styles.currentlyEmployedNo, styles.iconLayout]}>
-            <Text style={styles.selectYourCurrent}>{`Select Your Current
-          					Status`}</Text>
+            <Text style={styles.selectYourCurrent}>{`Select Your Current\nStatus`}</Text>
             <Pressable style={styles.currentlyEmployedNoInner} onPress={()=>{}}>
                 <View style={styles.nextParent}>
                     <Text style={styles.next}>Next</Text>
-                    {/*<Image style={styles.vectorIcon} resizeMode="cover" source="Vector.png" />*/}
+                    <Image style={styles.vectorIcon} resizeMode="cover"
+                    source={
+                        require("@/assets/images/onboard/next.png")
+                    }
+                    />
                 </View>
             </Pressable>
             <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
-                {/*<Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source="back arrow.png" />*/}
+                <Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source={
+                    require("@/assets/images/onboard/back_arrow.png")
+                } />
             </Pressable>
             <View style={styles.progressBar}>
                 <View style={[styles.track, styles.barPosition]} />
                 <View style={[styles.bar, styles.barPosition]} />
             </View>
-            {/*<Image style={styles.currentlyEmployedNoChild} resizeMode="cover" source="Ellipse 151.png" />*/}
-            {/*<Image style={styles.currentlyEmployedNoItem} resizeMode="cover" source="Ellipse 154.png" />*/}
+            <View style={[styles.currentlyEmployedNoChild, styles.ball, {backgroundColor: "#130160"}]}/>
+            <View style={[styles.currentlyEmployedNoItem, styles.ball, {backgroundColor: "#6A41FF"}]}/>
             <View style={styles.buttonRemoveSave}>
                 <Pressable style={[styles.save, styles.saveChildLayout]} onPress={() => navigation.navigate("CurrentlyEmployedNo")}>
                     <View style={[styles.saveChild, styles.saveChildLayout]} />
@@ -39,6 +44,9 @@ const CurrentlyEmployedNo = () => {
 };
 
 const styles = StyleSheet.create({
+    ball: {
+        borderRadius: 1000
+    },
     iconLayout: {
         overflow: "hidden",
         width: "100%"
@@ -69,7 +77,7 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     selectYourCurrent: {
-        top: 129,
+        top: 155,
         fontSize: 30,
         color: "#0d0140",
         textAlign: "left",
@@ -88,8 +96,8 @@ const styles = StyleSheet.create({
         fontWeight: "700"
     },
     vectorIcon: {
-        width: 11,
-        height: 17
+        height: 32,
+        width: 35,
     },
     nextParent: {
         borderRadius: 14,
@@ -122,7 +130,7 @@ const styles = StyleSheet.create({
         height: "100%"
     },
     backArrow: {
-        top: 18,
+        top: 60,
         width: 28,
         height: 28,
         left: 32,
@@ -144,7 +152,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#130160"
     },
     progressBar: {
-        top: 68,
+        top: 120,
         height: 8,
         width: 350,
         left: 32,
@@ -199,7 +207,7 @@ const styles = StyleSheet.create({
         left: 0
     },
     buttonRemoveSave: {
-        top: 305,
+        top: 286,
         left: 47,
         width: 320,
         height: 50,

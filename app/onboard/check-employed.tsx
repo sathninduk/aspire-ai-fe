@@ -8,19 +8,24 @@ const CurrentyEmployed = () => {
 
     return (
         <View style={[styles.currentyEmployed, styles.iconLayout]}>
-            <Text style={styles.areYouCurrently}>{`Are You Currently
-          					Employed ?`}</Text>
+            <Text style={styles.areYouCurrently}>{`Are You Currently\nEmployed?`}</Text>
             <View style={styles.frameParent}>
                 <View style={[styles.nextWrapper, styles.saveChildBg]}>
                     <Text style={styles.next}>Next</Text>
                 </View>
-                {/*<Image style={[styles.riarrowUpSLineIcon, styles.nextWrapperLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+                <Image style={[styles.riarrowUpSLineIcon, styles.nextWrapperLayout]} resizeMode="cover"
+                       source={
+                           require("@/assets/images/onboard/next.png")
+                       }
+                />
             </View>
             <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
-                {/*<Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source="back arrow.png" />*/}
+                <Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source={
+                    require("@/assets/images/onboard/back_arrow.png")
+                } />
             </Pressable>
-            {/*<Image style={styles.currentyEmployedChild} resizeMode="cover" source="Ellipse 151.png" />*/}
-            {/*<Image style={styles.currentyEmployedItem} resizeMode="cover" source="Ellipse 154.png" />*/}
+            <View style={[styles.currentyEmployedChild, styles.ball, {backgroundColor: "#130160"}]}/>
+            <View style={[styles.currentyEmployedItem, styles.ball, {backgroundColor: "#6A41FF"}]}/>
             <View style={styles.buttonRemoveSave}>
                 <Pressable style={[styles.save, styles.saveChildLayout]} onPress={()=>{}}>
                     <View style={[styles.saveChild, styles.saveChildLayout]} />
@@ -35,6 +40,9 @@ const CurrentyEmployed = () => {
 };
 
 const styles = StyleSheet.create({
+    ball: {
+        borderRadius: 1000,
+    },
     iconLayout: {
         width: "100%",
         overflow: "hidden"
@@ -66,13 +74,13 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     areYouCurrently: {
-        top: 127,
+        top: 155,
+        left: 34,
         fontSize: 30,
         color: "#0d0140",
         textAlign: "left",
         fontFamily: "DM Sans",
         fontWeight: "700",
-        left: 34,
         position: "absolute"
     },
     next: {
@@ -120,7 +128,7 @@ const styles = StyleSheet.create({
         overflow: "hidden"
     },
     backArrow: {
-        top: 18,
+        top: 60,
         height: 28,
         width: 28,
         left: 32,
@@ -179,10 +187,10 @@ const styles = StyleSheet.create({
         width: 175
     },
     buttonRemoveSave: {
-        top: 272,
+        top: 287,
+        left: 33,
         width: 348,
         height: 50,
-        left: 34,
         position: "absolute"
     },
     currentyEmployed: {

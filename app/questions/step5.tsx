@@ -1,70 +1,117 @@
 import * as React from "react";
-import {Text, StyleSheet, Image, View, Pressable} from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
-import {useNavigation, ParamListBase} from "@react-navigation/native";
+import {
+    Image,
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableWithoutFeedback,
+    View
+} from "react-native";
+import {StackNavigationProp} from '@react-navigation/stack';
+import {ParamListBase, useNavigation} from "@react-navigation/native";
 
 const OnboadingChat = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
     return (
-        <View style={[styles.onboadingChat5, styles.iconLayout]}>
-            <View style={[styles.groupParent, styles.chat2Position]}>
-                <Pressable style={[styles.frameWrapper, styles.nextParentLayout]} onPress={()=>{}}>
-                    <View style={[styles.nextParent, styles.nextParentLayout]}>
-                        <Text style={[styles.next, styles.nextTypo]}>Next</Text>
-                        {/*<Image style={styles.vectorIcon} resizeMode="cover" source="Vector.png" />*/}
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={{flex: 1}}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={[styles.onboadingChat1, styles.iconLayout]}>
+                    <View style={styles.groupParent}>
+                        <Pressable style={[styles.frameWrapper, styles.nextParentLayout]} onPress={() => {
+                        }}>
+                            <View style={[styles.nextParent, styles.nextParentPosition]}>
+                                <Text style={[styles.next, styles.nextTypo]}>Next</Text>
+                                <Image style={styles.vectorIcon} resizeMode="cover" source={
+                                    require("@/assets/images/onboard/next.png")
+                                }/>
+                            </View>
+                        </Pressable>
+                        <View style={[styles.groupChild, styles.ball, {backgroundColor: "#130160"}]}/>
+                        <View style={[styles.groupItem, styles.ball, {backgroundColor: "#6A41FF"}]}/>
+                        <View style={[styles.groupInner, styles.ball, {backgroundColor: "#6A41FF"}]}/>
                     </View>
-                </Pressable>
-                {/*<Image style={styles.groupChild} resizeMode="cover" source="Ellipse 151.png" />*/}
-                {/*<Image style={styles.groupItem} resizeMode="cover" source="Ellipse 154.png" />*/}
-            </View>
-            <Text style={[styles.aspireai, styles.nextTypo]}>AspireAI</Text>
-            <View style={[styles.chat2, styles.chat2Position]}>
-                <Text style={[styles.whatKindOf, styles.whatKindOfTypo]}>What kind of roles or industries are you most interested in exploring?</Text>
-            </View>
-            <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
-                {/*<Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source="back arrow.png" />*/}
-            </Pressable>
-            {/*<Image style={[styles.onboadingChat5Child, styles.chat2Position]} resizeMode="cover" source="Rectangle 61.png" />*/}
-            <Text style={[styles.yourAnswer, styles.whatKindOfTypo]}>Your Answer</Text>
-            {/*<Image style={styles.onboadingChat5Item} resizeMode="cover" source="Ellipse 152.png" />*/}
-        </View>);
+                    <Text style={[styles.aspireai, styles.nextTypo]}>AspireAI</Text>
+                    <View style={[styles.chat2, styles.chat2Layout]}>
+                        <Text style={[styles.canYouBriefly, styles.nextTypo]}>What kind of roles or industries are you
+                            most interested in exploring?</Text>
+                    </View>
+                    <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
+                        <Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source={
+                            require("@/assets/images/onboard/back_arrow.png")
+                        }/>
+                    </Pressable>
+                    <TextInput
+                        style={[styles.onboadingChat1Child, styles.canYouBrieflyLayout, styles.textArea]}
+                        placeholder="Your Answer"
+                        placeholderTextColor="#aaa6b9"
+                        multiline={true}
+                        numberOfLines={4}
+                    />
+                </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+    );
 };
 
 const styles = StyleSheet.create({
+    textArea: {
+        fontSize: 15,
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: "rgba(13,1,64,0.20)",
+    },
+    ball: {
+        borderRadius: 1000
+    },
     iconLayout: {
         overflow: "hidden",
         width: "100%"
     },
-    chat2Position: {
-        left: 32,
-        position: "absolute"
-    },
     nextParentLayout: {
         height: 48,
         width: 350,
-        left: 0,
         position: "absolute"
     },
-    nextTypo: {
-        textAlign: "left",
-        fontFamily: "DM Sans",
-        fontWeight: "700"
+    nextParentPosition: {
+        top: 0,
+        left: 0
     },
-    whatKindOfTypo: {
+    nextTypo: {
         fontFamily: "DM Sans",
-        textAlign: "left",
+        fontWeight: "700",
+        textAlign: "left"
+    },
+    chat2Layout: {
+        height: 71,
+        width: 350,
+        position: "absolute"
+    },
+    canYouBrieflyLayout: {
+        width: 350,
         position: "absolute"
     },
     next: {
-        fontSize: 14,
         lineHeight: 24,
         color: "#fff",
-        width: 261
+        width: 261,
+        textAlign: "left",
+        fontSize: 14,
+        fontFamily: "DM Sans",
+        fontWeight: "700"
     },
     vectorIcon: {
-        width: 11,
-        height: 17
+        height: 32,
+        width: 35,
     },
     nextParent: {
         borderRadius: 14,
@@ -79,83 +126,100 @@ const styles = StyleSheet.create({
         paddingRight: 16,
         paddingBottom: 8,
         gap: 37,
-        top: 0
+        left: 0,
+        height: 48,
+        width: 350,
+        position: "absolute"
     },
     frameWrapper: {
-        top: 278
+        top: 270,
+        left: 92
     },
     groupChild: {
-        left: 293,
+        top: 36,
         width: 178,
-        height: 155,
-        top: 0,
+        height: 166,
+        left: 32,
         position: "absolute"
     },
     groupItem: {
-        top: 91,
-        left: 248,
+        top: 64,
+        left: 422,
+        width: 94,
+        height: 82,
+        position: "absolute"
+    },
+    groupInner: {
         width: 121,
         height: 124,
+        left: 0,
         position: "absolute"
     },
     groupParent: {
-        top: 513,
-        width: 471,
-        height: 326
+        top: 521,
+        left: -60,
+        width: 516,
+        height: 318,
+        position: "absolute"
     },
     aspireai: {
         marginLeft: -57,
-        top: 61,
+        top: 53,
         left: "50%",
         fontSize: 28,
         color: "#0d0140",
+        textAlign: "left",
         position: "absolute"
     },
-    whatKindOf: {
-        fontSize: 13,
-        color: "#524b6b",
-        top: 0,
-        width: 350,
+    chat2Child: {
+        opacity: 0.1,
         left: 0,
-        fontFamily: "DM Sans"
+        top: 0
+    },
+    canYouBriefly: {
+        top: 9,
+        color: "#524b6b",
+        height: 40,
+        textAlign: "left",
+        fontSize: 14,
+        fontFamily: "DM Sans",
+        fontWeight: "700",
+        left: 0,
+        width: 350,
+        position: "absolute"
     },
     chat2: {
-        top: 234,
-        height: 34,
-        width: 350
+        top: 228,
+        left: 32
     },
     icon: {
         height: "100%",
         borderRadius: 10
     },
     backArrow: {
-        left: 33,
-        top: 21,
+        top: 60,
         width: 28,
         height: 28,
+        left: 32,
         position: "absolute"
     },
-    onboadingChat5Child: {
+    onboadingChat1Child: {
         top: 314,
         height: 98,
         borderRadius: 10,
-        width: 350
+        left: 32
     },
     yourAnswer: {
         top: 331,
         left: 68,
         fontSize: 12,
+        fontFamily: "DM Sans",
         color: "#aaa6b9",
-        width: 183
-    },
-    onboadingChat5Item: {
-        top: 534,
-        left: -43,
-        width: 94,
-        height: 82,
+        width: 183,
+        textAlign: "left",
         position: "absolute"
     },
-    onboadingChat5: {
+    onboadingChat1: {
         backgroundColor: "#f9f9f9",
         flex: 1,
         height: 896
