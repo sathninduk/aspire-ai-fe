@@ -1,92 +1,134 @@
 import * as React from "react";
-import {Text, StyleSheet, Image, Pressable, View} from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
-import {useNavigation, ParamListBase} from "@react-navigation/native";
+import {Pressable, StyleSheet, Text, View} from "react-native";
 
 const YourLadder = () => {
-    const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
     return (
-        <View style={[styles.yourLadder, styles.iconLayout]}>
-            <Text style={styles.aspireai}>AspireAI</Text>
-            <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
-                {/*<Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source="back arrow.png" />*/}
-            </Pressable>
-            <Text style={styles.continueToSee}>Continue to see your pathway</Text>
-            <Pressable style={styles.menuBar} onPress={()=>{}}>
-                <View style={styles.applyPosition}>
-                    {/*<Image style={[styles.applyNowChild, styles.applyPosition]} resizeMode="cover" source="Rectangle 10.png" />*/}
+        <View style={styles.yourLadder}>
+            <Text style={[styles.aspireai, styles.aspireaiTypo]}>AspireAI</Text>
+            <Text style={[styles.continueToSee, styles.aspireaiClr]}>Continue to see your pathway</Text>
+            <Pressable style={styles.menuBar} onPress={() => {
+            }}>
+                <View style={styles.continueParent}>
                     <Text style={styles.continue}>Continue</Text>
                 </View>
             </Pressable>
-            {/*<Image style={styles.yourLadderChild} resizeMode="cover" source="Ellipse 154.png" />*/}
-            {/*<Image style={styles.yourLadderItem} resizeMode="cover" source="Ellipse 151.png" />*/}
-            {/*<Image style={styles.yourLadderInner} resizeMode="cover" source="Ellipse 152.png" />*/}
+            <View style={[styles.yourLadderChild, styles.ball, {backgroundColor: "#6A41FF"}]}/>
+            <View style={[styles.yourLadderItem, styles.ball, {backgroundColor: "#130160"}]}/>
+            <View style={[styles.yourLadderInner, styles.ball, {backgroundColor: "#6A41FF"}]}/>
         </View>);
 };
 
 const styles = StyleSheet.create({
-    iconLayout: {
-        overflow: "hidden",
-        width: "100%"
+    continue: {
+        fontSize: 14,
+        lineHeight: 24,
+        fontWeight: "700",
+        fontFamily: "DM Sans",
+        color: "#fff",
+        textAlign: "center",
+        width: 203
+    },
+    continueParent: {
+        borderRadius: 14,
+        backgroundColor: "#130160",
+        borderStyle: "solid",
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderWidth: 1.2,
+        flex: 1,
+        width: "100%",
+        height: 48,
+        flexDirection: "row",
+        alignItems: "center",
+        paddingLeft: 17,
+        paddingTop: 8,
+        paddingRight: 16,
+        paddingBottom: 8
+    },
+    ball: {
+        borderRadius: 1000
+    },
+    nextParent: {
+        borderRadius: 14,
+        borderStyle: "solid",
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderWidth: 1.2,
+        flexDirection: "row",
+        alignItems: "center",
+        paddingLeft: 17,
+        paddingTop: 8,
+        paddingRight: 16,
+        paddingBottom: 8,
+        gap: 34,
+        backgroundColor: "#130160",
+        left: 0,
+        top: 0,
+        height: 48,
+        width: 350,
+        position: "absolute"
+    },
+    next: {
+        lineHeight: 24,
+        width: 261,
+        color: "#fff",
+        fontSize: 14,
+        textAlign: "left",
+        fontFamily: "DM Sans",
+        fontWeight: "700"
+    },
+    vectorIcon: {
+        height: 32,
+        width: 35,
+    },
+    aspireaiTypo: {
+        textAlign: "left",
+        left: "50%",
+        fontFamily: "DM Sans",
+        fontWeight: "700",
+        position: "absolute"
+    },
+    aspireaiClr: {
+        color: "#0d0140",
+        fontSize: 28
     },
     applyPosition: {
-        top: 0,
-        marginLeft: -122.5,
         height: 50,
-        width: 245,
-        left: "50%",
+        width: 50,
         position: "absolute"
     },
     aspireai: {
-        top: 73,
-        left: 140,
-        textAlign: "left",
+        marginLeft: -57,
+        top: 53,
         color: "#0d0140",
-        fontFamily: "DM Sans",
-        fontWeight: "700",
         fontSize: 28,
-        position: "absolute"
-    },
-    icon: {
-        borderRadius: 5,
-        height: "100%"
-    },
-    backArrow: {
-        left: 33,
-        top: 21,
-        width: 28,
-        height: 28,
-        position: "absolute"
+        textAlign: "left",
+        left: "50%"
     },
     continueToSee: {
         top: 362,
         left: 88,
         textAlign: "center",
         width: 238,
-        color: "#0d0140",
         fontFamily: "DM Sans",
         fontWeight: "700",
+        color: "#0d0140",
         fontSize: 28,
         position: "absolute"
     },
     applyNowChild: {
         borderRadius: 14
     },
-    continue: {
-        marginTop: -9,
-        marginLeft: -34.5,
-        top: "50%",
-        fontSize: 14,
-        letterSpacing: 0.8,
-        textTransform: "capitalize",
-        color: "#fff",
-        left: "50%",
-        textAlign: "left",
-        fontFamily: "DM Sans",
-        fontWeight: "700",
-        position: "absolute"
-    },
+    // continue: {
+    //     marginTop: -9,
+    //     marginLeft: -34.5,
+    //     top: "50%",
+    //     fontSize: 14,
+    //     letterSpacing: 0.8,
+    //     textTransform: "capitalize",
+    //     color: "#fff",
+    //     textAlign: "left",
+    //     left: "50%"
+    // },
     menuBar: {
         marginLeft: -122,
         top: 479,
@@ -119,7 +161,9 @@ const styles = StyleSheet.create({
     yourLadder: {
         backgroundColor: "#f9f9f9",
         flex: 1,
-        height: 896
+        width: "100%",
+        height: 896,
+        overflow: "hidden"
     }
 });
 

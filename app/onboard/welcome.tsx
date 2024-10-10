@@ -8,27 +8,36 @@ const Welcome = () => {
 
     return (
         <View style={[styles.welcome, styles.iconLayout]}>
-            <Text style={[styles.helloLouisWelcome, styles.nextTypo]}>{`Hello Louis\nWelcome to AspireAI`}</Text>
+            <Text style={[styles.helloLouisWelcome, styles.nextTypo]}>{`Hello Louis Welcome\nTo AspireAI`}</Text>
             <Pressable style={[styles.welcomeInner, styles.nextParentLayout]} onPress={()=>{}}>
                 <View style={[styles.nextParent, styles.nextParentLayout]}>
                     <Text style={[styles.next, styles.nextTypo]}>Next</Text>
-                    {/*<Image style={styles.vectorIcon} resizeMode="cover" source="Vector.png" />*/}
+                    <Image style={styles.vectorIcon} resizeMode="cover" source={
+                        require("@/assets/images/onboard/next.png")
+                    } />
                 </View>
             </Pressable>
             <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
-                {/*<Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source="back arrow.png" />*/}
+                <Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source={
+                    require("@/assets/images/onboard/back_arrow.png")
+                } />
             </Pressable>
             <View style={styles.progressBar}>
                 <View style={[styles.track, styles.barPosition]} />
                 <View style={[styles.bar, styles.barPosition]} />
             </View>
-            {/*<Image style={styles.welcomeChild} resizeMode="cover" source="Group 31.png" />*/}
-            {/*<Image style={styles.welcomeItem} resizeMode="cover" source="Ellipse 151.png" />*/}
-            {/*<Image style={styles.ellipseIcon} resizeMode="cover" source="Ellipse 154.png" />*/}
+            <Image style={styles.welcomeChild} resizeMode="cover" source={
+                require("@/assets/images/onboard/profile.png")
+            } />
+            <View style={[styles.welcomeItem, styles.ball, {backgroundColor: "#130160"}]}/>
+            <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: "#6A41FF"}]}/>
         </View>);
 };
 
 const styles = StyleSheet.create({
+    ball: {
+        borderRadius: 1000
+    },
     iconLayout: {
         overflow: "hidden",
         width: "100%"
@@ -54,7 +63,7 @@ const styles = StyleSheet.create({
     },
     helloLouisWelcome: {
         marginLeft: -151,
-        top: 361,
+        top: 367,
         left: "50%",
         fontSize: 30,
         color: "#0d0140",
@@ -67,8 +76,8 @@ const styles = StyleSheet.create({
         width: 240
     },
     vectorIcon: {
-        width: 11,
-        height: 17
+        height: 32,
+        width: 35,
     },
     nextParent: {
         top: 0,
@@ -95,7 +104,7 @@ const styles = StyleSheet.create({
         height: "100%"
     },
     backArrow: {
-        top: 18,
+        top: 60,
         width: 28,
         height: 28,
         left: 32,
@@ -110,17 +119,17 @@ const styles = StyleSheet.create({
         backgroundColor: "#130160"
     },
     progressBar: {
-        top: 68,
+        top: 120,
         height: 8,
         width: 350,
         left: 32,
         position: "absolute"
     },
     welcomeChild: {
-        top: 234,
-        left: 160,
-        width: 93,
-        height: 93,
+        top: 242,
+        left: 159,
+        width: 95,
+        height: 95,
         position: "absolute"
     },
     welcomeItem: {

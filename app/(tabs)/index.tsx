@@ -221,6 +221,13 @@ const Pathway = () => {
                 <Link href={"/login/otp"}>Login - OTP</Link>
                 <Link href={"/login/splash"}>Login - splash</Link>
                 <Link href={"/onboard/name"}>Onboard - name</Link>
+                <Link href={"/onboard/check-employed"}>Onboard - Check Employed</Link>
+                <Link href={"/onboard/employment-details"}>Onboard - Employment Details</Link>
+                <Link href={"/onboard/check-status"}>Onboard - Check Status</Link>
+                <Link href={"/onboard/welcome"}>Onboard - Welcome</Link>
+
+                <Link href={"/onboard/building"}>Onboard - Building</Link>
+                <Link href={"/onboard/reveal-ladder"}>Onboard - Reveal Ladder</Link>
             </View>
             <View style={[styles.onceYouSatisfiesWithYourGWrapper, styles.youWrapperPosition]}>
                 <Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`Once you satisfies with your gap filling, try to
@@ -510,7 +517,8 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     youWrapperPosition: {
-        height: 74,
+        // height: 74, - change here
+        height: 200,
         left: "50%",
         position: "absolute",
         overflow: "hidden",

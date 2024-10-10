@@ -1,26 +1,16 @@
 import * as React from "react";
-import {Text, StyleSheet, Image, Pressable, View} from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
-import {useNavigation, ParamListBase} from "@react-navigation/native";
+import {Text, StyleSheet, Image, View} from "react-native";
 
 const BuildingYourLadder = () => {
-    const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
     return (
-        <View style={[styles.buildingYourLadder, styles.iconLayout]}>
-            <Text style={styles.buildingYourPathway}>{`Building Your Pathway`}</Text>
-            <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
-                {/*<Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source="back arrow.png" />*/}
-            </Pressable>
+        <View style={styles.buildingYourLadder}>
+            <Text style={styles.buildingYourPathway}>{`Building Your\nPathway`}</Text>
             {/*<Image style={styles.buildingYourLadderChild} resizeMode="cover" source="Frame 1.png" />*/}
         </View>);
 };
 
 const styles = StyleSheet.create({
-    iconLayout: {
-        width: "100%",
-        overflow: "hidden"
-    },
     buildingYourPathway: {
         top: 477,
         left: 88,
@@ -30,18 +20,6 @@ const styles = StyleSheet.create({
         color: "#0d0140",
         textAlign: "center",
         width: 238,
-        position: "absolute"
-    },
-    icon: {
-        borderRadius: 10,
-        height: "100%",
-        overflow: "hidden"
-    },
-    backArrow: {
-        left: 33,
-        top: 21,
-        width: 28,
-        height: 28,
         position: "absolute"
     },
     buildingYourLadderChild: {
@@ -58,6 +36,7 @@ const styles = StyleSheet.create({
     buildingYourLadder: {
         backgroundColor: "#f9f9f9",
         flex: 1,
+        width: "100%",
         height: 896,
         overflow: "hidden"
     }
