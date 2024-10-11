@@ -18,7 +18,7 @@ const OnboadingChat = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const handleNext = () => {
-        navigation.navigate("questions/step3");
+        navigation.navigate("onboard/building");
     }
 
     return (
