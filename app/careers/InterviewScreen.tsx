@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { Button, Searchbar } from 'react-native-paper';
-import TabNavigation from '../../components/home_sub/TabNavigation';
 import { TouchableOpacity } from 'react-native';
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from '@react-navigation/stack';
+import { BACKEND_URL } from '@/config';
 
 interface InterviewScreenProps {}
 
@@ -43,7 +43,7 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
     setInterviewQuestions([]); // Clear previous questions
 
     try {
-      const response = await fetch(`http://localhost:6340/interview/questions`, {
+      const response = await fetch(`${BACKEND_URL}/interview/questions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,26 +67,33 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <br></br>
+      <View style={{ height: 20 }} /> {/* Adds space */}
       <Text style={styles.title}>Careers</Text>
       <View style={styles.tabContainer}>
-        <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel} onPress={() => navigation.navigate('job')}>Overview</Button>
-        <Button mode="contained" style={[styles.tabButton, styles.activeTab]} labelStyle={styles.activeButtonLabel} onPress={() => navigation.navigate('careers/InterviewScreen')}>Interviews</Button>
+        <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel} onPress={() => navigation.navigate('job')}>
+          Overview
+        </Button>
+        <Button mode="contained" style={[styles.tabButton, styles.activeTab]} labelStyle={styles.activeButtonLabel} onPress={() => navigation.navigate('careers/InterviewScreen')}>
+          Interviews
+        </Button>
       </View>
       <View style={styles.searchContainer}>
-        <Searchbar
-          style={styles.searchBar}
-          value={jobKeyword}
-          onChangeText={setJobKeyword}
-          placeholder="Search Interview"
-        />
-        <TouchableOpacity 
-          style={styles.getInterviewButton}
-          onPress={() => fetchInterviewQuestions(jobKeyword)}
-        >
-          <Text style={styles.getInterviewButtonText}>Get Interview</Text>
-        </TouchableOpacity>
-      </View>
+  <Searchbar
+    style={styles.searchBar}
+    value={jobKeyword}
+    onChangeText={setJobKeyword}
+    placeholder="Search Interview"
+    id="jobKeyword" // Unique ID for the input field
+    
+  />
+  <TouchableOpacity 
+    style={styles.getInterviewButton}
+    onPress={() => fetchInterviewQuestions(jobKeyword)}
+  >
+    <Text style={styles.getInterviewButtonText}>Get Interview</Text>
+  </TouchableOpacity>
+</View>
+
       {loading && <Text style={styles.loadingText}>Loading...</Text>}
       {error && <Text style={styles.errorText}>{error}</Text>}
       <View style={styles.questionsContainer}>
