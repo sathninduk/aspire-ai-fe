@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+    ActivityIndicator,
     Image,
     Keyboard,
     KeyboardAvoidingView,
@@ -62,9 +63,11 @@ const EnterYourDetails = () => {
                         <View style={[styles.nextWrapper, styles.nextWrapperLayout]}>
                             <Text style={styles.next}>Next</Text>
                         </View>
+                        {!loading ?
                         <Image style={[styles.riarrowUpSLineIcon, styles.nextWrapperLayout]} resizeMode="cover" source={
                             require("@/assets/images/onboard/next.png")
-                        }/>
+                        }/> : <ActivityIndicator style={[styles.riarrowUpSLineIcon, styles.nextWrapperLayout]} animating={true} color="#fff"/>
+                        }
                     </Pressable>
                     <View style={styles.emailParent}>
                         <View style={styles.email}>

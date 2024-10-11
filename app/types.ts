@@ -10,4 +10,6 @@ export type RootStackParamList = {
   "login/splash": undefined;
   "onboard/name": undefined;
   "onboard/check-employed": undefined;
+  "onboard/employment-details": undefined;
+  "onboard/check-status": undefined;
 };
