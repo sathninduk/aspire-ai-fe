@@ -97,7 +97,7 @@ const Pathway = () => {
                     {/*} />*/}
                     <Image style={[styles.iconSkill, styles.iconLayout1]} resizeMode="cover" source={require("@/assets/images/pathway/skill.png")}/>
                     {/*<Image style={styles.skillChild} resizeMode="cover" source="Vector 73.png" />*/}
-                    <Text style={[styles.skill1, styles.skill1Typo]}>Skill</Text>
+                    <Text style={[styles.skill1, styles.skill1Typo]}>Skills</Text>
                 </View>
                 <View style={styles.resume}>
                     <Image style={[styles.iconResume, styles.starLayout]} resizeMode="cover" source={
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     pathway: {
         flex: 1,
         width: "100%",
-        height: 1944,
+        height: 1300,
         overflow: "hidden",
         backgroundColor: "#f9f9f9"
     },
@@ -477,10 +477,10 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     leadership: {
-        marginTop: -41,
+        marginTop: 0,
         right: 178,
         height: 36,
-        top: "50%"
+        top: 241
     },
     seeMore: {
         color: "#7551ff",
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
     },
     leadership1: {
         left: 1,
-        top: 101,
+        top: 290,
         height: 36
     },
     icoutlineCloseIcon1: {
@@ -535,7 +535,7 @@ const styles = StyleSheet.create({
     iconSkill: {
         width: 26,
         left: 4,
-        top: 0
+        top: 157
     },
     skillChild: {
         top: 30,
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
     },
     skill1: {
         left: 40,
-        top: 2,
+        top: 160,
         position: "absolute"
     },
     leadershipInner: {
@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
         marginTop: -7
     },
     leadership2: {
-        top: 48,
+        top: 240,
         left: 183
     },
     rectangleIcon: {
@@ -600,17 +600,17 @@ const styles = StyleSheet.create({
     },
     leadership3: {
         left: 183,
-        top: 101
+        top: 195
     },
     leadership10: {
         left: 1,
-        top: 155
+        top: 195
     },
     skill: {
-        marginTop: -819,
+        marginTop: 0,
         right: 33,
         width: 351,
-        top: "50%"
+        top: 0,
     },
     pathwayChild: {
         top: 395,
@@ -901,7 +901,7 @@ const styles = StyleSheet.create({
         height: 16
     },
     seeMore3: {
-        top: 250
+        top: 220
     },
     resume: {
         top: 1015,
