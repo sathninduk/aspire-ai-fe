@@ -6,14 +6,32 @@ import Header from '@/components/skills/Header';
 import SearchBar from '@/components/skills/SearchBar';
 import CourseCard from '@/components/skills/CourseCard';
 import SpecializationCard from '@/components/skills/SpecializationCard';
+import Overview from '@/components/skills/Overview';
+import SkillBadge from '@/components/skills/SkillBadge';
 
 const TabSkillScreen = () => {
+  const [currentScreen, setCurrentScreen] = useState("viewed");
+
+  return (
+    <ScrollView style={styles.container}>
+      <Header active={currentScreen} onChange={(screen) => setCurrentScreen(screen)} />
+      {currentScreen == "viewed" ? <Viewed /> : null}
+      {currentScreen == "overview" ? <Overview /> : null}
+      {currentScreen == "sbadge" ? <SkillBadge /> : null}
+    </ScrollView>
+  );
+};
+
+const Viewed = () => {
   const [recommendedCourses, setRecommendedCourses] = useState<Course[]>([]); // Correctly typed array
 
   useEffect(() => {
     const fetchInitialCourses = async () => {
       try {
+        console.log("fetching courses")
         const courses = await fetchCourses('oracle sql');
+        console.log("courses", courses)
+
         setRecommendedCourses(courses);
       } catch (error) {
         console.error('Failed to fetch courses:', error);
@@ -33,8 +51,7 @@ const TabSkillScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Header />
+    <>
       <SearchBar onSearch={handleSearch} />
 
       <Text style={styles.sectionTitle}>Course Recommendations</Text>
@@ -50,11 +67,9 @@ const TabSkillScreen = () => {
         keyExtractor={(item) => item.url}
         contentContainerStyle={styles.courseList}
         scrollEnabled={false}
-      />
-    </ScrollView>
-  );
-};
-
+      /></>
+  )
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

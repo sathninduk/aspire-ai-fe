@@ -1,19 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Header = () => {
+const Header = ({ onChange, active }: { onChange: (screen: string) => void, active: string }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Skills</Text>
       <View style={styles.tabContainer}>
-        <TouchableOpacity>
-          <Text style={[styles.tab, styles.activeTab]}>Viewed</Text>
+        <TouchableOpacity onPress={() => onChange?.("viewed")}>
+          <Text style={[styles.tab, active === "viewed" ? styles.activeTab : {}]}>Viewed</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.tab}>Overview</Text>
+        <TouchableOpacity onPress={() => onChange?.("overview")}>
+          <Text style={[styles.tab, active === "overview" ? styles.activeTab : {}]} >Overview</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.tab}>Skill Badge</Text>
+        <TouchableOpacity onPress={() => onChange?.("sbadge")}>
+          <Text style={[styles.tab, [styles.tab, active === "sbadge" ? styles.activeTab : {}]]}>Skill Badge</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -2,13 +2,13 @@
 import axios from 'axios';
 
 // Define the structure of a course
-interface Course {
+export interface Course {
   title: string;
   url: string;
   source: string;
 }
 
-const API_URL = 'http://localhost:6340/course'; 
+const API_URL = 'http://172.28.24.89:6340/course'; 
 
 // Function to fetch courses with type annotations
 export const fetchCourses = async (keyword: string): Promise<Course[]> => {
