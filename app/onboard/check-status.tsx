@@ -6,10 +6,14 @@ import {useNavigation, ParamListBase} from "@react-navigation/native";
 const CurrentlyEmployedNo = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
+    const handleEmpDetails = () => {
+        navigation.navigate("onboard/welcome");
+    }
+
     return (
         <View style={[styles.currentlyEmployedNo, styles.iconLayout]}>
             <Text style={styles.selectYourCurrent}>{`Select Your Current\nStatus`}</Text>
-            <Pressable style={styles.currentlyEmployedNoInner} onPress={()=>{}}>
+            <Pressable style={styles.currentlyEmployedNoInner} onPress={handleEmpDetails}>
                 <View style={styles.nextParent}>
                     <Text style={styles.next}>Next</Text>
                     <Image style={styles.vectorIcon} resizeMode="cover"
