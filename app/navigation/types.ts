@@ -1,6 +1,6 @@
 // app/navigation/types.ts
 export type RootStackParamList = {
-  Login: undefined;
+  login: undefined;
   Onboarding1: undefined;
   Onboarding2: undefined;
   MainTabs: undefined;
