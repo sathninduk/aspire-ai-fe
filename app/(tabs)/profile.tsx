@@ -3,12 +3,13 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'rea
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
+import {ParamListBase, useNavigation} from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types'; // Adjust the path based on your structure
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { Link } from 'expo-router'; // Import the Link component
+import { Link } from 'expo-router';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 type ProfileScreenNavigationProp = CompositeNavigationProp<
@@ -18,6 +19,19 @@ type ProfileScreenNavigationProp = CompositeNavigationProp<
 
 export default function TabProfileScreen() {
     const navigation = useNavigation<ProfileScreenNavigationProp>(); // Specify the type for navigation
+
+    function logout() {
+        AsyncStorage.removeItem('isAuthenticated').then(() => {
+            AsyncStorage.removeItem('number').then(() => {
+                navigation.navigate('login');
+            });
+        });
+    }
+
+    const updateAiProfile = () => {
+        navigation.navigate('onboard/check-employed');
+    }
+
     return (
         <ScrollView style={styles.container}>
             {/* Header */}
@@ -69,7 +83,12 @@ export default function TabProfileScreen() {
                     <Text style={styles.menuText}>Preferences</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.menuItem}>
+                <TouchableOpacity style={styles.menuItem} onPress={updateAiProfile}>
+                    <Ionicons name="reload-sharp" size={20} color="#6c63ff" />
+                    <Text style={styles.menuText}>Update AI Profile</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.menuItem} onPress={logout}>
                     <Ionicons name="log-out-outline" size={20} color="#6c63ff" />
                     <Text style={styles.menuText}>Logout</Text>
                 </TouchableOpacity>
