@@ -8,7 +8,7 @@ const YourLadder = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const handleNext = () => {
-        navigation.navigate("index");
+        navigation.navigate("(tabs)");
     }
 
     return (

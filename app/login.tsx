@@ -28,17 +28,30 @@ const SignIn = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const checkNumber = () => {
+        if (phoneNumber === "") {
+            alert("Phone number cannot be empty");
+            return;
+        } else if (phoneNumber.length !== 10) {
+            alert("Invalid phone number");
+            return;
+        }
         setLoading(true);
         try {
             axios.get(`${BACKEND_URL}/user/${phoneNumber}`).then((res) => {
+                if (!res.data || res.data.length === 0) {
+                    alert("Unregistered phone number");
+                    return;
+                }
+
                 navigation.navigate("login/otp", { number: phoneNumber });
             }).catch((err) => {
                 if (err.message === "Request failed with status code 404") {
-                    setError("Unregistered phone number");
+                    alert("Unregistered phone number");
                 }
             });
         } catch (err) {
             console.error(err);
+            alert("Unexpected error occurred");
         } finally {
             setLoading(false);
         }

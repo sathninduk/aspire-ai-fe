@@ -26,6 +26,10 @@ const EnterYourDetails = () => {
     const [loading, setLoading] = React.useState(false);
 
     const submitName = async () => {
+        if (fullname === "" || username === "") {
+            alert("Please enter your full name and username");
+            return;
+        }
         setLoading(true);
         if (fullname.length === 0 || username.length === 0) {
             alert("Please enter your full name and username");
