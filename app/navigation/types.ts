@@ -6,4 +6,5 @@ export type RootStackParamList = {
   MainTabs: undefined;
   Filter: undefined;
   EditProfile: undefined;
+  EditBio: undefined;
 };

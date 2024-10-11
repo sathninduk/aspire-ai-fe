@@ -4,8 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types'; // Adjust this import as necessary
-import {useNavigation, ParamListBase} from "@react-navigation/native";
-
+import { Link } from 'expo-router'; // Import the Link component
 
 // Define the navigation prop type
 type EditProfileScreenProps = {
@@ -15,12 +14,12 @@ type EditProfileScreenProps = {
 
 // Functional component
 const EditProfileScreen: React.FC<EditProfileScreenProps> = ({ navigation }) => {
-    const [name, setName] = useState('Sathindu Kottage');
+    const [name, setName] = useState('Sathnindu Kottage');
     const [location, setLocation] = useState('Colombo, Sri Lanka');
-    const [aboutMe, setAboutMe] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+    const [aboutMe, setAboutMe] = useState('I am a passionate software architect with more than 6+ years in the Industry.');
     const [jobTitle, setJobTitle] = useState('Software Architect');
     const [company, setCompany] = useState('CodeGen International');
-    const [educationDegree, setEducationDegree] = useState('Information Technology');
+    const [educationDegree, setEducationDegree] = useState('Information Technology Specialized in Software Engineering');
     const [school, setSchool] = useState('Sri Lanka Institute of Information Technology');
 
     const handleSave = () => {
@@ -32,27 +31,19 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = ({ navigation }) => 
         <ScrollView style={styles.container}>
             {/* Header */}
             <View style={styles.headerContainer}>
-                <View style={styles.profileContainer}>
-                    <Image
-                        source={{ uri: 'https://randomuser.me/api/portraits/men/32.jpg' }} // Replace with your image URL
-                        style={styles.profileImage}
-                    />
-                    <View style={styles.profileDetails}>
-                        <TextInput
-                            style={styles.nameInput}
-                            value={name}
-                            onChangeText={setName}
-                        />
-                        <TextInput
-                            style={styles.locationInput}
-                            value={location}
-                            onChangeText={setLocation}
-                        />
-                    </View>
-                </View>
-                <TouchableOpacity style={styles.editButton} onPress={handleSave}>
-                    <Ionicons name="save" size={20} color="#fff" />
-                </TouchableOpacity>
+                <Image
+                    source={{ uri: 'https://randomuser.me/api/portraits/men/32.jpg' }} // Replace with actual image URL
+                    style={styles.profileImage}
+                />
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.location}>{location}</Text>
+                <Link 
+                    href="/profile/editBio" // Set the href to the EditBio route
+                    style={styles.editButton} // Apply the same styles as before
+                >
+                    <Ionicons name="pencil" size={20} color="#fff" />
+                    <Text style={styles.editText}>Edit Bio</Text>
+                </Link>
             </View>
 
             {/* About Me Section */}
@@ -152,37 +143,38 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         backgroundColor: '#6c63ff',
-        borderRadius: 20,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
         padding: 20,
-        marginBottom: 20,
-        position: 'relative',
-    },
-    profileContainer: {
-        flexDirection: 'row',
         alignItems: 'center',
     },
     profileImage: {
-        width: 60,
-        height: 60,
-        borderRadius: 30,
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        marginBottom: 10,
     },
-    profileDetails: {
-        marginLeft: 10,
-    },
-    nameInput: {
+    name: {
         color: '#fff',
+        fontSize: 18,
         fontWeight: 'bold',
-        fontSize: 20,
-        backgroundColor: 'transparent',
     },
-    locationInput: {
+    location: {
         color: '#d0d0d0',
-        backgroundColor: 'transparent',
+        marginBottom: 10,
     },
     editButton: {
-        position: 'absolute',
-        right: 20,
-        top: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#4d47ff',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 20,
+        marginTop: 10,
+    },
+    editText: {
+        color: '#fff',
+        marginLeft: 5,
     },
     section: {
         backgroundColor: '#f5f5f5',
