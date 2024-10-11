@@ -2,6 +2,7 @@ import * as React from "react";
 import { Text, StyleSheet, Image, View, Pressable, ScrollView, FlatList } from "react-native";
 import { Ionicons } from '@expo/vector-icons'; // For the "X" close button
 import CourseCard from '@/components/skills/CourseCard'; // Single course card
+import { Link } from "expo-router";
 
 const recommendedCourses = [1, 2, 3]; // Placeholder data
 
@@ -41,9 +42,10 @@ const Pathway = () => {
               </Pressable>
             </View>
           </View>
-          <Pressable style={styles.seeMorePressable}>
+          <Link href="/(tabs)/skill"
+          style={styles.seeMorePressable}>
             <Text style={styles.seeMore}>See more</Text>
-          </Pressable>
+          </Link>
         </View>
 
         {/* Course Recommendations */}
@@ -56,9 +58,10 @@ const Pathway = () => {
           scrollEnabled={false} // Disable scrolling inside FlatList, since it's inside a ScrollView
           
         />
-        <Pressable style={styles.seeMorePressable}>
+        <Link href="/(tabs)/skill"
+         style={styles.seeMorePressable}>
             <Text style={styles.seeMore}>See more</Text>
-          </Pressable>
+          </Link>
 
         {/* Viewed Courses */}
         <View style={styles.courseSection}>
@@ -75,9 +78,10 @@ const Pathway = () => {
               <Text style={styles.courseAuthor}>Silverdole Selvester</Text>
             </View>
           </View>
-          <Pressable style={styles.seeMorePressable}>
+          <Link href="/(tabs)/skill"
+           style={styles.seeMorePressable}>
             <Text style={styles.seeMore}>See more</Text>
-          </Pressable>
+          </Link>
         </View>
 
         {/* Add spacing here */}
@@ -115,9 +119,10 @@ const Pathway = () => {
             </View>
           </View>
 
-          <Pressable style={styles.seeMorePressable}>
+          <Link href="/(tabs)/job"
+           style={styles.seeMorePressable}>
             <Text style={styles.seeMore}>See more</Text>
-          </Pressable>
+          </Link>
         </View>
       </View>
     </ScrollView>
