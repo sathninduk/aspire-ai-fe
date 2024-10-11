@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Pressable, StyleSheet, Text, TextInput, View} from "react-native";
+import {KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {RootStackParamList} from "@/app/types";
 import {StackNavigationProp} from "@react-navigation/stack";
@@ -15,7 +15,7 @@ const SignupOtpVerification = () => {
         if (otpValue.length !== 4) {
             alert("Please enter a valid OTP");
             return;
-        } else if(otpValue !== "1234") {
+        } else if (otpValue !== "1234") {
             alert("Please enter a valid OTP");
         } else {
             return navigation.navigate('login/splash');
@@ -23,43 +23,60 @@ const SignupOtpVerification = () => {
     }
 
     return (
-        <View style={styles.otpVerfication}>
-            <Text style={styles.verifyYourNumber}>Verify Your Number</Text>
-            {/*<Image style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
-            <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to +94 711427657</Text>
-            <View style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, {backgroundColor: '#6A41FF'}]}/>
-            <View style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, {backgroundColor: '#150B3D'}]}/>
-            <View
-                style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
-            <View style={[styles.otpPad, {width: '83%'}]}>
-                <TextInput
-                    style={[
-                        styles.childLayout,
-                        styles.inputStyle,
-                        {
-                            width: '100%',
-                            textAlign: "center",
-                        }
-                    ]}
-                    placeholder="Enter OTP"
-                    placeholderTextColor="rgba(13,1,64,0.60)"
-                    value={otpValue}
-                    onChangeText={(text) => {
-                        if (text.length <= 4) {
-                            setOtpValue(text);
-                        }
-                    }}
-                    keyboardType="phone-pad"
-                />
-            </View>
-            <Pressable style={styles.nextParent} onPress={submitOTP}>
-                <Text style={[styles.next, styles.nextTypo]}>Next</Text>
-                {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
-            </Pressable>
-        </View>);
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <View style={styles.otpVerfication}>
+                    <Text style={styles.verifyYourNumber}>Verify Your Number</Text>
+                    {/*<Image style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+                    <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to +94
+                        711427657</Text>
+                    <View
+                        style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, {backgroundColor: '#6A41FF'}]}/>
+                    <View
+                        style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, {backgroundColor: '#150B3D'}]}/>
+                    <View
+                        style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
+                    <View style={[styles.otpPad, {width: '83%'}]}>
+                        <TextInput
+                            style={[
+                                styles.childLayout,
+                                styles.inputStyle,
+                                {
+                                    width: '100%',
+                                    textAlign: "center",
+                                }
+                            ]}
+                            placeholder="Enter OTP"
+                            placeholderTextColor="rgba(13,1,64,0.60)"
+                            value={otpValue}
+                            onChangeText={(text) => {
+                                if (text.length <= 4) {
+                                    setOtpValue(text);
+                                }
+                            }}
+                            keyboardType="phone-pad"
+                        />
+                    </View>
+                    <Pressable style={styles.nextParent} onPress={submitOTP}>
+                        <Text style={[styles.next, styles.nextTypo]}>Next</Text>
+                        {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+                    </Pressable>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+    },
     inputStyle: {
         fontSize: 15,
         paddingHorizontal: 20,
