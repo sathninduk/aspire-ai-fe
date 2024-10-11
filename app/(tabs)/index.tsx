@@ -16,6 +16,19 @@ const Pathway = () => {
         }]
     });
 
+    const [loadingJobs, setLoadingJobs] = React.useState(true);
+    const [loadingCourses, setLoadingCourses] = React.useState(true);
+    const [jobsData, setJobsData] = React.useState([{
+        title: '',
+        company: '',
+        location: '',
+    }, {
+        title: '',
+        company: '',
+        location: '',
+    }])
+    const [coursesData, setCoursesData] = React.useState([])
+
     const getUserData = async () => {
         const number = await AsyncStorage.getItem('number');
         try {
@@ -29,8 +42,36 @@ const Pathway = () => {
         }
     }
 
+    const getJobs = async () => {
+        const number = await AsyncStorage.getItem('number');
+        try {
+            axios.get(`${BACKEND_URL}/job/personalized?number=${number}`).then(res => {
+                setJobsData(res.data)
+            });
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoadingJobs(false);
+        }
+    }
+
+    const getCourses = async () => {
+        const number = await AsyncStorage.getItem('number');
+        try {
+            axios.get(`${BACKEND_URL}/course/personalized?number=${number}`).then(res => {
+                setCoursesData(res.data)
+            });
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoadingCourses(false);
+        }
+    }
+
     useEffect(() => {
         getUserData();
+        getJobs();
+        getCourses();
     }, []);
 
     const truncateText = (text: string, maxLength: number) => {
@@ -107,10 +148,8 @@ const Pathway = () => {
                     <Text style={[styles.jobOpenings, styles.jobOpeningsClr]}>Job Openings</Text>
                     <View style={[styles.uiuxDesignerParent, styles.uiuxLayout]}>
                         <View style={[styles.uiuxDesigner, styles.uiuxLayout]}>
-                            <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>Senior Software
-                                Engineer</Text>
-                            <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>CodeGen | Colombo, Sri
-                                Lanka</Text>
+                            <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[0].title}</Text>
+                            <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[0].company}</Text>
                         </View>
                         {/*<Image style={styles.cg1Icon} resizeMode="cover" source="cg 1.png" />*/}
                     </View>
@@ -120,8 +159,8 @@ const Pathway = () => {
                     </Pressable>
                 </View>
                 <View style={[styles.vectorParent, styles.groupInnerLayout]}>
-                    <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>IFS | Colombo, Sri Lanka</Text>
-                    <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>Associate Technical Lead</Text>
+                    <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[1].title}</Text>
+                    <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[1].company}</Text>
                 </View>
                 <View style={[styles.ellipseParent, styles.parentShadowBox]}>
                     {/*<Image style={styles.frameItem} resizeMode="cover" source="Ellipse 139.png" />*/}
@@ -135,7 +174,7 @@ const Pathway = () => {
                             <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
                         </View>
                         {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
-                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX\nDesign`}</Text>
+                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX Design`}</Text>
                     </View>
                     {/*<Image style={styles.frameChild1} resizeMode="cover" source="Rectangle 6438.png" />*/}
                 </View>
@@ -151,8 +190,7 @@ const Pathway = () => {
                             <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
                         </View>
                         {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
-                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX
-      			Design `}</Text>
+                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX Design`}</Text>
                     </View>
                 </View>
                 <Pressable style={[styles.seeMore5, styles.seePosition]} onPress={() => {
@@ -397,7 +435,7 @@ const styles = StyleSheet.create({
         top: 147,
         fontSize: 18,
         color: "#000",
-        left: 12
+        left: 160
     },
     iconLayout: {
         width: 22,
@@ -644,7 +682,7 @@ const styles = StyleSheet.create({
     },
     silverdoleSelvester: {
         top: 89,
-        left: 185,
+        left: 84,
         lineHeight: 15,
         textTransform: "uppercase",
         fontFamily: "DM Sans",
@@ -663,7 +701,7 @@ const styles = StyleSheet.create({
     },
     basicsOfUiux: {
         top: 66,
-        left: 123,
+        left: 20,
         fontSize: 24,
         lineHeight: 30,
         color: "#fff"
