@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Text, StyleSheet, Image, View, Pressable} from "react-native";
 
-const OtpVerfication = () => {
+const SignupOtpVerification = () => {
 
     return (
         <View style={styles.otpVerfication}>
@@ -176,4 +176,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default OtpVerfication;
+export default SignupOtpVerification;

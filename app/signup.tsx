@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useState } from "react";
 import {
+    ActivityIndicator,
     Image,
-    Keyboard,
     KeyboardAvoidingView,
     Platform,
     Pressable,
@@ -10,13 +10,35 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    TouchableWithoutFeedback,
     View
 } from "react-native";
-import { formatPhoneNumber } from "react-phone-number-input";
+import { BACKEND_URL } from "@/config";
+import axios from "axios";
+import { MD2Colors } from "react-native-paper";
+import { useNavigation } from '@react-navigation/native';
+import {RootStackParamList} from "@/app/types";
+import {StackNavigationProp} from "@react-navigation/stack";
 
-const SignIn = () => {
+type SignUpScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignUp'>;
+
+const SignUp: React.FC = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [loading, setLoading] = useState<boolean>(false);
+    const navigation = useNavigation<SignUpScreenNavigationProp>();
+
+    const createAccount = async () => {
+        setLoading(true);
+        try {
+            await axios.post(`${BACKEND_URL}/signup`, { number: phoneNumber })
+                .then((response) => {
+                    return navigation.navigate('signup/otp');
+                });
+        } catch (error) {
+            console.error('Error fetching search results:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <KeyboardAvoidingView
@@ -65,10 +87,13 @@ const SignIn = () => {
                     }]}/>
                     <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
                     <View style={[styles.signInChild1, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
-                    <Pressable style={[styles.verifyYourNumberParent, styles.parentFlexBox]} onPress={() => {}}>
+                    <Pressable style={[styles.verifyYourNumberParent, styles.parentFlexBox]} onPress={createAccount}>
                         <Text style={[styles.verifyYourNumber, styles.text2Typo]}>Verify Your Number</Text>
+                        {!loading ?
                         <Image style={styles.riarrowIconLayout} resizeMode="cover"
-                               source={require('@/assets/images/signin/arrow-up-s-line.svg')}/>
+                               source={require('@/assets/images/signin/arrow-up-s-line.svg')}/> :
+                            <ActivityIndicator animating={true} color={MD2Colors.white} />
+                            }
                     </Pressable>
                 </View>
             </ScrollView>
@@ -281,4 +306,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SignIn;
+export default SignUp;
