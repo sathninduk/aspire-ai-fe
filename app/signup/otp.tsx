@@ -1,7 +1,26 @@
 import * as React from "react";
-import {Text, StyleSheet, Image, View, Pressable} from "react-native";
+import {Pressable, StyleSheet, Text, TextInput, View} from "react-native";
+import {useNavigation} from "@react-navigation/native";
+import {RootStackParamList} from "@/app/types";
+import {StackNavigationProp} from "@react-navigation/stack";
+
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'signup/otp'>;
 
 const SignupOtpVerification = () => {
+
+    const [otpValue, setOtpValue] = React.useState("");
+    const navigation = useNavigation<ScreenNavigationProp>();
+
+    const submitOTP = () => {
+        if (otpValue.length !== 4) {
+            alert("Please enter a valid OTP");
+            return;
+        } else if(otpValue !== "1234") {
+            alert("Please enter a valid OTP");
+        } else {
+            return navigation.navigate('login/splash');
+        }
+    }
 
     return (
         <View style={styles.otpVerfication}>
@@ -10,22 +29,30 @@ const SignupOtpVerification = () => {
             <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to +94 711427657</Text>
             <View style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, {backgroundColor: '#6A41FF'}]}/>
             <View style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, {backgroundColor: '#150B3D'}]}/>
-            <View style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
-            <View style={styles.otpPad}>
-                <View style={[styles.otpPadInner, styles.otpPosition]}>
-                    <View style={[styles.frameChild, styles.frameBorder]} />
-                </View>
-                <View style={[styles.otpPadChild, styles.otpPosition]}>
-                    <View style={[styles.frameChild, styles.frameBorder]} />
-                </View>
-                <View style={[styles.frameView, styles.otpPosition]}>
-                    <View style={styles.rectangleWrapper}>
-                        <View style={[styles.frameInner, styles.frameBorder]} />
-                    </View>
-                </View>
-                <View style={[styles.otpPadItem, styles.frameBorder]} />
+            <View
+                style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
+            <View style={[styles.otpPad, {width: '83%'}]}>
+                <TextInput
+                    style={[
+                        styles.childLayout,
+                        styles.inputStyle,
+                        {
+                            width: '100%',
+                            textAlign: "center",
+                        }
+                    ]}
+                    placeholder="Enter OTP"
+                    placeholderTextColor="rgba(13,1,64,0.60)"
+                    value={otpValue}
+                    onChangeText={(text) => {
+                        if (text.length <= 4) {
+                            setOtpValue(text);
+                        }
+                    }}
+                    keyboardType="phone-pad"
+                />
             </View>
-            <Pressable style={styles.nextParent} onPress={()=>{}}>
+            <Pressable style={styles.nextParent} onPress={submitOTP}>
                 <Text style={[styles.next, styles.nextTypo]}>Next</Text>
                 {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
             </Pressable>
@@ -33,6 +60,19 @@ const SignupOtpVerification = () => {
 };
 
 const styles = StyleSheet.create({
+    inputStyle: {
+        fontSize: 15,
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: "rgba(13,1,64,0.20)",
+    },
+    childLayout: {
+        height: 50,
+        borderRadius: 10,
+        position: "absolute"
+    },
     riarrowIconLayout: {
         height: 32,
         width: 35,
@@ -132,7 +172,6 @@ const styles = StyleSheet.create({
     otpPad: {
         top: 670,
         left: 36,
-        width: 341,
         height: 56,
         position: "absolute"
     },
