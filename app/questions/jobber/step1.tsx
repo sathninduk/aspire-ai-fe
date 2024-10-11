@@ -18,7 +18,7 @@ const OnboadingChat = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const handleNext = () => {
-        navigation.navigate("questions/step4");
+        navigation.navigate("questions/jobber/step2");
     }
 
     return (
@@ -43,8 +43,9 @@ const OnboadingChat = () => {
                     </View>
                     <Text style={[styles.aspireai, styles.nextTypo]}>AspireAI</Text>
                     <View style={[styles.chat2, styles.chat2Layout]}>
-                        <Text style={[styles.canYouBriefly, styles.nextTypo]}>Are you interested in transitioning to a
-                            new field, advancing in your current role, or exploring different job opportunities?</Text>
+                        <Text style={[styles.canYouBriefly, styles.nextTypo]}>Can you briefly describe your current
+                            career situation? Are you currently working, studying, or looking for new
+                            opportunities?</Text>
                     </View>
                     <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
                         <Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source={
