@@ -40,6 +40,10 @@ const SignUp: React.FC = () => {
         }
     };
 
+    const handleSigninLink = () => {
+        navigation.navigate('login');
+    }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -54,7 +58,7 @@ const SignUp: React.FC = () => {
                                 <Text style={styles.dontHaveAn}>Already have an account?</Text>
                                 <Text style={styles.text1Typo}>{` `}</Text>
                             </Text>
-                            <Text style={styles.text1Typo}>
+                            <Text style={styles.text1Typo} onPress={handleSigninLink}>
                                 <Text style={styles.sign}>Sign In</Text>
                             </Text>
                         </Text>

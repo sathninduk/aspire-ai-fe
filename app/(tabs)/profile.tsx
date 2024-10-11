@@ -28,6 +28,10 @@ export default function TabProfileScreen() {
         });
     }
 
+    const updateAiProfile = () => {
+        navigation.navigate('onboard/check-employed');
+    }
+
     return (
         <ScrollView style={styles.container}>
             {/* Header */}
@@ -77,6 +81,11 @@ export default function TabProfileScreen() {
                 <TouchableOpacity style={styles.menuItem}>
                     <MaterialIcons name="settings" size={20} color="#6c63ff" />
                     <Text style={styles.menuText}>Preferences</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.menuItem} onPress={updateAiProfile}>
+                    <Ionicons name="reload-sharp" size={20} color="#6c63ff" />
+                    <Text style={styles.menuText}>Update AI Profile</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.menuItem} onPress={logout}>

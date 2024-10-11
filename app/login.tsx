@@ -44,6 +44,10 @@ const SignIn = () => {
         }
     }
 
+    const handleSignupLink = () => {
+        navigation.navigate("signup");
+    }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -58,7 +62,7 @@ const SignIn = () => {
                                 <Text style={styles.dontHaveAn}>Don’t have an account yet?</Text>
                                 <Text style={styles.text1Typo}>{` `}</Text>
                             </Text>
-                            <Text style={styles.text1Typo}>
+                            <Text style={styles.text1Typo} onPress={handleSignupLink}>
                                 <Text style={styles.sign}> Sign Up</Text>
                             </Text>
                         </Text>

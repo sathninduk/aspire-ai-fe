@@ -33,15 +33,15 @@ export default function TabLayout() {
               ),
           }}
       />
-      <Tabs.Screen
-        name="ai"
-        options={{
-          title: 'AI',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'star' : 'star-outline'} color={color} />
-          ),
-        }}
-      />
+      {/*<Tabs.Screen*/}
+      {/*  name="ai"*/}
+      {/*  options={{*/}
+      {/*    title: 'AI',*/}
+      {/*    tabBarIcon: ({ color, focused }) => (*/}
+      {/*      <TabBarIcon name={focused ? 'star' : 'star-outline'} color={color} />*/}
+      {/*    ),*/}
+      {/*  }}*/}
+      {/*/>*/}
       <Tabs.Screen
           name="job"
           options={{
