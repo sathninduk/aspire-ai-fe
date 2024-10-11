@@ -1,47 +1,79 @@
 import * as React from "react";
-import {Text, StyleSheet, Image, View, Pressable} from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
-import {useNavigation, ParamListBase} from "@react-navigation/native";
+import {ActivityIndicator, Image, Pressable, StyleSheet, Text, View} from "react-native";
+import {StackNavigationProp} from '@react-navigation/stack';
+import {ParamListBase, useNavigation} from "@react-navigation/native";
+import {BACKEND_URL} from "@/config";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CurrentlyEmployedNo = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+    const [isStudent, setIsStudent] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
-    const handleEmpDetails = () => {
-        navigation.navigate("onboard/welcome");
+    const handleStatus = async () => {
+        setLoading(true);
+        const number = await AsyncStorage.getItem("number");
+        try {
+            axios.put(`${BACKEND_URL}/user/status`, {
+                number,
+                isStudent,
+                isJobSeeker: !isStudent
+            }).then(() => {
+                navigation.navigate("onboard/welcome");
+            })
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
         <View style={[styles.currentlyEmployedNo, styles.iconLayout]}>
             <Text style={styles.selectYourCurrent}>{`Select Your Current\nStatus`}</Text>
-            <Pressable style={styles.currentlyEmployedNoInner} onPress={handleEmpDetails}>
+            <Pressable style={styles.currentlyEmployedNoInner} onPress={handleStatus}>
                 <View style={styles.nextParent}>
                     <Text style={styles.next}>Next</Text>
-                    <Image style={styles.vectorIcon} resizeMode="cover"
-                    source={
-                        require("@/assets/images/onboard/next.png")
-                    }
-                    />
+                    {!loading ?
+                        <Image style={styles.vectorIcon} resizeMode="cover"
+                               source={
+                                   require("@/assets/images/onboard/next.png")
+                               }/> : <ActivityIndicator style={styles.vectorIcon} animating={true} color="#fff"/>}
                 </View>
             </Pressable>
             <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
                 <Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source={
                     require("@/assets/images/onboard/back_arrow.png")
-                } />
+                }/>
             </Pressable>
             <View style={styles.progressBar}>
-                <View style={[styles.track, styles.barPosition]} />
-                <View style={[styles.bar, styles.barPosition]} />
+                <View style={[styles.track, styles.barPosition]}/>
+                <View style={[styles.bar, styles.barPosition]}/>
             </View>
             <View style={[styles.currentlyEmployedNoChild, styles.ball, {backgroundColor: "#130160"}]}/>
             <View style={[styles.currentlyEmployedNoItem, styles.ball, {backgroundColor: "#6A41FF"}]}/>
             <View style={styles.buttonRemoveSave}>
-                <Pressable style={[styles.save, styles.saveChildLayout]} onPress={() => navigation.navigate("CurrentlyEmployedNo")}>
-                    <View style={[styles.saveChild, styles.saveChildLayout]} />
-                    <Text style={[styles.jobSeeker, styles.studentTypo]}>Job Seeker</Text>
+                <Pressable style={[styles.save, styles.saveChildLayout]}
+                           onPress={() => setIsStudent(false)}>
+                    <View style={[
+                        !isStudent ? styles.saveChild : styles.removeChild, // active
+                        styles.saveChildLayout,
+                        {borderTopRightRadius: 14, borderBottomRightRadius: 14}
+                    ]}/>
+                    <Text style={[
+                        !isStudent ? styles.jobSeeker : styles.student, // active
+                        styles.studentTypo, {marginLeft: -42}]}>Job Seeker</Text>
                 </Pressable>
-                <Pressable style={[styles.remove, styles.saveChildLayout]} onPress={()=>{}}>
-                    <View style={[styles.removeChild, styles.saveChildLayout]} />
-                    <Text style={[styles.student, styles.studentTypo]}>Student</Text>
+                <Pressable style={[styles.remove, styles.saveChildLayout]} onPress={() => setIsStudent(true)}>
+                    <View style={[
+                        isStudent ? styles.saveChild : styles.removeChild, // inactive
+                        styles.saveChildLayout,
+                        {borderTopLeftRadius: 14, borderBottomLeftRadius: 14}
+                    ]}/>
+                    <Text style={[
+                        isStudent ? styles.jobSeeker : styles.student, // inactive
+                        styles.studentTypo, {marginLeft: -30}]}>Student</Text>
                 </Pressable>
             </View>
         </View>);
@@ -185,26 +217,20 @@ const styles = StyleSheet.create({
         shadowRadius: 62,
         elevation: 62,
         shadowOpacity: 1,
-        borderTopRightRadius: 14,
-        borderBottomRightRadius: 14,
         backgroundColor: "#130160",
         left: 0
     },
     jobSeeker: {
-        marginLeft: -42,
         color: "#fff"
     },
     save: {
         left: 160
     },
     removeChild: {
-        borderTopLeftRadius: 14,
-        borderBottomLeftRadius: 14,
         backgroundColor: "#d6cdfe",
         left: 0
     },
     student: {
-        marginLeft: -30,
         color: "#130160"
     },
     remove: {
