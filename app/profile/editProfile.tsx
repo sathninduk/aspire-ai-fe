@@ -171,6 +171,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 20,
         marginTop: 10,
+         position: 'absolute', // Use absolute positioning
+    right: 30, // Align to the right
+    top: 125, // Adjust the top position if necessary
     },
     editText: {
         color: '#fff',
