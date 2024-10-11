@@ -78,21 +78,20 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
         </Button>
       </View>
       <View style={styles.searchContainer}>
-  <Searchbar
-    style={styles.searchBar}
-    value={jobKeyword}
-    onChangeText={setJobKeyword}
-    placeholder="Search Interview"
-    id="jobKeyword" // Unique ID for the input field
-    
-  />
-  <TouchableOpacity 
-    style={styles.getInterviewButton}
-    onPress={() => fetchInterviewQuestions(jobKeyword)}
-  >
-    <Text style={styles.getInterviewButtonText}>Get Interview</Text>
-  </TouchableOpacity>
-</View>
+        <Searchbar
+          style={styles.searchBar}
+          value={jobKeyword}
+          onChangeText={setJobKeyword}
+          placeholder="Search Interview"
+          id="jobKeyword" // Unique ID for the input field
+        />
+        <TouchableOpacity 
+          style={styles.getInterviewButton}
+          onPress={() => fetchInterviewQuestions(jobKeyword)}
+        >
+          <Text style={styles.getInterviewButtonText}>Get Interview</Text>
+        </TouchableOpacity>
+      </View>
 
       {loading && <Text style={styles.loadingText}>Loading...</Text>}
       {error && <Text style={styles.errorText}>{error}</Text>}
