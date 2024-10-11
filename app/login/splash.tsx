@@ -1,7 +1,17 @@
 import * as React from "react";
 import {Image, StyleSheet, Text, View, Pressable} from "react-native";
+import {useNavigation} from "@react-navigation/native";
+import {StackNavigationProp} from "@react-navigation/stack";
+import {RootStackParamList} from "@/app/types";
+
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'login/splash'>;
 
 const SplashScreen = () => {
+    const navigation = useNavigation<ScreenNavigationProp>();
+
+    const nextScreen = () => {
+        navigation.navigate('onboard/name');
+    }
 
     return (
         <View style={styles.splashScreen}>
@@ -13,9 +23,8 @@ const SplashScreen = () => {
             <View style={[styles.splashScreenItem, styles.splashLayout, styles.ball, {backgroundColor: '#6646E1'}]} />
             <View style={[styles.splashScreenInner, styles.splashLayout, styles.ball, {backgroundColor: '#130160'}]} />
             <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: '#6A41FF'}]} />
-            <Pressable style={styles.continueParent} onPress={()=>{}}>
+            <Pressable style={styles.continueParent} onPress={nextScreen}>
                 <Text style={[styles.continue, styles.continueTypo]}>Continue</Text>
-                {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
             </Pressable>
         </View>);
 };

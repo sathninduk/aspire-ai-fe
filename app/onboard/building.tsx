@@ -1,7 +1,24 @@
 import * as React from "react";
-import {Text, StyleSheet, Image, View} from "react-native";
+import {useEffect} from "react";
+import {StyleSheet, Text, View} from "react-native";
+import {ParamListBase, useNavigation} from "@react-navigation/native";
+import {StackNavigationProp} from "@react-navigation/stack";
 
 const BuildingYourLadder = () => {
+
+    const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+
+    const handleNext = () => {
+        navigation.navigate("onboard/reveal-ladder");
+    }
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            handleNext();
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
         <View style={styles.buildingYourLadder}>

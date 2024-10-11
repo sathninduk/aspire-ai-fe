@@ -1,38 +1,57 @@
 import * as React from "react";
-import {Text, StyleSheet, Image, View, Pressable} from "react-native";
+import {KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
 
-const OtpVerfication = () => {
+const OtpVerification = () => {
 
     return (
-        <View style={styles.otpVerfication}>
-            <Text style={styles.verifyYourNumber}>Verify Your Number</Text>
-            {/*<Image style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
-            <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to +94 711427657</Text>
-            <View style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, {backgroundColor: '#6A41FF'}]}/>
-            <View style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, {backgroundColor: '#150B3D'}]}/>
-            <View style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
-            <View style={styles.otpPad}>
-                <View style={[styles.otpPadInner, styles.otpPosition]}>
-                    <View style={[styles.frameChild, styles.frameBorder]} />
-                </View>
-                <View style={[styles.otpPadChild, styles.otpPosition]}>
-                    <View style={[styles.frameChild, styles.frameBorder]} />
-                </View>
-                <View style={[styles.frameView, styles.otpPosition]}>
-                    <View style={styles.rectangleWrapper}>
-                        <View style={[styles.frameInner, styles.frameBorder]} />
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <View style={styles.otpVerfication}>
+                    <Text style={styles.verifyYourNumber}>Verify Your Number</Text>
+                    {/*<Image style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+                    <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to +94
+                        711427657</Text>
+                    <View
+                        style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, {backgroundColor: '#6A41FF'}]}/>
+                    <View
+                        style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, {backgroundColor: '#150B3D'}]}/>
+                    <View
+                        style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
+                    <View style={styles.otpPad}>
+                        <View style={[styles.otpPadInner, styles.otpPosition]}>
+                            <View style={[styles.frameChild, styles.frameBorder]}/>
+                        </View>
+                        <View style={[styles.otpPadChild, styles.otpPosition]}>
+                            <View style={[styles.frameChild, styles.frameBorder]}/>
+                        </View>
+                        <View style={[styles.frameView, styles.otpPosition]}>
+                            <View style={styles.rectangleWrapper}>
+                                <View style={[styles.frameInner, styles.frameBorder]}/>
+                            </View>
+                        </View>
+                        <View style={[styles.otpPadItem, styles.frameBorder]}/>
                     </View>
+                    <Pressable style={styles.nextParent} onPress={() => {
+                    }}>
+                        <Text style={[styles.next, styles.nextTypo]}>Next</Text>
+                        {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
+                    </Pressable>
                 </View>
-                <View style={[styles.otpPadItem, styles.frameBorder]} />
-            </View>
-            <Pressable style={styles.nextParent} onPress={()=>{}}>
-                <Text style={[styles.next, styles.nextTypo]}>Next</Text>
-                {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
-            </Pressable>
-        </View>);
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+    },
     riarrowIconLayout: {
         height: 32,
         width: 35,
@@ -176,4 +195,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default OtpVerfication;
+export default OtpVerification;
