@@ -1,10 +1,11 @@
 import * as React from "react";
 import {
+    ActivityIndicator,
     Image,
     Keyboard,
     KeyboardAvoidingView,
     Platform,
-    Pressable,
+    Pressable, ScrollView,
     StyleSheet,
     Text,
     TextInput,
@@ -13,27 +14,54 @@ import {
 } from "react-native";
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ParamListBase, useNavigation} from "@react-navigation/native";
+import axios from "axios";
+import {BACKEND_URL} from "@/config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CurrentlyEmployedYes = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
+    const [title, setTitle] = React.useState("");
+    const [company, setCompany] = React.useState("");
+    const [loading, setLoading] = React.useState(false);
+
+    const handleEmpDetails = async () => {
+        setLoading(true);
+        const number = await AsyncStorage.getItem("number");
+        try {
+            axios.put(`${BACKEND_URL}/user/job-details`, {
+                number,
+                title,
+                company
+            }).then(() => {
+                navigation.navigate("onboard/welcome");
+            })
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{flex: 1}}
+            style={styles.container}
         >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.currentlyEmployedYes}>
                     <Text style={styles.enterYourEmployment}>{`Enter Your Employment Details`}</Text>
-                    <Pressable style={[styles.frameParent, styles.frameParentLayout]} onPress={() => {
-                    }}>
+                    <Pressable style={[styles.frameParent, styles.frameParentLayout]} onPress={handleEmpDetails}>
                         <View style={[styles.nextWrapper, styles.whatsPosition]}>
                             <Text style={[styles.next, styles.whatsTypo]}>Next</Text>
                         </View>
-                        <Image style={[styles.riarrowUpSLineIcon, styles.riarrowUpSLineIconPosition]} resizeMode="cover"
-                               source={
-                                   require("@/assets/images/onboard/next.png")
-                               }/>
+                        {!loading ?
+                            <Image style={[styles.riarrowUpSLineIcon, styles.riarrowUpSLineIconPosition]} resizeMode="cover"
+                                   source={
+                                       require("@/assets/images/onboard/next.png")
+                                   }/> :
+                            <ActivityIndicator style={[styles.riarrowUpSLineIcon, styles.riarrowUpSLineIconPosition]} animating={true} color="#fff"/>
+                        }
                     </Pressable>
                     <Pressable style={[styles.backArrow, styles.backArrowPosition]} onPress={() => navigation.goBack()}>
                         <Image style={styles.icon} resizeMode="cover"
@@ -45,6 +73,9 @@ const CurrentlyEmployedYes = () => {
                     <View style={[styles.email, styles.emailLayout]}>
                         <TextInput
                             style={[styles.emailChild, styles.whatsPosition, styles.inputStyle]}
+                            keyboardType={"default"}
+                            value={company}
+                            onChangeText={setCompany}
                             placeholder="Enter your company"
                             placeholderTextColor="rgba(13,1,64,0.60)"
                         />
@@ -54,6 +85,8 @@ const CurrentlyEmployedYes = () => {
                         <Text style={[styles.whatsYourJob, styles.whatsTypo]}>What’s Your Job Title?</Text>
                         <TextInput
                             style={[styles.emailChild, styles.whatsPosition, styles.inputStyle]}
+                            value={title}
+                            onChangeText={setTitle}
                             placeholder="Enter your job title"
                             placeholderTextColor="rgba(13,1,64,0.60)"
                         />
@@ -65,12 +98,18 @@ const CurrentlyEmployedYes = () => {
                     <View style={[styles.currentlyEmployedYesChild, styles.ball, {backgroundColor: "#130160"}]}/>
                     <View style={[styles.currentlyEmployedYesItem, styles.ball, {backgroundColor: "#6A41FF"}]}/>
                 </View>
-            </TouchableWithoutFeedback>
+            </ScrollView>
         </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+    },
     inputStyle: {
         fontSize: 15,
         paddingHorizontal: 20,
