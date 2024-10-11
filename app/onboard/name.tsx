@@ -1,10 +1,11 @@
 import * as React from "react";
 import {
+    ActivityIndicator,
     Image,
     Keyboard,
     KeyboardAvoidingView,
     Platform,
-    Pressable,
+    Pressable, ScrollView,
     StyleSheet,
     Text,
     TextInput,
@@ -13,50 +14,87 @@ import {
 } from "react-native";
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ParamListBase, useNavigation} from "@react-navigation/native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {BACKEND_URL} from "@/config";
 
 const EnterYourDetails = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
+    const [fullname, setFullname] = React.useState("");
+    const [username, setUsername] = React.useState("");
+    const [loading, setLoading] = React.useState(false);
+
+    const submitName = async () => {
+        setLoading(true);
+        if (fullname.length === 0 || username.length === 0) {
+            alert("Please enter your full name and username");
+            setLoading(false);
+        } else {
+            try {
+                const number = await AsyncStorage.getItem("number");
+                axios.put(`${BACKEND_URL}/user/name`, {
+                    number,
+                    name: fullname,
+                    username
+                }).then((response) => {
+                    navigation.navigate("onboard/check-employed");
+                })
+            } catch(e) {
+                console.log(e);
+            } finally {
+                setLoading(false);
+            }
+        }
+    }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{flex: 1}}
+            style={styles.container}
         >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.enterYourDetails}>
                     <View style={styles.progressBar}>
                         <View style={styles.track}/>
                         <View style={styles.bar}/>
                     </View>
-                    <Pressable style={styles.frameParent} onPress={() => {
-                    }}>
+                    <Pressable style={styles.frameParent} onPress={submitName}>
                         <View style={[styles.nextWrapper, styles.nextWrapperLayout]}>
                             <Text style={styles.next}>Next</Text>
                         </View>
+                        {!loading ?
                         <Image style={[styles.riarrowUpSLineIcon, styles.nextWrapperLayout]} resizeMode="cover" source={
                             require("@/assets/images/onboard/next.png")
-                        }/>
+                        }/> : <ActivityIndicator style={[styles.riarrowUpSLineIcon, styles.nextWrapperLayout]} animating={true} color="#fff"/>
+                        }
                     </Pressable>
                     <View style={styles.emailParent}>
                         <View style={styles.email}>
                             <Text style={[styles.whatsYourUsername, styles.whatsTypo]}>What’s Your Username ?</Text>
                             <TextInput
                                 style={[styles.emailChild, styles.childLayout, styles.inputStyle]}
+                                value={username}
+                                onChangeText={setUsername}
                                 placeholder="Enter your username"
                                 placeholderTextColor="rgba(13,1,64,0.60)"
+                                keyboardType={"default"}
                             />
                         </View>
                         <View style={styles.fullName}>
                             <Text style={[styles.whatsYourFull, styles.whatsTypo]}>What’s Your Full Name?</Text>
-                                <TextInput
-                                    style={[
-                                        styles.emailChild,
-                                        styles.childLayout,
-                                        styles.inputStyle
-                                    ]}
-                                    placeholder="Enter your full name"
-                                    placeholderTextColor="rgba(13,1,64,0.60)"
-                                />
+                            <TextInput
+                                style={[
+                                    styles.emailChild,
+                                    styles.childLayout,
+                                    styles.inputStyle
+                                ]}
+                                value={fullname}
+                                onChangeText={setFullname}
+                                placeholder="Enter your full name"
+                                placeholderTextColor="rgba(13,1,64,0.60)"
+                                keyboardType={"default"}
+                            />
                         </View>
                         <Text style={[styles.enterYourDetails1, styles.whatsTypo]}>Enter Your Details</Text>
                         <Image style={styles.groupChild} resizeMode="cover" source={
@@ -74,12 +112,18 @@ const EnterYourDetails = () => {
                     <View style={[styles.enterYourDetailsChild, styles.ball, {backgroundColor: "#130160"}]}/>
                     <View style={[styles.enterYourDetailsItem, styles.ball, {backgroundColor: "#6A41FF"}]}/>
                 </View>
-            </TouchableWithoutFeedback>
+            </ScrollView>
         </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+    },
     ball: {
         borderRadius: 1000,
     },

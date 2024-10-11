@@ -1,38 +1,95 @@
 import * as React from "react";
-import {Text, StyleSheet, Image, View, Pressable} from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { RootStackParamList } from "@/app/types";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const OtpVerfication = () => {
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'signup/otp'>;
+type SignupOtpRouteProp = RouteProp<RootStackParamList, 'signup/otp'>;
+
+const SignupOtpVerification: React.FC = () => {
+    const [otpValue, setOtpValue] = React.useState("");
+    const navigation = useNavigation<ScreenNavigationProp>();
+    const route = useRoute<SignupOtpRouteProp>();
+    const { number } = route.params;
+
+    const submitOTP = async () => {
+        if (otpValue.length !== 4) {
+            alert("Please enter a valid OTP");
+            return;
+        } else if (otpValue !== "1234") {
+            alert("Please enter a valid OTP");
+        } else {
+            await AsyncStorage.setItem("isAuthenticated", "true");
+            await AsyncStorage.setItem("number", number);
+            navigation.navigate('login/splash');
+        }
+    }
 
     return (
-        <View style={styles.otpVerfication}>
-            <Text style={styles.verifyYourNumber}>Verify Your Number</Text>
-            {/*<Image style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
-            <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to +94 711427657</Text>
-            <View style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, {backgroundColor: '#6A41FF'}]}/>
-            <View style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, {backgroundColor: '#150B3D'}]}/>
-            <View style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
-            <View style={styles.otpPad}>
-                <View style={[styles.otpPadInner, styles.otpPosition]}>
-                    <View style={[styles.frameChild, styles.frameBorder]} />
-                </View>
-                <View style={[styles.otpPadChild, styles.otpPosition]}>
-                    <View style={[styles.frameChild, styles.frameBorder]} />
-                </View>
-                <View style={[styles.frameView, styles.otpPosition]}>
-                    <View style={styles.rectangleWrapper}>
-                        <View style={[styles.frameInner, styles.frameBorder]} />
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <View style={styles.otpVerfication}>
+                    <Text style={styles.verifyYourNumber}>Verify Your Number</Text>
+                    <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to {number}</Text>
+                    <View style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, { backgroundColor: '#6A41FF' }]} />
+                    <View style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, { backgroundColor: '#150B3D' }]} />
+                    <View style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, { backgroundColor: '#6A41FF' }]} />
+                    <View style={[styles.otpPad, { width: '83%' }]}>
+                        <TextInput
+                            style={[
+                                styles.childLayout,
+                                styles.inputStyle,
+                                {
+                                    width: '100%',
+                                    textAlign: "center",
+                                }
+                            ]}
+                            placeholder="Enter OTP"
+                            placeholderTextColor="rgba(13,1,64,0.60)"
+                            value={otpValue}
+                            onChangeText={(text) => {
+                                if (text.length <= 4) {
+                                    setOtpValue(text);
+                                }
+                            }}
+                            keyboardType="phone-pad"
+                        />
                     </View>
+                    <Pressable style={styles.nextParent} onPress={submitOTP}>
+                        <Text style={[styles.next, styles.nextTypo]}>Next</Text>
+                    </Pressable>
                 </View>
-                <View style={[styles.otpPadItem, styles.frameBorder]} />
-            </View>
-            <Pressable style={styles.nextParent} onPress={()=>{}}>
-                <Text style={[styles.next, styles.nextTypo]}>Next</Text>
-                {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
-            </Pressable>
-        </View>);
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+    },
+    inputStyle: {
+        fontSize: 15,
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: "rgba(13,1,64,0.20)",
+    },
+    childLayout: {
+        height: 50,
+        borderRadius: 10,
+        position: "absolute"
+    },
     riarrowIconLayout: {
         height: 32,
         width: 35,
@@ -132,7 +189,6 @@ const styles = StyleSheet.create({
     otpPad: {
         top: 670,
         left: 36,
-        width: 341,
         height: 56,
         position: "absolute"
     },
@@ -176,4 +232,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default OtpVerfication;
+export default SignupOtpVerification;
