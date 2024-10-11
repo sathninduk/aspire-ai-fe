@@ -5,4 +5,5 @@ export type RootStackParamList = {
   Onboarding2: undefined;
   MainTabs: undefined;
   Filter: undefined;
+  EditProfile: undefined;
 };
