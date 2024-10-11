@@ -31,7 +31,7 @@ const SignUp: React.FC = () => {
         try {
             await axios.post(`${BACKEND_URL}/signup`, { number: phoneNumber })
                 .then((response) => {
-                    return navigation.navigate('signup/otp');
+                    return navigation.navigate('signup/otp', {number: phoneNumber});
                 });
         } catch (error) {
             console.error('Error fetching search results:', error);

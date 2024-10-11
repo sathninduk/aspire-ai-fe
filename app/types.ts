@@ -5,8 +5,11 @@ export type RootStackParamList = {
   Onboarding2: undefined;
   MainTabs: undefined;
   SignUp: undefined;
-  SignupOtpVerification: undefined;
-  "signup/otp": undefined;
+  SignupOtpVerification: { number: string };
+  "signup/otp": { number: string };
   "login/splash": undefined;
   "onboard/name": undefined;
+  "onboard/check-employed": undefined;
+  "onboard/employment-details": undefined;
+  "onboard/check-status": undefined;
 };
