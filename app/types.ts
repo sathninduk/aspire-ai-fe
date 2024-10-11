@@ -12,4 +12,12 @@ export type RootStackParamList = {
   "onboard/check-employed": undefined;
   "onboard/employment-details": undefined;
   "onboard/check-status": undefined;
+  "questions/step1": undefined;
+  "questions/step2": undefined;
+  "questions/step3": undefined;
+  "questions/step4": undefined;
+  "questions/step5": undefined;
+  "onboard/welcome": undefined;
+  "onboard/building": undefined;
+  "onboard/reveal-ladder": undefined;
 };

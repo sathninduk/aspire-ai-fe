@@ -17,6 +17,10 @@ import {ParamListBase, useNavigation} from "@react-navigation/native";
 const OnboadingChat = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
+    const handleNext = () => {
+        navigation.navigate("questions/step4");
+    }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -25,8 +29,7 @@ const OnboadingChat = () => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={[styles.onboadingChat1, styles.iconLayout]}>
                     <View style={styles.groupParent}>
-                        <Pressable style={[styles.frameWrapper, styles.nextParentLayout]} onPress={() => {
-                        }}>
+                        <Pressable style={[styles.frameWrapper, styles.nextParentLayout]} onPress={handleNext}>
                             <View style={[styles.nextParent, styles.nextParentPosition]}>
                                 <Text style={[styles.next, styles.nextTypo]}>Next</Text>
                                 <Image style={styles.vectorIcon} resizeMode="cover" source={
@@ -181,7 +184,7 @@ const styles = StyleSheet.create({
         color: "#524b6b",
         height: 40,
         textAlign: "left",
-        fontSize: 14,
+        fontSize: 16,
         fontFamily: "DM Sans",
         fontWeight: "700",
         left: 0,

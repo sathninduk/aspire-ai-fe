@@ -1,14 +1,21 @@
 import * as React from "react";
 import {Pressable, StyleSheet, Text, View} from "react-native";
+import {ParamListBase, useNavigation} from "@react-navigation/native";
+import {StackNavigationProp} from "@react-navigation/stack";
 
 const YourLadder = () => {
+
+    const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+
+    const handleNext = () => {
+        navigation.navigate("index");
+    }
 
     return (
         <View style={styles.yourLadder}>
             <Text style={[styles.aspireai, styles.aspireaiTypo]}>AspireAI</Text>
             <Text style={[styles.continueToSee, styles.aspireaiClr]}>Continue to see your pathway</Text>
-            <Pressable style={styles.menuBar} onPress={() => {
-            }}>
+            <Pressable style={styles.menuBar} onPress={handleNext}>
                 <View style={styles.continueParent}>
                     <Text style={styles.continue}>Continue</Text>
                 </View>

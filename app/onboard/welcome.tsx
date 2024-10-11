@@ -5,11 +5,13 @@ import {useNavigation, ParamListBase} from "@react-navigation/native";
 
 const Welcome = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
-
+    const handleNext = () => {
+        navigation.navigate("questions/step1");
+    }
     return (
         <View style={[styles.welcome, styles.iconLayout]}>
             <Text style={[styles.helloLouisWelcome, styles.nextTypo]}>{`Hello Louis Welcome\nTo AspireAI`}</Text>
-            <Pressable style={[styles.welcomeInner, styles.nextParentLayout]} onPress={()=>{}}>
+            <Pressable style={[styles.welcomeInner, styles.nextParentLayout]} onPress={handleNext}>
                 <View style={[styles.nextParent, styles.nextParentLayout]}>
                     <Text style={[styles.next, styles.nextTypo]}>Next</Text>
                     <Image style={styles.vectorIcon} resizeMode="cover" source={
