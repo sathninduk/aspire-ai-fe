@@ -36,7 +36,8 @@ const CurrentlyEmployed = () => {
 
     return (
         <View style={[styles.currentyEmployed, styles.iconLayout]}>
-            <Text style={styles.areYouCurrently}>{`Are you currently employed or have you been employed in the past?`}</Text>
+            <Text style={styles.areYouCurrently}>{`Are you currently\nemployed?`}</Text>
+            <Text style={styles.areYouCurrently2}>{`or have you been employed in the past?`}</Text>
             <Pressable onPress={handleEmployed}>
                 <View style={styles.frameParent}>
                     <View style={[styles.nextWrapper, styles.saveChildBg]}>
@@ -126,6 +127,16 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         position: "absolute"
     },
+    areYouCurrently2: {
+        top: 240,
+        left: 34,
+        fontSize: 16,
+        color: "#9880ff",
+        textAlign: "left",
+        fontFamily: "DM Sans",
+        fontWeight: "700",
+        position: "absolute"
+    },
     next: {
         lineHeight: 24,
         color: "#fff",
@@ -205,7 +216,7 @@ const styles = StyleSheet.create({
     },
     no: {
         marginLeft: -11.53,
-        color: "#7559ff",
+        color: "#130160",
     },
     save: {
         left: 173

@@ -73,7 +73,7 @@ const CurrentlyEmployedNo = () => {
                     ]}/>
                     <Text style={[
                         isStudent ? styles.jobSeeker : styles.student, // inactive
-                        styles.studentTypo, {marginLeft: -30}]}>Student</Text>
+                        styles.studentTypo, {marginLeft: -30}]}>Studying</Text>
                 </Pressable>
             </View>
         </View>);
