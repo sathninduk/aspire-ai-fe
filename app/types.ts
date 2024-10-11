@@ -7,4 +7,6 @@ export type RootStackParamList = {
   SignUp: undefined;
   SignupOtpVerification: undefined;
   "signup/otp": undefined;
+  "login/splash": undefined;
+  "onboard/name": undefined;
 };
