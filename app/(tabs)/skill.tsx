@@ -1,54 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
+import { fetchCourses } from '@/app/services/courseService'; // Now it's a TypeScript file
 
-import Header from '@/components/skills/Header.jsx'; // Tab buttons section
-import SearchBar from '@/components/skills/SearchBar'; // Search bar with filter button
-import CourseCard from '@/components/skills/CourseCard'; // Single course card
-import SpecializationCard from '@/components/skills/SpecializationCard'; // Card for each specialization
+import Header from '@/components/skills/Header';
+import SearchBar from '@/components/skills/SearchBar';
+import CourseCard from '@/components/skills/CourseCard';
+import SpecializationCard from '@/components/skills/SpecializationCard';
 
 const TabSkillScreen = () => {
-  const specializations = [
-    { id: '1', title: 'Design', courses: 140 },
-    { id: '2', title: 'Finance', courses: 250 },
-    { id: '3', title: 'Education', courses: 120 },
-    { id: '4', title: 'Restaurant', courses: 85 },
-    { id: '5', title: 'Health', courses: 235 },
-    { id: '6', title: 'Programmer', courses: 412 },
-  ];
+  const [recommendedCourses, setRecommendedCourses] = useState<Course[]>([]); // Correctly typed array
 
-  const recommendedCourses = [1, 2, 3]; // Placeholder data
+  useEffect(() => {
+    const fetchInitialCourses = async () => {
+      try {
+        const courses = await fetchCourses('oracle sql');
+        setRecommendedCourses(courses);
+      } catch (error) {
+        console.error('Failed to fetch courses:', error);
+      }
+    };
+
+    fetchInitialCourses();
+  }, []);
+
+  const handleSearch = async (keyword: string) => {
+    try {
+      const courses = await fetchCourses(keyword);
+      setRecommendedCourses(courses);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
-      <Header /> {/* Header with tabs (Overview, Viewed, Skill Badge) */}
-      
-      <View style={styles.topSearchedContainer}>
-        <Text style={styles.sectionTitle}>Top Searched Courses</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {["Data Science", "Digital Marketing", "SEO Basics", "Time Management", "Public Speaking"].map((course, index) => (
-            <View key={index} style={styles.tag}>
-              <Text style={styles.tagText}>{course}</Text>
-            </View>
-          ))}
-        </ScrollView>
-      </View>
-
-      <SearchBar /> {/* Search bar component */}
-
-      <Text style={styles.sectionTitle}>Specialization</Text>
-      <View style={styles.specializationsContainer}>
-        {specializations.map((spec) => (
-          <SpecializationCard key={spec.id} title={spec.title} courses={spec.courses} />
-        ))}
-      </View>
+      <Header />
+      <SearchBar onSearch={handleSearch} />
 
       <Text style={styles.sectionTitle}>Course Recommendations</Text>
       <FlatList
         data={recommendedCourses}
-        renderItem={() => <CourseCard />}
-        keyExtractor={(item) => item.toString()}
+        renderItem={({ item }) => (
+          <CourseCard
+            title={item.title}
+            url={item.url}
+            source={item.source}
+          />
+        )}
+        keyExtractor={(item) => item.url}
         contentContainerStyle={styles.courseList}
-        scrollEnabled={false} // Disable scrolling inside FlatList, since it's inside a ScrollView
+        scrollEnabled={false}
       />
     </ScrollView>
   );
@@ -60,29 +61,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 16,
   },
-  topSearchedContainer: {
-    marginVertical: 16,
-  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#3A3A3A',
     marginVertical: 8,
-  },
-  tag: {
-    backgroundColor: '#F2F2F2',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    marginRight: 8,
-  },
-  tagText: {
-    color: '#3A3A3A',
-  },
-  specializationsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
   },
   courseList: {
     paddingVertical: 16,

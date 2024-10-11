@@ -1,7 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const SpecializationCard = ({ title, courses }) => {
+// Define the types for the props
+interface SpecializationCardProps {
+  title: string;
+  courses: number;
+}
+
+const SpecializationCard: React.FC<SpecializationCardProps> = ({ title, courses }) => {
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{title}</Text>
