@@ -23,10 +23,12 @@ const Pathway = () => {
         position: '',
         company: '',
         location: '',
+        url: '',
     }, {
         position: '',
         company: '',
         location: '',
+        url: '',
     }])
     const [coursesData, setCoursesData] = React.useState([
         {
@@ -165,23 +167,27 @@ const Pathway = () => {
                         <ActivityIndicator style={[styles.uiuxDesignerParent, styles.uiuxLayout]} animating={true} color="#000"/> :
                     <View style={[styles.uiuxDesignerParent, styles.uiuxLayout]}>
                         <View style={[styles.uiuxDesigner, styles.uiuxLayout]}>
-                            <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[0].position}</Text>
-                            <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[0].company}</Text>
+                            {/* @ts-ignore */}
+                            <Link href={jobsData[0].url} style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[0].position}</Link>
+                            {/* @ts-ignore */}
+                            <Link href={jobsData[0].url} style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[0].company}</Link>
                         </View>
                         {/*<Image style={styles.cg1Icon} resizeMode="cover" source="cg 1.png" />*/}
                     </View>
                     }
-                    <Pressable style={[styles.seeMore3, styles.seePosition]} onPress={() => {
-                    }}>
-                        <Text style={[styles.seeMore4, styles.seeTypo]}>See more</Text>
-                    </Pressable>
+                    <View style={[styles.seeMore3, styles.seePosition]}>
+                        {/* @ts-ignore*/}
+                        <Link href={"/skill"} style={[styles.seeMore4, styles.seeTypo]}>See more</Link>
+                    </View>
                 </View>
                 {loadingJobs ?
                     <></>
                     : jobsData.length > 1 &&
                     <View style={[styles.vectorParent, styles.groupInnerLayout]}>
-                    <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[1].position}</Text>
-                    <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[1].company}</Text>
+                    {/* @ts-ignore */}
+                    <Link href={jobsData[1].url} style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[1].position}</Link>
+                    {/* @ts-ignore */}
+                    <Link href={jobsData[1].url} style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[1].company}</Link>
                 </View>}
                 <View style={[styles.ellipseParent, styles.parentShadowBox]}>
                     {/*<Image style={styles.frameItem} resizeMode="cover" source="Ellipse 139.png" />*/}
@@ -218,7 +224,8 @@ const Pathway = () => {
                 </View>
                 <Pressable style={[styles.seeMore5, styles.seePosition]} onPress={() => {
                 }}>
-                    <Text style={[styles.seeMore6, styles.seeTypo]}>See more</Text>
+                    {/* @ts-ignore*/}
+                    <Link href={"/job"} style={[styles.seeMore6, styles.seeTypo]}>See more</Link>
                 </Pressable>
                 <Image style={[styles.editIcon, styles.iconLayout]} resizeMode="cover" source={
                     require("@/assets/images/pathway/viewed_courses.png")
@@ -439,6 +446,8 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     parentShadowBox: {
+        borderWidth: 1,
+        borderColor: "rgba(0, 0, 0, 0.1)",
         height: 214,
         backgroundColor: "#fff",
         shadowOpacity: 1,
@@ -456,7 +465,7 @@ const styles = StyleSheet.create({
     },
     basicsPosition: {
         top: 165,
-        fontSize: 18,
+        fontSize: 14,
         color: "#000",
         left: 160
     },
