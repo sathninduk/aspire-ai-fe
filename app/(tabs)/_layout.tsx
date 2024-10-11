@@ -4,10 +4,11 @@ import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import {useAuthRedirect} from "@/app/hooks/useAuthRedirect";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  useAuthRedirect();
   return (
     <Tabs
       screenOptions={{

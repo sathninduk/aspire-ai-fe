@@ -1,9 +1,10 @@
 import * as React from "react";
 import {Text, StyleSheet, Image, View, Pressable, ScrollView} from "react-native";
 import {Link} from "expo-router";
+import {useEffect} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Pathway = () => {
-
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.pathway}>
@@ -219,23 +220,6 @@ const Pathway = () => {
                 {/*<Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`You might need to fill below gaps for your career enhancement`}</Text>*/}
                 <Link href={"/login"}>Login</Link>
                 <Link href={"/signup"}>Sign up</Link>
-                <Link href={"/login/otp"}>Login - OTP</Link>
-                <Link href={"/signup/otp"}>Sign Up - OTP</Link>
-                <Link href={"/login/splash"}>Login - splash</Link>
-                <Link href={"/onboard/name"}>Onboard - name</Link>
-                <Link href={"/onboard/check-employed"}>Onboard - Check Employed</Link>
-                <Link href={"/onboard/employment-details"}>Onboard - Employment Details</Link>
-                <Link href={"/onboard/check-status"}>Onboard - Check Status</Link>
-                <Link href={"/onboard/welcome"}>Onboard - Welcome</Link>
-
-                <Link href={"/onboard/building"}>Onboard - Building</Link>
-                <Link href={"/onboard/reveal-ladder"}>Onboard - Reveal Ladder</Link>
-
-                <Link href={"/questions/step1"}>Questions - Step 1</Link>
-                <Link href={"/questions/step2"}>Questions - Step 2</Link>
-                <Link href={"/questions/step3"}>Questions - Step 3</Link>
-                <Link href={"/questions/step4"}>Questions - Step 4</Link>
-                <Link href={"/questions/step5"}>Questions - Step 5</Link>
             </View>
             <View style={[styles.onceYouSatisfiesWithYourGWrapper, styles.youWrapperPosition]}>
                 <Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`Once you satisfies with your gap filling, try to
@@ -525,8 +509,8 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     youWrapperPosition: {
-        // height: 74, - change here
-        height: 400,
+        height: 74, //- change here
+        // height: 400,
         left: "50%",
         position: "absolute",
         overflow: "hidden",
