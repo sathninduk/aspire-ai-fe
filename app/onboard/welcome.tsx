@@ -1,22 +1,58 @@
 import * as React from "react";
-import {Text, StyleSheet, Image, View, Pressable} from "react-native";
+import {Text, StyleSheet, Image, View, Pressable, ActivityIndicator} from "react-native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import {useNavigation, ParamListBase} from "@react-navigation/native";
+import {useEffect} from "react";
+import axios from "axios";
+import {BACKEND_URL} from "@/config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Welcome = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+    const [userData, setUserData] = React.useState<any>({});
+    const [firstName, setFirstName] = React.useState<string>("");
+    const [loading, setLoading] = React.useState<boolean>(false);
+
+    const getUserData = async () => {
+        setLoading(true);
+        const number = await AsyncStorage.getItem("number");
+        try {
+            axios.get(`${BACKEND_URL}/user/${number}`).then((response) => {
+                setUserData(response.data);
+                setFirstName(response.data.name.split(' ')[0]);
+            })
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getUserData();
+    }, []);
+
     const handleNext = () => {
-        navigation.navigate("questions/step1");
+        if (!loading && userData) {
+            if (userData.isEmployed) {
+                navigation.navigate("questions/jobber/step1");
+            } else if (userData.isStudent) {
+                navigation.navigate("questions/student/step1");
+            } else if (userData.isJobSeeker) {
+                navigation.navigate("questions/seeker/step1");
+            }
+        }
     }
     return (
         <View style={[styles.welcome, styles.iconLayout]}>
-            <Text style={[styles.helloLouisWelcome, styles.nextTypo]}>{`Hello Louis Welcome\nTo AspireAI`}</Text>
+            <Text style={[styles.helloLouisWelcome, styles.nextTypo]}>{`Hello ${firstName}!\nWelcome to AspireAI`}</Text>
             <Pressable style={[styles.welcomeInner, styles.nextParentLayout]} onPress={handleNext}>
                 <View style={[styles.nextParent, styles.nextParentLayout]}>
                     <Text style={[styles.next, styles.nextTypo]}>Next</Text>
+                    {!loading ?
                     <Image style={styles.vectorIcon} resizeMode="cover" source={
                         require("@/assets/images/onboard/next.png")
-                    } />
+                    } /> : <ActivityIndicator style={styles.vectorIcon} animating={true} color="#fff"/>}
                 </View>
             </Pressable>
             <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>

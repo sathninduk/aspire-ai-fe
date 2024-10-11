@@ -48,11 +48,14 @@ export default function RootLayout() {
                 <Stack.Screen name="onboard/reveal-ladder" options={{headerShown: false}}/>
 
                 {/* questions */}
-                <Stack.Screen name="questions/step1" options={{headerShown: false}}/>
-                <Stack.Screen name="questions/step2" options={{headerShown: false}}/>
-                <Stack.Screen name="questions/step3" options={{headerShown: false}}/>
-                <Stack.Screen name="questions/step4" options={{headerShown: false}}/>
-                <Stack.Screen name="questions/step5" options={{headerShown: false}}/>
+                <Stack.Screen name="questions/jobber/step1" options={{headerShown: false}}/>
+                <Stack.Screen name="questions/jobber/step2" options={{headerShown: false}}/>
+
+                <Stack.Screen name="questions/student/step1" options={{headerShown: false}}/>
+                <Stack.Screen name="questions/student/step2" options={{headerShown: false}}/>
+
+                <Stack.Screen name="questions/seeker/step1" options={{headerShown: false}}/>
+                <Stack.Screen name="questions/seeker/step2" options={{headerShown: false}}/>
 
                 {/* skills */}
 

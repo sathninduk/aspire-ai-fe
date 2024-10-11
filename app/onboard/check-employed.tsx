@@ -36,7 +36,7 @@ const CurrentlyEmployed = () => {
 
     return (
         <View style={[styles.currentyEmployed, styles.iconLayout]}>
-            <Text style={styles.areYouCurrently}>{`Are You Currently\nEmployed?`}</Text>
+            <Text style={styles.areYouCurrently}>{`Are you currently employed or have you been employed in the past?`}</Text>
             <Pressable onPress={handleEmployed}>
                 <View style={styles.frameParent}>
                     <View style={[styles.nextWrapper, styles.saveChildBg]}>
