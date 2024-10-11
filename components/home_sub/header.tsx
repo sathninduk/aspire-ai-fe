@@ -1,31 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Button, Searchbar, IconButton } from 'react-native-paper';
-import { TouchableOpacity } from "react-native";
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from "@/app/navigation/types";
-import JobCard from './JobCard';  // Import the JobCard component
+import JobCard from './JobCard';  
 import { BACKEND_URL } from '@/config';
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const JobSkillsHomeScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [personalizedJobs, setPersonalizedJobs] = useState<any[]>([]); // New state for personalized jobs
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const location = "Remote";
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
   useEffect(() => {
+    const fetchPersonalizedJobs = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Get the number from AsyncStorage
+        const number = await AsyncStorage.getItem("number");
+
+        if (!number) {
+          throw new Error("No phone number found in storage.");
+        }
+
+        const response = await fetch(`${BACKEND_URL}/job/personalized?keyword=Senior Software Engineer&location=${encodeURIComponent(location)}&page=1&number=${encodeURIComponent(number)}`);
+        
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        setPersonalizedJobs(data);
+      } catch (error) {
+        console.error('Error fetching personalized jobs:', error);
+        setError('Failed to fetch personalized jobs, please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const fetchSearchResults = async () => {
       if (searchQuery.trim() === '') {
         setSearchResults([]);
         return;
       }
-    
+
       setLoading(true);
       setError(null);
-    
+
       try {
         const response = await fetch(`${BACKEND_URL}/job?keyword=${encodeURIComponent(searchQuery)}&location=${encodeURIComponent(location)}&page=1`);
         if (!response.ok) {
@@ -40,7 +69,15 @@ const JobSkillsHomeScreen: React.FC = () => {
         setLoading(false);
       }
     };
-    const debounceTimeout = setTimeout(fetchSearchResults, 300); 
+
+    const debounceTimeout = setTimeout(() => {
+      if (searchQuery.trim() === '') {
+        fetchPersonalizedJobs(); // Fetch personalized jobs if search query is empty
+      } else {
+        fetchSearchResults(); // Fetch search results otherwise
+      }
+    }, 300);
+
     return () => clearTimeout(debounceTimeout);
   }, [searchQuery]);
 
@@ -49,9 +86,9 @@ const JobSkillsHomeScreen: React.FC = () => {
       <Text style={styles.title}>Careers</Text>
 
       <View style={styles.tabContainer}>
-        <Button mode="contained" style={[styles.tabButton, styles.activeTab]} labelStyle={styles.activeButtonLabel}>Overview</Button>
+        <Button mode="contained" style={[styles.tabButton, styles.activeTab]} labelStyle={styles.activeButtonLabel} onPress={() => navigation.navigate('job')}>Overview</Button>
         <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel}>Viewed</Button>
-        <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel}>Interviews</Button>
+        <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel} onPress={() => navigation.navigate('careers/InterviewScreen')}>Interviews</Button>
       </View>
 
       <View style={styles.searchContainer}>
@@ -64,7 +101,7 @@ const JobSkillsHomeScreen: React.FC = () => {
         <IconButton
           icon="filter-outline" 
           size={38}
-          onPress={() => navigation.navigate('Filter')} // Navigate to the FilterScreen
+          onPress={() => navigation.navigate('careers/filter')}
           style={styles.filterButton}
           iconColor="#FFFFFF" 
         />
@@ -73,9 +110,9 @@ const JobSkillsHomeScreen: React.FC = () => {
       {loading && <Text>Loading...</Text>}
       {error && <Text style={styles.errorText}>{error}</Text>}
 
-      {searchResults.length > 0 && (
+      {(searchResults.length > 0 ? searchResults : personalizedJobs).length > 0 && (
         <View style={styles.resultsContainer}>
-          {searchResults.map((result, index) => (
+          {(searchResults.length > 0 ? searchResults : personalizedJobs).map((result, index) => (
             <JobCard
               key={index}
               position={result.position}
