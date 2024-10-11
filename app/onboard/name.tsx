@@ -13,12 +13,39 @@ import {
 } from "react-native";
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ParamListBase, useNavigation} from "@react-navigation/native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {BACKEND_URL} from "@/config";
 
 const EnterYourDetails = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const [fullname, setFullname] = React.useState("");
     const [username, setUsername] = React.useState("");
+    const [loading, setLoading] = React.useState(false);
+
+    const submitName = async () => {
+        setLoading(true);
+        if (fullname.length === 0 || username.length === 0) {
+            alert("Please enter your full name and username");
+            setLoading(false);
+        } else {
+            try {
+                const number = await AsyncStorage.getItem("number");
+                axios.put(`${BACKEND_URL}/user/name`, {
+                    number,
+                    name: fullname,
+                    username
+                }).then((response) => {
+                    navigation.navigate("onboard/check-employed");
+                })
+            } catch(e) {
+                console.log(e);
+            } finally {
+                setLoading(false);
+            }
+        }
+    }
 
     return (
         <KeyboardAvoidingView
@@ -31,8 +58,7 @@ const EnterYourDetails = () => {
                         <View style={styles.track}/>
                         <View style={styles.bar}/>
                     </View>
-                    <Pressable style={styles.frameParent} onPress={() => {
-                    }}>
+                    <Pressable style={styles.frameParent} onPress={submitName}>
                         <View style={[styles.nextWrapper, styles.nextWrapperLayout]}>
                             <Text style={styles.next}>Next</Text>
                         </View>

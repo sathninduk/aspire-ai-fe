@@ -1,24 +1,30 @@
 import * as React from "react";
-import {KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
-import {useNavigation} from "@react-navigation/native";
-import {RootStackParamList} from "@/app/types";
-import {StackNavigationProp} from "@react-navigation/stack";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { RootStackParamList } from "@/app/types";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'signup/otp'>;
+type SignupOtpRouteProp = RouteProp<RootStackParamList, 'signup/otp'>;
 
-const SignupOtpVerification = () => {
-
+const SignupOtpVerification: React.FC = () => {
     const [otpValue, setOtpValue] = React.useState("");
     const navigation = useNavigation<ScreenNavigationProp>();
+    const route = useRoute<SignupOtpRouteProp>();
+    const { number } = route.params;
 
-    const submitOTP = () => {
+    const submitOTP = async () => {
         if (otpValue.length !== 4) {
             alert("Please enter a valid OTP");
             return;
         } else if (otpValue !== "1234") {
             alert("Please enter a valid OTP");
         } else {
-            return navigation.navigate('login/splash');
+            await AsyncStorage.setItem("isAuthenticated", "true");
+            await AsyncStorage.setItem("number", number);
+            navigation.navigate('login/splash');
         }
     }
 
@@ -30,16 +36,11 @@ const SignupOtpVerification = () => {
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.otpVerfication}>
                     <Text style={styles.verifyYourNumber}>Verify Your Number</Text>
-                    {/*<Image style={[styles.riarrowUpSLineIcon, styles.riarrowIconLayout]} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
-                    <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to +94
-                        711427657</Text>
-                    <View
-                        style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, {backgroundColor: '#6A41FF'}]}/>
-                    <View
-                        style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, {backgroundColor: '#150B3D'}]}/>
-                    <View
-                        style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, {backgroundColor: '#6A41FF'}]}/>
-                    <View style={[styles.otpPad, {width: '83%'}]}>
+                    <Text style={[styles.enterTheFour, styles.nextTypo]}>Enter the four digit code sent to {number}</Text>
+                    <View style={[styles.otpVerficationChild, styles.otpLayout, styles.ball, { backgroundColor: '#6A41FF' }]} />
+                    <View style={[styles.otpVerficationItem, styles.otpLayout, styles.ball, { backgroundColor: '#150B3D' }]} />
+                    <View style={[styles.otpVerficationInner, styles.riarrowUpSLineIconPosition, styles.ball, { backgroundColor: '#6A41FF' }]} />
+                    <View style={[styles.otpPad, { width: '83%' }]}>
                         <TextInput
                             style={[
                                 styles.childLayout,
@@ -62,7 +63,6 @@ const SignupOtpVerification = () => {
                     </View>
                     <Pressable style={styles.nextParent} onPress={submitOTP}>
                         <Text style={[styles.next, styles.nextTypo]}>Next</Text>
-                        {/*<Image style={styles.riarrowIconLayout} resizeMode="cover" source="ri:arrow-up-s-line.png" />*/}
                     </Pressable>
                 </View>
             </ScrollView>
