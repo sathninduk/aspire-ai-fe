@@ -100,9 +100,9 @@ const EnterYourDetails = () => {
                         <Image style={styles.groupChild} resizeMode="cover" source={
                             require("@/assets/images/onboard/profile.png")
                         }/>
-                        <Image style={styles.groupItem} resizeMode="cover" source={
-                            require("@/assets/images/onboard/new_image.png")
-                        }/>
+                        {/*<Image style={styles.groupItem} resizeMode="cover" source={*/}
+                        {/*    require("@/assets/images/onboard/new_image.png")*/}
+                        {/*}/>*/}
                     </View>
                     <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
                         <Image style={styles.icon} resizeMode="cover" source={

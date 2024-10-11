@@ -1,9 +1,10 @@
 import * as React from "react";
 import {useEffect} from "react";
-import {Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
 import {BACKEND_URL} from "@/config";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Link} from "expo-router";
 
 const Pathway = () => {
 
@@ -15,6 +16,32 @@ const Pathway = () => {
             progress: 0
         }]
     });
+
+    const [loadingJobs, setLoadingJobs] = React.useState(true);
+    const [loadingCourses, setLoadingCourses] = React.useState(true);
+    const [jobsData, setJobsData] = React.useState([{
+        position: '',
+        company: '',
+        location: '',
+        url: '',
+    }, {
+        position: '',
+        company: '',
+        location: '',
+        url: '',
+    }])
+    const [coursesData, setCoursesData] = React.useState([
+        {
+            title: '',
+            url: '',
+            source: ''
+        },
+        {
+            title: '',
+            url: '',
+            source: ''
+        }
+    ])
 
     const getUserData = async () => {
         const number = await AsyncStorage.getItem('number');
@@ -29,8 +56,36 @@ const Pathway = () => {
         }
     }
 
+    const getJobs = async () => {
+        const number = await AsyncStorage.getItem('number');
+        try {
+            axios.get(`${BACKEND_URL}/job/personalized?number=${number}`).then(res => {
+                setJobsData(res.data)
+            });
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoadingJobs(false);
+        }
+    }
+
+    const getCourses = async () => {
+        const number = await AsyncStorage.getItem('number');
+        try {
+            axios.get(`${BACKEND_URL}/course/personalized?number=${number}`).then(res => {
+                setCoursesData(res.data)
+            });
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoadingCourses(false);
+        }
+    }
+
     useEffect(() => {
         getUserData();
+        getJobs();
+        getCourses();
     }, []);
 
     const truncateText = (text: string, maxLength: number) => {
@@ -40,6 +95,9 @@ const Pathway = () => {
         return text;
     };
 
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <View style={styles.pathway}>
@@ -97,7 +155,7 @@ const Pathway = () => {
                     {/*} />*/}
                     <Image style={[styles.iconSkill, styles.iconLayout1]} resizeMode="cover" source={require("@/assets/images/pathway/skill.png")}/>
                     {/*<Image style={styles.skillChild} resizeMode="cover" source="Vector 73.png" />*/}
-                    <Text style={[styles.skill1, styles.skill1Typo]}>Skill</Text>
+                    <Text style={[styles.skill1, styles.skill1Typo]}>Skills</Text>
                 </View>
                 <View style={styles.resume}>
                     <Image style={[styles.iconResume, styles.starLayout]} resizeMode="cover" source={
@@ -105,42 +163,52 @@ const Pathway = () => {
                     } />
                     {/*<Image style={[styles.resumeChild, styles.childLayout]} resizeMode="cover" source="Vector 74.png" />*/}
                     <Text style={[styles.jobOpenings, styles.jobOpeningsClr]}>Job Openings</Text>
+                    {loadingJobs ?
+                        <ActivityIndicator style={[styles.uiuxDesignerParent, styles.uiuxLayout]} animating={true} color="#000"/> :
                     <View style={[styles.uiuxDesignerParent, styles.uiuxLayout]}>
                         <View style={[styles.uiuxDesigner, styles.uiuxLayout]}>
-                            <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>Senior Software
-                                Engineer</Text>
-                            <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>CodeGen | Colombo, Sri
-                                Lanka</Text>
+                            {/* @ts-ignore */}
+                            <Link href={jobsData[0].url} style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[0].position}</Link>
+                            {/* @ts-ignore */}
+                            <Link href={jobsData[0].url} style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[0].company}</Link>
                         </View>
                         {/*<Image style={styles.cg1Icon} resizeMode="cover" source="cg 1.png" />*/}
                     </View>
-                    <Pressable style={[styles.seeMore3, styles.seePosition]} onPress={() => {
-                    }}>
-                        <Text style={[styles.seeMore4, styles.seeTypo]}>See more</Text>
-                    </Pressable>
+                    }
+                    <View style={[styles.seeMore3, styles.seePosition]}>
+                        {/* @ts-ignore*/}
+                        <Link href={"/skill"} style={[styles.seeMore4, styles.seeTypo]}>See more</Link>
+                    </View>
                 </View>
-                <View style={[styles.vectorParent, styles.groupInnerLayout]}>
-                    <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>IFS | Colombo, Sri Lanka</Text>
-                    <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>Associate Technical Lead</Text>
-                </View>
+                {loadingJobs ?
+                    <></>
+                    : jobsData.length > 1 &&
+                    <View style={[styles.vectorParent, styles.groupInnerLayout]}>
+                    {/* @ts-ignore */}
+                    <Link href={jobsData[1].url} style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[1].position}</Link>
+                    {/* @ts-ignore */}
+                    <Link href={jobsData[1].url} style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[1].company}</Link>
+                </View>}
                 <View style={[styles.ellipseParent, styles.parentShadowBox]}>
                     {/*<Image style={styles.frameItem} resizeMode="cover" source="Ellipse 139.png" />*/}
-                    <Text style={[styles.basicsOfUiux2, styles.basicsPosition]}>View</Text>
+                    {/* @ts-ignore*/}
+                    <Link href={coursesData[0].url} style={[styles.basicsOfUiux2, styles.basicsPosition]}>View</Link>
                     <View style={styles.rectangleGroup}>
                         <View style={[styles.frameInner, styles.frameLayout]}/>
                         <View style={[styles.shapes, styles.shapesLayout3]}>
                             {/*<Image style={[styles.ellipseIcon, styles.shapesChildLayout]} resizeMode="cover" source="Ellipse 117.png" />*/}
                             {/*<Image style={[styles.shapesChild1, styles.shapesLayout]} resizeMode="cover" source="Ellipse 118.png" />*/}
                             {/*<Image style={[styles.shapesChild2, styles.shapesLayout3]} resizeMode="cover" source="Ellipse 119.png" />*/}
-                            <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
+                            <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>{coursesData[0].source}</Text>
                         </View>
                         {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
-                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX\nDesign`}</Text>
+                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{truncateText(coursesData[0].title, 25)}</Text>
                     </View>
                     {/*<Image style={styles.frameChild1} resizeMode="cover" source="Rectangle 6438.png" />*/}
                 </View>
                 <View style={[styles.basicsOfUiuxDesignParent, styles.parentShadowBox]}>
-                    <Text style={[styles.basicsOfUiux2, styles.basicsPosition]}>View</Text>
+                    {/* @ts-ignore*/}
+                    <Link href={coursesData[1].url} style={[styles.basicsOfUiux2, styles.basicsPosition]}>View</Link>
                     {/*<Image style={styles.frameChild1} resizeMode="cover" source="Rectangle 6438.png" />*/}
                     <View style={styles.rectangleGroup}>
                         <View style={[styles.frameInner, styles.frameLayout]}/>
@@ -148,16 +216,16 @@ const Pathway = () => {
                             {/*<Image style={[styles.ellipseIcon, styles.shapesChildLayout]} resizeMode="cover" source="Ellipse 117.png" />*/}
                             {/*<Image style={[styles.shapesChild1, styles.shapesLayout]} resizeMode="cover" source="Ellipse 118.png" />*/}
                             {/*<Image style={[styles.shapesChild2, styles.shapesLayout3]} resizeMode="cover" source="Ellipse 119.png" />*/}
-                            <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
+                            <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>{coursesData[1].source}</Text>
                         </View>
                         {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
-                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX
-      			Design `}</Text>
+                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{truncateText(coursesData[1].title, 25)}</Text>
                     </View>
                 </View>
                 <Pressable style={[styles.seeMore5, styles.seePosition]} onPress={() => {
                 }}>
-                    <Text style={[styles.seeMore6, styles.seeTypo]}>See more</Text>
+                    {/* @ts-ignore*/}
+                    <Link href={"/job"} style={[styles.seeMore6, styles.seeTypo]}>See more</Link>
                 </Pressable>
                 <Image style={[styles.editIcon, styles.iconLayout]} resizeMode="cover" source={
                     require("@/assets/images/pathway/viewed_courses.png")
@@ -181,7 +249,7 @@ const styles = StyleSheet.create({
     pathway: {
         flex: 1,
         width: "100%",
-        height: 1944,
+        height: 1300,
         overflow: "hidden",
         backgroundColor: "#f9f9f9"
     },
@@ -284,7 +352,7 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins-Medium",
         fontWeight: "500",
         textAlign: "left",
-        position: "absolute"
+        position: "absolute",
     },
     easyParentLayout: {
         height: 22,
@@ -378,6 +446,8 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     parentShadowBox: {
+        borderWidth: 1,
+        borderColor: "rgba(0, 0, 0, 0.1)",
         height: 214,
         backgroundColor: "#fff",
         shadowOpacity: 1,
@@ -394,10 +464,10 @@ const styles = StyleSheet.create({
         overflow: "hidden"
     },
     basicsPosition: {
-        top: 147,
-        fontSize: 18,
+        top: 165,
+        fontSize: 14,
         color: "#000",
-        left: 12
+        left: 160
     },
     iconLayout: {
         width: 22,
@@ -477,10 +547,10 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     leadership: {
-        marginTop: -41,
+        marginTop: 0,
         right: 178,
         height: 36,
-        top: "50%"
+        top: 241
     },
     seeMore: {
         color: "#7551ff",
@@ -514,7 +584,7 @@ const styles = StyleSheet.create({
     },
     leadership1: {
         left: 1,
-        top: 101,
+        top: 290,
         height: 36
     },
     icoutlineCloseIcon1: {
@@ -535,7 +605,7 @@ const styles = StyleSheet.create({
     iconSkill: {
         width: 26,
         left: 4,
-        top: 0
+        top: 157
     },
     skillChild: {
         top: 30,
@@ -546,7 +616,7 @@ const styles = StyleSheet.create({
     },
     skill1: {
         left: 40,
-        top: 2,
+        top: 160,
         position: "absolute"
     },
     leadershipInner: {
@@ -572,7 +642,7 @@ const styles = StyleSheet.create({
         marginTop: -7
     },
     leadership2: {
-        top: 48,
+        top: 240,
         left: 183
     },
     rectangleIcon: {
@@ -600,17 +670,17 @@ const styles = StyleSheet.create({
     },
     leadership3: {
         left: 183,
-        top: 101
+        top: 195
     },
     leadership10: {
         left: 1,
-        top: 155
+        top: 195
     },
     skill: {
-        marginTop: -819,
+        marginTop: 0,
         right: 33,
         width: 351,
-        top: "50%"
+        top: 0,
     },
     pathwayChild: {
         top: 395,
@@ -644,7 +714,7 @@ const styles = StyleSheet.create({
     },
     silverdoleSelvester: {
         top: 89,
-        left: 185,
+        left: 84,
         lineHeight: 15,
         textTransform: "uppercase",
         fontFamily: "DM Sans",
@@ -663,7 +733,7 @@ const styles = StyleSheet.create({
     },
     basicsOfUiux: {
         top: 66,
-        left: 123,
+        left: 20,
         fontSize: 24,
         lineHeight: 30,
         color: "#fff"
@@ -870,7 +940,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: "left",
         fontFamily: "DM Sans",
-        fontWeight: "700"
+        fontWeight: "700",
     },
     codegenColombo: {
         top: 92,
@@ -901,7 +971,7 @@ const styles = StyleSheet.create({
         height: 16
     },
     seeMore3: {
-        top: 250
+        top: 220
     },
     resume: {
         top: 1015,
@@ -925,7 +995,7 @@ const styles = StyleSheet.create({
     },
     vectorParent: {
         top: 1100,
-        left: 28
+        left: 28,
     },
     frameItem: {
         top: 12,
