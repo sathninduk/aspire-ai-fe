@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useEffect} from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, StyleSheet, Text, View} from "react-native";
 import {ParamListBase, useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 
@@ -24,6 +24,7 @@ const BuildingYourLadder = () => {
         <View style={styles.buildingYourLadder}>
             <Text style={styles.buildingYourPathway}>{`Building Your\nPathway`}</Text>
             {/*<Image style={styles.buildingYourLadderChild} resizeMode="cover" source="Frame 1.png" />*/}
+            <ActivityIndicator  style={styles.buildingYourLadderChild} animating={true} color="#000"/>
         </View>);
 };
 

@@ -38,7 +38,7 @@ export default function TabProfileScreen() {
             <View style={styles.headerContainer}>
                 <Image
                     source={{ uri: 'https://randomuser.me/api/portraits/men/32.jpg' }} // Replace with actual image URL
-                    style={styles.profileImage}
+                    style={[styles.profileImage, {opacity: 0}]}
                 />
                 <Text style={styles.name}>Sathnindu Kottage</Text>
                 <Text style={styles.location}>Colombo, Sri Lanka</Text>

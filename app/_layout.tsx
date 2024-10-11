@@ -60,6 +60,10 @@ export default function RootLayout() {
                 {/* skills */}
 
                 {/* careers */}
+                <Stack.Screen name="careers/filter" options={{headerShown: false}}/>
+                <Stack.Screen name="careers/InterviewScreen" options={{headerShown: false}}/>
+                <Stack.Screen name="careers/SearchResultsScreen" options={{headerShown: false}}/>
+                <Stack.Screen name="job" options={{headerShown: false}}/>
 
                 {/* profile */}
                 <Stack.Screen name="profile/preferences" options={{ headerShown: false }} />

@@ -24,6 +24,10 @@ const OnboadingChat = () => {
     const [loading, setLoading] = React.useState(false);
 
     const handleNext = async () => {
+        if (answer === "") {
+            alert("Please enter your answer");
+            return;
+        }
         const number = await AsyncStorage.getItem("number");
         setLoading(true);
         try {

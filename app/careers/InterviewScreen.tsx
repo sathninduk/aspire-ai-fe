@@ -1,139 +1,226 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { Button, Searchbar } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native';
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from '@react-navigation/stack';
+import { BACKEND_URL } from '@/config';
 
-// A mock function to simulate API call (you can replace this with a real API call)
-const fetchInterviewQuestions = async (jobKeyword: string) => {
-  try {
-    const response = await fetch('http://localhost:6340/interview/questions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ jobKeyword }),
-    });
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching interview questions:', error);
-  }
-};
+interface InterviewScreenProps {}
 
-const InterviewScreen = () => {
-  const [jobKeyword, setJobKeyword] = useState<string>('');  // Search input for job keywords
-  const [interviewQuestions, setInterviewQuestions] = useState<string[]>([]);  // Fetched interview questions
+const InterviewScreen: React.FC<InterviewScreenProps> = () => {
+  const [jobKeyword, setJobKeyword] = useState<string>('');
+  const [interviewQuestions, setInterviewQuestions] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Fetch interview questions whenever the keyword changes
-  const getQuestions = async () => {
-    const questions = await fetchInterviewQuestions(jobKeyword);
-    setInterviewQuestions(questions);
+  const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+
+  // Default common interview questions
+  const defaultQuestions = [
+    { title: "Common Interview Questions", questions: [
+        "Tell me about yourself.",
+        "What are your strengths and weaknesses?",
+        "Why do you want to work here?",
+        "Where do you see yourself in five years?",
+        "Describe a challenge you've faced at work and how you handled it.",
+      ] 
+    },
+    { title: "Behavioral Interview Questions", questions: [
+        "Give an example of a time you demonstrated leadership skills.",
+        "Describe a situation where you had to work as part of a team.",
+        "How do you handle conflict in the workplace?",
+        "Can you share an instance where you made a mistake and how you fixed it?",
+        "What motivates you to do your best work?",
+      ] 
+    }
+  ];
+
+  // Function to fetch interview questions
+  const fetchInterviewQuestions = async (jobKeyword: string) => {
+    setLoading(true);
+    setError(null);
+    setInterviewQuestions([]); // Clear previous questions
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/interview/questions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ jobKeyword }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setInterviewQuestions(data.questions || []); // Ensure it's an array
+    } catch (error) {
+      console.error("Error fetching interview questions:", error);
+      setError('Failed to load questions, please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Careers</Text>
-      <View style={styles.tabBar}>
-        <Text style={styles.tab}>Overview</Text>
-        <Text style={styles.tab}>Viewed</Text>
-        <Text style={[styles.tab, styles.selectedTab]}>Interviews</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={{ height: 20 }} /> {/* Adds space */}
+      <Text style={styles.title}>Careers</Text>
+      <View style={styles.tabContainer}>
+        <Button 
+          mode="outlined" 
+          style={[styles.tabButton, styles.inactiveTab]} 
+          labelStyle={styles.buttonLabel} 
+          onPress={() => navigation.navigate('job')}
+        >
+          Overview
+        </Button>
+        <Button 
+          mode="contained" 
+          style={[styles.tabButton, styles.activeTab]} 
+          labelStyle={styles.activeButtonLabel} 
+          onPress={() => navigation.navigate('careers/InterviewScreen')}
+        >
+          Interviews
+        </Button>
+      </View>
+      <View style={styles.searchContainer}>
+        <Searchbar
+          style={styles.searchBar}
+          value={jobKeyword}
+          onChangeText={setJobKeyword}
+          placeholder="Search Interview"
+          id="jobKeyword" // Unique ID for the input field
+        />
+        <TouchableOpacity 
+          style={styles.getInterviewButton}
+          onPress={() => fetchInterviewQuestions(jobKeyword)}
+        >
+          <Text style={styles.getInterviewButtonText}>Get Interview</Text>
+        </TouchableOpacity>
       </View>
 
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search Interview"
-        value={jobKeyword}
-        onChangeText={setJobKeyword}
-        onSubmitEditing={getQuestions} // Fetch questions when user submits search
-      />
-
-      <ScrollView style={styles.interviewList}>
-        <Text style={styles.sectionTitle}>Mockup Interviews</Text>
-
-        {/* Iterate over interview questions and display them */}
-        {interviewQuestions.map((question, index) => (
-          <View key={index} style={styles.interviewCard}>
-            <Text style={styles.interviewTitle}>Interview {index + 1}</Text>
-            <Text style={styles.questionText}>{question}</Text>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Take Interview</Text>
-            </TouchableOpacity>
+      {loading && <Text style={styles.loadingText}>Loading...</Text>}
+      {error && <Text style={styles.errorText}>{error}</Text>}
+      <View style={styles.questionsContainer}>
+        {interviewQuestions.length === 0 && defaultQuestions.map((item, index) => (
+          <View key={index} style={styles.questionBlock}>
+            <Text style={styles.questionTitle}>{item.title}</Text>
+            {item.questions.map((question, qIndex) => (
+              <Text key={qIndex} style={styles.question}>{question}</Text>
+            ))}
           </View>
         ))}
-      </ScrollView>
-    </View>
+        {interviewQuestions.length > 0 && (
+          <View style={styles.questionBlock}>
+            <Text style={styles.questionTitle}>Interview Questions for "{jobKeyword}"</Text>
+            {interviewQuestions.map((question, index) => (
+              <Text key={index} style={styles.question}>{question}</Text>
+            ))}
+          </View>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
-export default InterviewScreen;
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#F9F9F9',
+    flex: 1, // Ensure the container takes the full screen height
     padding: 20,
+    justifyContent: 'flex-start', // Align children at the start of the container
+    alignItems: 'center', // Center children horizontally
   },
-  header: {
+  title: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#0D0140',
     marginBottom: 20,
   },
-  tabBar: {
+  tabContainer: {
+    width: '100%',
     flexDirection: 'row',
-    marginBottom: 20,
-  },
-  tab: {
-    marginRight: 15,
-    color: '#666',
-    fontSize: 16,
-  },
-  selectedTab: {
-    color: '#5A67D8',
-    borderBottomWidth: 2,
-    borderBottomColor: '#5A67D8',
-  },
-  searchInput: {
-    height: 40,
-    borderColor: '#DDD',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 20,
-  },
-  interviewList: {
-    marginTop: 10,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    justifyContent: 'space-around',
     marginBottom: 10,
   },
-  interviewCard: {
-    backgroundColor: '#fff',
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+    width: '100%',
+  },
+  searchBar: {
+    flex: 1,
     borderRadius: 10,
-    padding: 20,
-    marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 2,
   },
-  interviewTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
+  getInterviewButton: {
+    backgroundColor: '#6C63FF',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginLeft: 15,
+    height: 52,
   },
-  questionText: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 10,
+  getInterviewButtonText: {
+    color: 'white',
   },
-  button: {
-    backgroundColor: '#5A67D8',
-    paddingVertical: 10,
-    borderRadius: 5,
+  loadingText: {
+    textAlign: 'center',
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+  },
+  questionsContainer: {
     alignItems: 'center',
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
+  questionBlock: {
+    borderWidth: 1,
+    borderColor: '#6C63FF',
+    borderRadius: 8,
+    padding: 15,
+    margin: 10,
+    width: '100%',
+    maxWidth: 600,
+    backgroundColor: 'white',
+    shadowColor: 'rgba(0,0,0,0.1)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  questionTitle: {
+    margin: 0,
+    marginBottom: 10,
+    fontSize: 20,
+    color: '#6C63FF',
+  },
+  question: {
+    marginBottom: 5,
+  },
+  tabButton: {
+    minWidth: 100,
+    marginHorizontal: 5,
+  },
+  activeTab: {
+    backgroundColor: '#E0D4FF',
+    borderRadius: 10,
+  },
+  inactiveTab: {
+    backgroundColor: '#F2F2F2',
+    borderRadius: 10,
+  },
+  buttonLabel: {
+    color: '#524B6B',
+    fontWeight: 'bold',
+  },
+  activeButtonLabel: {
+    color: '#6A41FF',
+    fontWeight: 'bold',
   },
 });
+
+export default InterviewScreen;
