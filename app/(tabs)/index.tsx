@@ -1,249 +1,177 @@
 import * as React from "react";
-import {Text, StyleSheet, Image, View, Pressable, ScrollView} from "react-native";
-import {Link} from "expo-router";
 import {useEffect} from "react";
+import {Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
+import {BACKEND_URL} from "@/config";
+import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Pathway = () => {
+
+    const [loading, setLoading] = React.useState(true);
+    const [userData, setUserData] = React.useState({
+        name: '',
+        skills: [{
+            title: '',
+            progress: 0
+        }]
+    });
+
+    const getUserData = async () => {
+        const number = await AsyncStorage.getItem('number');
+        try {
+            axios.get(`${BACKEND_URL}/user/${number}`).then(res => {
+                setUserData(res.data)
+            });
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getUserData();
+    }, []);
+
+    const truncateText = (text: string, maxLength: number) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+        }
+        return text;
+    };
+
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <View style={styles.pathway}>
-            <Text style={[styles.aspireai, styles.aspireaiTypo]}>AspireAI</Text>
-            <View style={[styles.skill, styles.uiuxLayout]}>
-                <View style={[styles.leadership, styles.leadershipLayout1]}>
-                    {/*<Image style={[styles.icoutlineCloseIcon, styles.icoutlineIconLayout1]} resizeMode="cover" source="ic:outline-close.png" />*/}
-                    {/*<Image style={[styles.leadershipChild, styles.leadershipPosition]} resizeMode="cover" source="Rectangle 16.png" />*/}
-                    <Text style={[styles.sqlTuning, styles.manageClr]}>SQL Tuning</Text>
-                </View>
-                <View style={styles.seeMoreParent}>
-                    <Text style={styles.seeMore}>See more</Text>
-                    {/*<Image style={[styles.mingcutedownFillIcon, styles.skill1Position]} resizeMode="cover" source="mingcute:down-fill.png" />*/}
-                </View>
-                <View style={[styles.leadership1, styles.leadershipLayout1]}>
-                    {/*<Image style={[styles.leadershipChild, styles.leadershipPosition]} resizeMode="cover" source="Rectangle 16.png" />*/}
-                    <Text style={[styles.scrumManage, styles.manageClr]}>SCRUM Manage...</Text>
-                </View>
-                {/*<Image style={[styles.icoutlineCloseIcon1, styles.icoutlineIconLayout]} resizeMode="cover" source="ic:outline-close.png" />*/}
-                {/*<Image style={[styles.addIcon, styles.iconLayout1]} resizeMode="cover" source="Add.png" />*/}
-                {/*<Image style={[styles.iconSkill, styles.iconLayout1]} resizeMode="cover" source="Icon Skill.png" />*/}
-                {/*<Image style={styles.skillChild} resizeMode="cover" source="Vector 73.png" />*/}
-                <Text style={[styles.skill1, styles.skill1Typo]}>Skill</Text>
-                <View style={[styles.leadership2, styles.leadershipLayout]}>
-                    {/*<Image style={[styles.leadershipInner, styles.leadershipLayout]} resizeMode="cover" source="Rectangle 16.png" />*/}
-                    <Text style={[styles.softwareScalab, styles.manageClr]}>Software Scalab...</Text>
-                    {/*<Image style={[styles.icoutlineCloseIcon2, styles.icoutlineIconLayout]} resizeMode="cover" source="ic:outline-close.png" />*/}
-                </View>
-                <View style={[styles.leadership3, styles.leadership3Layout]}>
-                    {/*<Image style={[styles.rectangleIcon, styles.leadership3Layout]} resizeMode="cover" source="Rectangle 16.png" />*/}
-                    <Text style={[styles.versionManage, styles.versionManageLayout]}>Version Manage...</Text>
-                    {/*<Image style={[styles.icoutlineCloseIcon3, styles.icoutlineIconLayout]} resizeMode="cover" source="ic:outline-close.png" />*/}
-                </View>
-            </View>
-            {/*<Image style={[styles.pathwayChild, styles.childLayout]} resizeMode="cover" source="Vector 73.png" />*/}
-            <Pressable style={styles.seeMore1} onPress={()=>{}}>
-                <Text style={[styles.seeMore2, styles.seeTypo]}>See more</Text>
-            </Pressable>
-            <View style={styles.frameParent}>
-                <View style={[styles.rectangleParent, styles.frameLayout]}>
-                    <View style={[styles.frameChild, styles.frameLayout]} />
-                    <View style={[styles.shapes, styles.shapesLayout3]}>
-                        {/*<Image style={[styles.shapesChild, styles.shapesChildLayout]} resizeMode="cover" source="Ellipse 117.png" />*/}
-                        {/*<Image style={[styles.shapesItem, styles.shapesLayout]} resizeMode="cover" source="Ellipse 118.png" />*/}
-                        {/*<Image style={[styles.shapesInner, styles.shapesLayout3]} resizeMode="cover" source="Ellipse 119.png" />*/}
-                        <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
-                    </View>
-                    {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
-                    <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX
-            						Design Workflow.`}</Text>
-                    {/*<Image style={[styles.outlineBookmark, styles.iconLayout1]} resizeMode="cover" source="outline / bookmark.png" />*/}
-                </View>
-                <Text style={[styles.basicsOfUiux1, styles.basicsTypo]}>Basics of UI/UX Design Workflow</Text>
-                <View style={[styles.easyParent, styles.easyParentLayout]}>
-                    <Text style={[styles.easy, styles.easyTypo]}>Easy</Text>
-                    <View style={[styles.starParent, styles.starLayout]}>
-                        {/*<Image style={[styles.groupChild, styles.groupChildLayout]} resizeMode="cover" source="Star 8.png" />*/}
-                        <Text style={[styles.text, styles.textLayout]}>
-                            <Text style={styles.text1}>{`4.7 `}</Text>
-                            <Text style={styles.text2}>(25)</Text>
+            <View style={styles.pathway}>
+                <Text style={[styles.aspireai, styles.aspireaiTypo]}>AspireAI</Text>
+                <View style={[styles.skill, styles.uiuxLayout]}>
+
+                    <View style={[styles.leadership, styles.leadershipLayout1, {
+                        backgroundColor: "#ebebf1",
+                        borderRadius: 10
+                    }]}>
+                        <Text style={[styles.sqlTuning, styles.manageClr]}>
+                            {userData.skills.length > 0 && truncateText(userData.skills[0].title, 20)}
                         </Text>
                     </View>
-                    {/*<Image style={styles.groupItem} resizeMode="cover" source="Ellipse 150.png" />*/}
-                </View>
-                <View style={styles.groupParent}>
-                    <View style={[styles.h52mParent, styles.h52mGroupLayout]}>
-                        <Text style={[styles.h52m, styles.h52mTypo]}>12h 52m</Text>
-                        {/*<Image style={[styles.groupChild, styles.groupChildLayout]} resizeMode="cover" source="outline / clock.png" />*/}
+                    <View style={[styles.leadership2, styles.leadershipLayout, {
+                        backgroundColor: "#ebebf1",
+                        borderRadius: 10
+                    }]}>
+                        <Text style={[styles.softwareScalab, styles.manageClr, {
+                            backgroundColor: "#ebebf1",
+                            borderRadius: 10
+                        }]}>
+                            {userData.skills.length > 1 && truncateText(userData.skills[1].title, 20)}
+                        </Text>
                     </View>
-                    <View style={[styles.groupContainer, styles.h52mGroupLayout]}>
-                        <View style={[styles.lessonsWrapper, styles.h52mGroupLayout]}>
-                            <Text style={[styles.lessons, styles.h52mTypo]}>14 Lessons</Text>
+                    <View style={[styles.leadership1, styles.leadershipLayout1, {
+                        backgroundColor: "#ebebf1",
+                        borderRadius: 10
+                    }]}>
+                        <Text style={[styles.scrumManage, styles.manageClr]}>
+                            {userData.skills.length > 2 && truncateText(userData.skills[2].title, 20)}
+                        </Text>
+                    </View>
+                    <View style={[styles.leadership3, styles.leadership3Layout, {
+                        backgroundColor: "#ebebf1",
+                        borderRadius: 10
+                    }]}>
+                        <Text style={[styles.versionManage, styles.versionManageLayout]}>
+                            {userData.skills.length > 3 && truncateText(userData.skills[3].title, 20)}
+                        </Text>
+                    </View>
+                    <View style={[styles.leadership10, styles.leadership3Layout, {
+                        backgroundColor: "#ebebf1",
+                        borderRadius: 10
+                    }]}>
+                        <Text style={[styles.versionManage, styles.versionManageLayout]}>
+                            {userData.skills.length > 4 && truncateText(userData.skills[4].title, 20)}
+                        </Text>
+                    </View>
+
+                    {/*<Image style={[styles.icoutlineCloseIcon1, styles.icoutlineIconLayout]} resizeMode="cover" source="ic:outline-close.png" />*/}
+                    {/*<Image style={[styles.addIcon, styles.iconLayout1]} resizeMode="cover" source="Add.png" />*/}
+                    {/*<Image style={[styles.iconSkill, styles.iconLayout1]} resizeMode="cover" source={*/}
+                    {/*    require('@/assets/images/SkillIcon.png')*/}
+                    {/*} />*/}
+                    <Image style={[styles.iconSkill, styles.iconLayout1]} resizeMode="cover" source={require("@/assets/images/pathway/skill.png")}/>
+                    {/*<Image style={styles.skillChild} resizeMode="cover" source="Vector 73.png" />*/}
+                    <Text style={[styles.skill1, styles.skill1Typo]}>Skill</Text>
+                </View>
+                <View style={styles.resume}>
+                    <Image style={[styles.iconResume, styles.starLayout]} resizeMode="cover" source={
+                        require("@/assets/images/pathway/job.png")
+                    } />
+                    {/*<Image style={[styles.resumeChild, styles.childLayout]} resizeMode="cover" source="Vector 74.png" />*/}
+                    <Text style={[styles.jobOpenings, styles.jobOpeningsClr]}>Job Openings</Text>
+                    <View style={[styles.uiuxDesignerParent, styles.uiuxLayout]}>
+                        <View style={[styles.uiuxDesigner, styles.uiuxLayout]}>
+                            <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>Senior Software
+                                Engineer</Text>
+                            <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>CodeGen | Colombo, Sri
+                                Lanka</Text>
                         </View>
-                        {/*<Image style={[styles.materialSymbolsmenuBookOutIcon, styles.groupChildLayout]} resizeMode="cover" source="material-symbols:menu-book-outline.png" />*/}
+                        {/*<Image style={styles.cg1Icon} resizeMode="cover" source="cg 1.png" />*/}
                     </View>
-                    <View style={[styles.outlineUsersParent, styles.h52mGroupLayout]}>
-                        {/*<Image style={[styles.outlineUsers, styles.groupChildLayout]} resizeMode="cover" source="outline / users.png" />*/}
-                        <Text style={[styles.h52m, styles.h52mTypo]}>Enrolled</Text>
-                    </View>
+                    <Pressable style={[styles.seeMore3, styles.seePosition]} onPress={() => {
+                    }}>
+                        <Text style={[styles.seeMore4, styles.seeTypo]}>See more</Text>
+                    </Pressable>
                 </View>
-                <Text style={styles.text3}>$55</Text>
-            </View>
-            <View style={styles.resume}>
-                {/*<Image style={[styles.iconResume, styles.starLayout]} resizeMode="cover" source="Icon resume.png" />*/}
-                {/*<Image style={[styles.resumeChild, styles.childLayout]} resizeMode="cover" source="Vector 74.png" />*/}
-                <Text style={[styles.jobOpenings, styles.jobOpeningsClr]}>Job Openings</Text>
-                <View style={[styles.uiuxDesignerParent, styles.uiuxLayout]}>
-                    <View style={[styles.uiuxDesigner, styles.uiuxLayout]}>
-                        {/*<Image style={[styles.uiuxDesignerChild, styles.groupInnerPosition]} resizeMode="cover" source="Rectangle 6.png" />*/}
-                        <View style={styles.fullTimeParent}>
-                            <View style={[styles.fullTime, styles.fullLayout]}>
-                                <View style={[styles.fullTimeChild, styles.childBg]} />
-                                <Text style={[styles.fullTime1, styles.engineerTypo]}>Full time</Text>
-                            </View>
-                            <View style={styles.design}>
-                                <View style={[styles.designChild, styles.childBg]} />
-                                <Text style={[styles.engineer, styles.engineerTypo]}>Engineer</Text>
-                            </View>
-                            <View style={[styles.seniorDesigner, styles.seniorLayout]}>
-                                <View style={[styles.seniorDesignerChild, styles.seniorLayout]} />
-                                <Text style={[styles.seniorEngineer, styles.engineerTypo]}>Senior Engineer</Text>
-                            </View>
+                <View style={[styles.vectorParent, styles.groupInnerLayout]}>
+                    <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>IFS | Colombo, Sri Lanka</Text>
+                    <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>Associate Technical Lead</Text>
+                </View>
+                <View style={[styles.ellipseParent, styles.parentShadowBox]}>
+                    {/*<Image style={styles.frameItem} resizeMode="cover" source="Ellipse 139.png" />*/}
+                    <Text style={[styles.basicsOfUiux2, styles.basicsPosition]}>View</Text>
+                    <View style={styles.rectangleGroup}>
+                        <View style={[styles.frameInner, styles.frameLayout]}/>
+                        <View style={[styles.shapes, styles.shapesLayout3]}>
+                            {/*<Image style={[styles.ellipseIcon, styles.shapesChildLayout]} resizeMode="cover" source="Ellipse 117.png" />*/}
+                            {/*<Image style={[styles.shapesChild1, styles.shapesLayout]} resizeMode="cover" source="Ellipse 118.png" />*/}
+                            {/*<Image style={[styles.shapesChild2, styles.shapesLayout3]} resizeMode="cover" source="Ellipse 119.png" />*/}
+                            <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
                         </View>
-                        {/*<Image style={[styles.optionsIcon, styles.optionsIconLayout]} resizeMode="cover" source="Options.png" />*/}
-                        <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>Senior Software Engineer</Text>
-                        <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>CodeGen | Colombo, Sri Lanka</Text>
+                        {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
+                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX\nDesign`}</Text>
                     </View>
-                    {/*<Image style={styles.cg1Icon} resizeMode="cover" source="cg 1.png" />*/}
+                    {/*<Image style={styles.frameChild1} resizeMode="cover" source="Rectangle 6438.png" />*/}
                 </View>
-                <Pressable style={[styles.seeMore3, styles.seePosition]} onPress={()=>{}}>
-                    <Text style={[styles.seeMore4, styles.seeTypo]}>See more</Text>
-                </Pressable>
-            </View>
-            <View style={[styles.vectorParent, styles.groupInnerLayout]}>
-                {/*<Image style={[styles.groupInner, styles.groupInnerLayout]} resizeMode="cover" source="Rectangle 6.png" />*/}
-                {/*<Image style={[styles.optionsIcon1, styles.optionsIconLayout]} resizeMode="cover" source="Options.png" />*/}
-                <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>IFS | Colombo, Sri Lanka</Text>
-                <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>Associate Technical Lead</Text>
-                {/*<Image style={[styles.ifs1Icon, styles.ifs1IconPosition]} resizeMode="cover" source="ifs 1.png" />*/}
-            </View>
-            <View style={[styles.ellipseParent, styles.parentShadowBox]}>
-                {/*<Image style={styles.frameItem} resizeMode="cover" source="Ellipse 139.png" />*/}
-                <Text style={[styles.basicsOfUiux2, styles.basicsPosition]}>Basics of UI/UX Design</Text>
-                <View style={[styles.h52mGroup, styles.h52mGroupLayout]}>
-                    <Text style={[styles.h52m, styles.h52mTypo]}>12h 52m</Text>
-                    {/*<Image style={[styles.groupChild, styles.groupChildLayout]} resizeMode="cover" source="outline / clock.png" />*/}
-                </View>
-                <View style={[styles.starGroup, styles.starLayout]}>
-                    {/*<Image style={[styles.groupChild, styles.groupChildLayout]} resizeMode="cover" source="Star 8.png" />*/}
-                    <Text style={[styles.text4, styles.h52mTypo]}>4.7</Text>
-                </View>
-                <View style={styles.rectangleGroup}>
-                    <View style={[styles.frameInner, styles.frameLayout]} />
-                    <View style={[styles.shapes, styles.shapesLayout3]}>
-                        {/*<Image style={[styles.ellipseIcon, styles.shapesChildLayout]} resizeMode="cover" source="Ellipse 117.png" />*/}
-                        {/*<Image style={[styles.shapesChild1, styles.shapesLayout]} resizeMode="cover" source="Ellipse 118.png" />*/}
-                        {/*<Image style={[styles.shapesChild2, styles.shapesLayout3]} resizeMode="cover" source="Ellipse 119.png" />*/}
-                        <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
-                    </View>
-                    {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
-                    <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX
-            						Design `}</Text>
-                </View>
-                {/*<Image style={styles.frameChild1} resizeMode="cover" source="Rectangle 6438.png" />*/}
-            </View>
-            <Text style={[styles.viewedCourses, styles.jobOpeningsClr]}>{`Viewed Courses
-`}</Text>
-            {/*<Image style={[styles.skillIcon, styles.iconLayout]} resizeMode="cover" source="Skill.png" />*/}
-            <View style={[styles.basicsOfUiuxDesignParent, styles.parentShadowBox]}>
-                <Text style={[styles.basicsOfUiux2, styles.basicsPosition]}>Basics of UI/UX Design</Text>
-                <View style={[styles.h52mGroup, styles.h52mGroupLayout]}>
-                    <Text style={[styles.h52m, styles.h52mTypo]}>12h 52m</Text>
-                    {/*<Image style={[styles.groupChild, styles.groupChildLayout]} resizeMode="cover" source="outline / clock.png" />*/}
-                </View>
-                <View style={[styles.starGroup, styles.starLayout]}>
-                    {/*<Image style={[styles.groupChild, styles.groupChildLayout]} resizeMode="cover" source="Star 8.png" />*/}
-                    <Text style={[styles.text4, styles.h52mTypo]}>4.7</Text>
-                </View>
-                {/*<Image style={styles.frameChild1} resizeMode="cover" source="Rectangle 6438.png" />*/}
-                <View style={styles.rectangleGroup}>
-                    <View style={[styles.frameInner, styles.frameLayout]} />
-                    <View style={[styles.shapes, styles.shapesLayout3]}>
-                        {/*<Image style={[styles.ellipseIcon, styles.shapesChildLayout]} resizeMode="cover" source="Ellipse 117.png" />*/}
-                        {/*<Image style={[styles.shapesChild1, styles.shapesLayout]} resizeMode="cover" source="Ellipse 118.png" />*/}
-                        {/*<Image style={[styles.shapesChild2, styles.shapesLayout3]} resizeMode="cover" source="Ellipse 119.png" />*/}
-                        <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
-                    </View>
-                    {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
-                    <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX
+                <View style={[styles.basicsOfUiuxDesignParent, styles.parentShadowBox]}>
+                    <Text style={[styles.basicsOfUiux2, styles.basicsPosition]}>View</Text>
+                    {/*<Image style={styles.frameChild1} resizeMode="cover" source="Rectangle 6438.png" />*/}
+                    <View style={styles.rectangleGroup}>
+                        <View style={[styles.frameInner, styles.frameLayout]}/>
+                        <View style={[styles.shapes, styles.shapesLayout3]}>
+                            {/*<Image style={[styles.ellipseIcon, styles.shapesChildLayout]} resizeMode="cover" source="Ellipse 117.png" />*/}
+                            {/*<Image style={[styles.shapesChild1, styles.shapesLayout]} resizeMode="cover" source="Ellipse 118.png" />*/}
+                            {/*<Image style={[styles.shapesChild2, styles.shapesLayout3]} resizeMode="cover" source="Ellipse 119.png" />*/}
+                            <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
+                        </View>
+                        {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
+                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX
       			Design `}</Text>
-                </View>
-            </View>
-            <Pressable style={[styles.seeMore5, styles.seePosition]} onPress={()=>{}}>
-                <Text style={[styles.seeMore6, styles.seeTypo]}>See more</Text>
-            </Pressable>
-            <View style={styles.frameGroup}>
-                <View style={[styles.frameView, styles.frameViewShadowBox]}>
-                    {/*<Image style={styles.frameChild3} resizeMode="cover" source="Rectangle 6448.png" />*/}
-                    {/*<Image style={styles.frameItem} resizeMode="cover" source="Ellipse 139.png" />*/}
-                    {/*<Image style={[styles.outlineBookmark1, styles.iconLayout1]} resizeMode="cover" source="outline / bookmark.png" />*/}
-                    <Text style={[styles.basicsOfUiux6, styles.youMightNeedTypo]}>Basics of UI/UX Design</Text>
-                    {/*<Image style={[styles.frameChild5, styles.frameChildLayout]} resizeMode="cover" source="Ellipse 140.png" />*/}
-                    <Text style={[styles.samanthaStewart, styles.samanthaPosition]}>Samantha Stewart</Text>
-                    <View style={[styles.h52mGroup, styles.h52mGroupLayout]}>
-                        <Text style={[styles.h52m, styles.h52mTypo]}>12h 52m</Text>
-                        {/*<Image style={[styles.groupChild, styles.groupChildLayout]} resizeMode="cover" source="outline / clock.png" />*/}
-                    </View>
-                    <View style={[styles.starGroup, styles.starLayout]}>
-                        {/*<Image style={[styles.groupChild, styles.groupChildLayout]} resizeMode="cover" source="Star 8.png" />*/}
-                        <Text style={[styles.text4, styles.h52mTypo]}>4.7</Text>
                     </View>
                 </View>
-                <View style={[styles.rectangleParent1, styles.frameViewShadowBox]}>
-                    {/*<Image style={styles.frameChild3} resizeMode="cover" source="Rectangle 6448.png" />*/}
-                    {/*<Image style={styles.frameItem} resizeMode="cover" source="Ellipse 139.png" />*/}
-                    {/*<Image style={[styles.outlineBookmark1, styles.iconLayout1]} resizeMode="cover" source="outline / bookmark.png" />*/}
-                    <Text style={[styles.basicsOfUiux6, styles.youMightNeedTypo]}>Basics of UI/UX Design</Text>
-                    {/*<Image style={[styles.frameChild8, styles.frameChildLayout]} resizeMode="cover" source="Ellipse 140.png" />*/}
-                    <Text style={[styles.samanthaStewart1, styles.samanthaPosition]}>Samantha Stewart</Text>
-                    <View style={[styles.h52mGroup, styles.h52mGroupLayout]}>
-                        <Text style={[styles.h52m, styles.h52mTypo]}>12h 52m</Text>
-                        {/*<Image style={[styles.groupChild, styles.groupChildLayout]} resizeMode="cover" source="outline / clock.png" />*/}
-                    </View>
-                    <View style={[styles.starGroup, styles.starLayout]}>
-                        {/*<Image style={[styles.groupChild, styles.groupChildLayout]} resizeMode="cover" source="Star 8.png" />*/}
-                        <Text style={[styles.text4, styles.h52mTypo]}>4.7</Text>
-                    </View>
+                <Pressable style={[styles.seeMore5, styles.seePosition]} onPress={() => {
+                }}>
+                    <Text style={[styles.seeMore6, styles.seeTypo]}>See more</Text>
+                </Pressable>
+                <Image style={[styles.editIcon, styles.iconLayout]} resizeMode="cover" source={
+                    require("@/assets/images/pathway/viewed_courses.png")
+                } />
+                <Text style={[styles.courseSuggestions, styles.frameChildLayout]}>Course Suggestions</Text>
+                <View style={[styles.youMightNeedToFillBelowGWrapper, styles.youWrapperPosition]}>
+                    <Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`Hey, ${userData.name.split(' ')[0]}! Let's see how can you enhance\nyour skills.`}</Text>
+                </View>
+                <View style={[styles.onceYouSatisfiesWithYourGWrapper, styles.youWrapperPosition]}>
+                    <Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`Once you satisfies with your gap filling, try to apply\nfollowing openings.`}</Text>
                 </View>
             </View>
-            {/*<Image style={[styles.editIcon, styles.iconLayout]} resizeMode="cover" source="Edit.png" />*/}
-            <Text style={[styles.courseSuggestions, styles.frameChildLayout]}>Course Suggestions</Text>
-            <View style={[styles.youMightNeedToFillBelowGWrapper, styles.youWrapperPosition]}>
-                {/*<Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`You might need to fill below gaps for your career enhancement`}</Text>*/}
-                <Link href={"/login"}>Login</Link>
-                <Link href={"/signup"}>Sign up</Link>
-            </View>
-            <View style={[styles.onceYouSatisfiesWithYourGWrapper, styles.youWrapperPosition]}>
-                <Text style={[styles.youMightNeed, styles.youMightNeedTypo]}>{`Once you satisfies with your gap filling, try to
-      			apply following openings.`}</Text>
-            </View>
-            {/*<Image style={[styles.pathwayItem, styles.childLayout]} resizeMode="cover" source="Vector 73.png" />*/}
-            <View style={[styles.fullTimeGroup, styles.samanthaPosition]}>
-                <View style={[styles.fullTime2, styles.fullLayout]}>
-                    <View style={[styles.fullTimeChild, styles.childBg]} />
-                    <Text style={[styles.fullTime1, styles.engineerTypo]}>Full time</Text>
-                </View>
-                <View style={styles.design}>
-                    <View style={[styles.designChild, styles.childBg]} />
-                    <Text style={[styles.engineer, styles.engineerTypo]}>Engineer</Text>
-                </View>
-                <View style={[styles.seniorDesigner1, styles.seniorLayout]}>
-                    <View style={[styles.seniorDesignerChild, styles.seniorLayout]} />
-                    <Text style={[styles.seniorEngineer, styles.engineerTypo]}>Senior Engineer</Text>
-                </View>
-            </View>
-            {/*<Image style={[styles.menuBarIcon, styles.menuBarIconSpaceBlock]} resizeMode="cover" source="Menu bar.png" />*/}
-        </View>
         </ScrollView>
-            );
+    );
 };
 
 const styles = StyleSheet.create({
@@ -310,7 +238,7 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     leadership3Layout: {
-        width: 168,
+        width: 170,
         height: 36,
         position: "absolute"
     },
@@ -324,10 +252,9 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     seeTypo: {
-        width: 53,
         color: "#7551ff",
         fontFamily: "DM Sans",
-        fontSize: 12,
+        fontSize: 14,
         textAlign: "left"
     },
     frameLayout: {
@@ -527,7 +454,7 @@ const styles = StyleSheet.create({
         textAlign: "left",
         left: "50%",
         position: "absolute",
-        top: 35
+        top: 50
     },
     icoutlineCloseIcon: {
         right: 14,
@@ -544,7 +471,6 @@ const styles = StyleSheet.create({
     },
     sqlTuning: {
         left: 13,
-        width: 98,
         fontFamily: "DM Sans",
         top: 10,
         textAlign: "left",
@@ -675,6 +601,10 @@ const styles = StyleSheet.create({
     leadership3: {
         left: 183,
         top: 101
+    },
+    leadership10: {
+        left: 1,
+        top: 155
     },
     skill: {
         marginTop: -819,
@@ -962,19 +892,19 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     uiuxDesignerParent: {
-        top: 255,
+        top: 0,
         width: 352,
         left: 0
     },
     seeMore4: {
-        marginLeft: -26.5,
+        marginLeft: -30,
         height: 16
     },
     seeMore3: {
-        top: 457
+        top: 250
     },
     resume: {
-        top: 1357,
+        top: 1015,
         height: 473,
         left: 28,
         width: 353,
@@ -994,7 +924,7 @@ const styles = StyleSheet.create({
         height: 36
     },
     vectorParent: {
-        top: 1413,
+        top: 1100,
         left: 28
     },
     frameItem: {
@@ -1060,7 +990,7 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     ellipseParent: {
-        top: 783,
+        top: 420,
         width: 353
     },
     viewedCourses: {
@@ -1078,15 +1008,15 @@ const styles = StyleSheet.create({
         left: 32
     },
     basicsOfUiuxDesignParent: {
-        top: 1017,
+        top: 660,
         width: 352
     },
     seeMore6: {
-        marginLeft: -27,
+        marginLeft: -30,
         height: 26
     },
     seeMore5: {
-        top: 1250
+        top: 900
     },
     frameChild3: {
         left: -11,
@@ -1147,11 +1077,11 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     editIcon: {
-        top: 360,
+        top: 368,
         left: 33
     },
     courseSuggestions: {
-        top: 364,
+        top: 370,
         left: 67,
         color: "#150b3d",
         fontSize: 14,
@@ -1163,17 +1093,18 @@ const styles = StyleSheet.create({
     youMightNeed: {
         top: 22,
         left: 31,
-        color: "#150b3d",
+        color: "#707070",
         fontSize: 14
     },
     youMightNeedToFillBelowGWrapper: {
-        top: 71,
+        top: 80,
+        backgroundColor: "transparent",
         marginLeft: -207,
         width: 414
     },
     onceYouSatisfiesWithYourGWrapper: {
         marginLeft: -206,
-        top: 1271,
+        top: 940,
         width: 412
     },
     pathwayItem: {
