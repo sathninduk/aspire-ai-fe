@@ -43,8 +43,7 @@ const OnboadingChat = () => {
                     </View>
                     <Text style={[styles.aspireai, styles.nextTypo]}>AspireAI</Text>
                     <View style={[styles.chat2, styles.chat2Layout]}>
-                        <Text style={[styles.canYouBriefly, styles.nextTypo]}>Are you interested in transitioning to a
-                            new field, advancing in your current role, or exploring different job opportunities?</Text>
+                        <Text style={[styles.canYouBriefly, styles.nextTypo]}>What fields and areas have you studied and mastered?</Text>
                     </View>
                     <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
                         <Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source={
@@ -182,7 +181,6 @@ const styles = StyleSheet.create({
     canYouBriefly: {
         top: 9,
         color: "#524b6b",
-        height: 40,
         textAlign: "left",
         fontSize: 16,
         fontFamily: "DM Sans",
