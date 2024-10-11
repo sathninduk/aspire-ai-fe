@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
 import { Button, Searchbar } from 'react-native-paper';
 import TabNavigation from '../../components/home_sub/TabNavigation';
-import { TouchableOpacity} from 'react-native';
-import {ParamListBase, useNavigation} from "@react-navigation/native";
-import {StackNavigationProp} from '@react-navigation/stack';
+import { TouchableOpacity } from 'react-native';
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface InterviewScreenProps {}
 
@@ -67,14 +67,12 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Interviews</Text>
       <br></br>
+      <Text style={styles.title}>Careers</Text>
       <View style={styles.tabContainer}>
         <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel} onPress={() => navigation.navigate('job')}>Overview</Button>
-        <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel}>Viewed</Button>
         <Button mode="contained" style={[styles.tabButton, styles.activeTab]} labelStyle={styles.activeButtonLabel} onPress={() => navigation.navigate('careers/InterviewScreen')}>Interviews</Button>
       </View>
-      <br></br>
       <View style={styles.searchContainer}>
         <Searchbar
           style={styles.searchBar}
@@ -83,25 +81,14 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
           placeholder="Search Interview"
         />
         <TouchableOpacity 
-  style={{
-    backgroundColor: '#6C63FF',
-    padding: 10,
-    borderRadius: 8, // Adjust as needed
-    alignItems: 'center',
-    marginLeft: 15,
-    height: 52
-  }}
-  onPress={() => fetchInterviewQuestions(jobKeyword)}
->
-  <Text style={{ color: 'white' }}>Get Interview</Text>
-</TouchableOpacity>
-
+          style={styles.getInterviewButton}
+          onPress={() => fetchInterviewQuestions(jobKeyword)}
+        >
+          <Text style={styles.getInterviewButtonText}>Get Interview</Text>
+        </TouchableOpacity>
       </View>
-
-      <br></br> <br></br>
       {loading && <Text style={styles.loadingText}>Loading...</Text>}
       {error && <Text style={styles.errorText}>{error}</Text>}
-
       <View style={styles.questionsContainer}>
         {interviewQuestions.length === 0 && defaultQuestions.map((item, index) => (
           <View key={index} style={styles.questionBlock}>
@@ -111,7 +98,6 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
             ))}
           </View>
         ))}
-
         {interviewQuestions.length > 0 && (
           <View style={styles.questionBlock}>
             <Text style={styles.questionTitle}>Interview Questions for "{jobKeyword}"</Text>
@@ -127,28 +113,43 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1, // Ensure the container takes the full screen height
     padding: 20,
-    
+    justifyContent: 'flex-start', // Align children at the start of the container
+    alignItems: 'center', // Center children horizontally
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#0D0140',
     marginBottom: 20,
-    alignItems: 'center',
   },
-  formContainer: {
+  tabContainer: {
+    width: '100%',
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 20,
+    justifyContent: 'space-around',
+    marginBottom: 10,
   },
-  input: {
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+    width: '100%',
+  },
+  searchBar: {
+    flex: 1,
+    borderRadius: 10,
+  },
+  getInterviewButton: {
+    backgroundColor: '#6C63FF',
     padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    width: 300,
-    marginRight: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginLeft: 15,
+    height: 52,
+  },
+  getInterviewButtonText: {
+    color: 'white',
   },
   loadingText: {
     textAlign: 'center',
@@ -179,16 +180,10 @@ const styles = StyleSheet.create({
     margin: 0,
     marginBottom: 10,
     fontSize: 20,
-    color: '6C63FF'
+    color: '#6C63FF',
   },
   question: {
     marginBottom: 5,
-  },
-  tabContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 10,
   },
   tabButton: {
     minWidth: 100,
@@ -209,16 +204,6 @@ const styles = StyleSheet.create({
   activeButtonLabel: {
     color: '#6A41FF',
     fontWeight: 'bold',
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 20,
-    width: '100%',
-  },
-  searchBar: {
-    flex: 1,
-    borderRadius: 10,
   },
 });
 

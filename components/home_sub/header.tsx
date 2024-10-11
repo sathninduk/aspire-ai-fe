@@ -87,7 +87,7 @@ const JobSkillsHomeScreen: React.FC = () => {
 
       <View style={styles.tabContainer}>
         <Button mode="contained" style={[styles.tabButton, styles.activeTab]} labelStyle={styles.activeButtonLabel} onPress={() => navigation.navigate('job')}>Overview</Button>
-        <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel}>Viewed</Button>
+        
         <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel} onPress={() => navigation.navigate('careers/InterviewScreen')}>Interviews</Button>
       </View>
 
