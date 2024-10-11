@@ -7,7 +7,8 @@ import {
     Pressable,
     StyleSheet,
     Text,
-    TextInput, TouchableWithoutFeedback,
+    TextInput,
+    TouchableWithoutFeedback,
     View
 } from "react-native";
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -15,6 +16,10 @@ import {ParamListBase, useNavigation} from "@react-navigation/native";
 
 const OnboadingChat = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+
+    const handleNext = () => {
+        navigation.navigate("questions/step2");
+    }
 
     return (
         <KeyboardAvoidingView
@@ -24,8 +29,7 @@ const OnboadingChat = () => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={[styles.onboadingChat1, styles.iconLayout]}>
                     <View style={styles.groupParent}>
-                        <Pressable style={[styles.frameWrapper, styles.nextParentLayout]} onPress={() => {
-                        }}>
+                        <Pressable style={[styles.frameWrapper, styles.nextParentLayout]} onPress={handleNext}>
                             <View style={[styles.nextParent, styles.nextParentPosition]}>
                                 <Text style={[styles.next, styles.nextTypo]}>Next</Text>
                                 <Image style={styles.vectorIcon} resizeMode="cover" source={
@@ -40,8 +44,8 @@ const OnboadingChat = () => {
                     <Text style={[styles.aspireai, styles.nextTypo]}>AspireAI</Text>
                     <View style={[styles.chat2, styles.chat2Layout]}>
                         <Text style={[styles.canYouBriefly, styles.nextTypo]}>Can you briefly describe your current
-                            career
-                            situation? Are you currently working, studying, or looking for new opportunities?</Text>
+                            career situation? Are you currently working, studying, or looking for new
+                            opportunities?</Text>
                     </View>
                     <Pressable style={styles.backArrow} onPress={() => navigation.goBack()}>
                         <Image style={[styles.icon, styles.iconLayout]} resizeMode="cover" source={
@@ -181,7 +185,7 @@ const styles = StyleSheet.create({
         color: "#524b6b",
         height: 40,
         textAlign: "left",
-        fontSize: 14,
+        fontSize: 16,
         fontFamily: "DM Sans",
         fontWeight: "700",
         left: 0,
