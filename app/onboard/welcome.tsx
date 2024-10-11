@@ -46,6 +46,7 @@ const Welcome = () => {
     return (
         <View style={[styles.welcome, styles.iconLayout]}>
             <Text style={[styles.helloLouisWelcome, styles.nextTypo]}>{`Hello ${firstName}!\nWelcome to AspireAI`}</Text>
+            <Text style={[styles.helloLouisWelcome2, styles.nextTypo2]}>{`We have a few more questions to ask to\nprovide you with the best personalized\nexperience.`}</Text>
             <Pressable style={[styles.welcomeInner, styles.nextParentLayout]} onPress={handleNext}>
                 <View style={[styles.nextParent, styles.nextParentLayout]}>
                     <Text style={[styles.next, styles.nextTypo]}>Next</Text>
@@ -85,6 +86,11 @@ const styles = StyleSheet.create({
         fontFamily: "DM Sans",
         fontWeight: "700"
     },
+    nextTypo2: {
+        textAlign: "left",
+        fontFamily: "DM Sans",
+        fontWeight: "600"
+    },
     nextParentLayout: {
         height: 48,
         width: 350,
@@ -105,6 +111,14 @@ const styles = StyleSheet.create({
         left: "50%",
         fontSize: 30,
         color: "#0d0140",
+        position: "absolute"
+    },
+    helloLouisWelcome2: {
+        marginLeft: -151,
+        top: 460,
+        left: "50%",
+        fontSize: 16,
+        color: "#6d4aff",
         position: "absolute"
     },
     next: {
