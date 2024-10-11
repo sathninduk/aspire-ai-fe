@@ -56,7 +56,7 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
       }
 
       const data = await response.json();
-      setInterviewQuestions(data.questions); // Assuming data.questions is an array
+      setInterviewQuestions(data.questions || []); // Ensure it's an array
     } catch (error) {
       console.error("Error fetching interview questions:", error);
       setError('Failed to load questions, please try again later.');
@@ -70,10 +70,20 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
       <View style={{ height: 20 }} /> {/* Adds space */}
       <Text style={styles.title}>Careers</Text>
       <View style={styles.tabContainer}>
-        <Button mode="outlined" style={[styles.tabButton, styles.inactiveTab]} labelStyle={styles.buttonLabel} onPress={() => navigation.navigate('job')}>
+        <Button 
+          mode="outlined" 
+          style={[styles.tabButton, styles.inactiveTab]} 
+          labelStyle={styles.buttonLabel} 
+          onPress={() => navigation.navigate('job')}
+        >
           Overview
         </Button>
-        <Button mode="contained" style={[styles.tabButton, styles.activeTab]} labelStyle={styles.activeButtonLabel} onPress={() => navigation.navigate('careers/InterviewScreen')}>
+        <Button 
+          mode="contained" 
+          style={[styles.tabButton, styles.activeTab]} 
+          labelStyle={styles.activeButtonLabel} 
+          onPress={() => navigation.navigate('careers/InterviewScreen')}
+        >
           Interviews
         </Button>
       </View>
