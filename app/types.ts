@@ -1,5 +1,8 @@
 // app/types.ts
+
 export type RootStackParamList = {
+  index: undefined;
+  "(tabs)": undefined;
   login: undefined;
   Onboarding1: undefined;
   Onboarding2: undefined;
@@ -7,6 +10,8 @@ export type RootStackParamList = {
   SignUp: undefined;
   SignupOtpVerification: { number: string };
   "signup/otp": { number: string };
+  LoginOtpVerification: { number: string };
+  "login/otp": { number: string };
   "login/splash": undefined;
   "onboard/name": undefined;
   "onboard/check-employed": undefined;

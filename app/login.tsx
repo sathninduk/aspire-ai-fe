@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import {
+    ActivityIndicator,
     Image,
     Keyboard,
     KeyboardAvoidingView,
@@ -14,9 +15,34 @@ import {
     View
 } from "react-native";
 import { formatPhoneNumber } from "react-phone-number-input";
+import axios from "axios";
+import {BACKEND_URL} from "@/config";
+import {ParamListBase, useNavigation} from "@react-navigation/native";
+import {StackNavigationProp} from "@react-navigation/stack";
 
 const SignIn = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+
+    const checkNumber = () => {
+        setLoading(true);
+        try {
+            axios.get(`${BACKEND_URL}/user/${phoneNumber}`).then((res) => {
+                navigation.navigate("login/otp", { number: phoneNumber });
+            }).catch((err) => {
+                if (err.message === "Request failed with status code 404") {
+                    setError("Unregistered phone number");
+                }
+            });
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <KeyboardAvoidingView
@@ -65,10 +91,13 @@ const SignIn = () => {
                     }]}/>
                     <View style={[styles.ellipseIcon, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
                     <View style={[styles.signInChild1, styles.ball, {backgroundColor: '#6A41FF', borderRadius: 600}]}/>
-                    <Pressable style={[styles.verifyYourNumberParent, styles.parentFlexBox]} onPress={() => {}}>
+                    <Pressable style={[styles.verifyYourNumberParent, styles.parentFlexBox]} onPress={checkNumber}>
                         <Text style={[styles.verifyYourNumber, styles.text2Typo]}>Verify Your Number</Text>
+                        {!loading ?
                         <Image style={styles.riarrowIconLayout} resizeMode="cover"
                                source={require('@/assets/images/signin/arrow-up-s-line.svg')}/>
+                            :
+                            <ActivityIndicator style={styles.riarrowIconLayout} animating={true} color="#fff"/>}
                     </Pressable>
                 </View>
             </ScrollView>
