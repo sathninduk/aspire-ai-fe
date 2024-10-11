@@ -26,6 +26,10 @@ const CurrentlyEmployedYes = () => {
     const [loading, setLoading] = React.useState(false);
 
     const handleEmpDetails = async () => {
+        if (title === "" || company === "") {
+            alert("Please enter your job title and company");
+            return;
+        }
         setLoading(true);
         const number = await AsyncStorage.getItem("number");
         try {

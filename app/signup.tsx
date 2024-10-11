@@ -27,6 +27,13 @@ const SignUp: React.FC = () => {
     const navigation = useNavigation<SignUpScreenNavigationProp>();
 
     const createAccount = async () => {
+        if (phoneNumber === "") {
+            alert("Phone number cannot be empty");
+            return;
+        } else if (phoneNumber.length !== 10) {
+            alert("Invalid phone number");
+            return;
+        }
         setLoading(true);
         try {
             await axios.post(`${BACKEND_URL}/signup`, { number: phoneNumber })
@@ -34,7 +41,7 @@ const SignUp: React.FC = () => {
                     return navigation.navigate('signup/otp', {number: phoneNumber});
                 });
         } catch (error) {
-            console.error('Error fetching search results:', error);
+            alert("Phone number already in use");
         } finally {
             setLoading(false);
         }
