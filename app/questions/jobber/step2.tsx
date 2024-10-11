@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+    ActivityIndicator,
     Image,
     Keyboard,
     KeyboardAvoidingView,
@@ -13,12 +14,30 @@ import {
 } from "react-native";
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ParamListBase, useNavigation} from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import {BACKEND_URL} from "@/config";
 
 const OnboadingChat = () => {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+    const [answer, setAnswer] = React.useState("");
+    const [loading, setLoading] = React.useState(false);
 
-    const handleNext = () => {
-        navigation.navigate("onboard/building");
+    const handleNext = async () => {
+        const number = await AsyncStorage.getItem("number");
+        setLoading(true);
+        try {
+            axios.put(`${BACKEND_URL}/user/answer-2`, {
+                number,
+                answer_2: answer
+            }).then(() => {
+                navigation.navigate("onboard/building");
+            })
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -32,9 +51,11 @@ const OnboadingChat = () => {
                         <Pressable style={[styles.frameWrapper, styles.nextParentLayout]} onPress={handleNext}>
                             <View style={[styles.nextParent, styles.nextParentPosition]}>
                                 <Text style={[styles.next, styles.nextTypo]}>Next</Text>
-                                <Image style={styles.vectorIcon} resizeMode="cover" source={
-                                    require("@/assets/images/onboard/next.png")
-                                }/>
+                                {!loading ?
+                                    <Image style={styles.vectorIcon} resizeMode="cover" source={require("@/assets/images/onboard/next.png")}/>
+                                    :
+                                    <ActivityIndicator style={styles.vectorIcon} animating={true} color="#fff"/>
+                                }
                             </View>
                         </Pressable>
                         <View style={[styles.groupChild, styles.ball, {backgroundColor: "#130160"}]}/>
@@ -54,6 +75,8 @@ const OnboadingChat = () => {
                         style={[styles.onboadingChat1Child, styles.canYouBrieflyLayout, styles.textArea]}
                         placeholder="Your Answer"
                         placeholderTextColor="#aaa6b9"
+                        value={answer}
+                        onChangeText={setAnswer}
                         multiline={true}
                         numberOfLines={4}
                     />
