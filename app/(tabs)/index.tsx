@@ -1,9 +1,10 @@
 import * as React from "react";
 import {useEffect} from "react";
-import {Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
 import {BACKEND_URL} from "@/config";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Link} from "expo-router";
 
 const Pathway = () => {
 
@@ -19,15 +20,26 @@ const Pathway = () => {
     const [loadingJobs, setLoadingJobs] = React.useState(true);
     const [loadingCourses, setLoadingCourses] = React.useState(true);
     const [jobsData, setJobsData] = React.useState([{
-        title: '',
+        position: '',
         company: '',
         location: '',
     }, {
-        title: '',
+        position: '',
         company: '',
         location: '',
     }])
-    const [coursesData, setCoursesData] = React.useState([])
+    const [coursesData, setCoursesData] = React.useState([
+        {
+            title: '',
+            url: '',
+            source: ''
+        },
+        {
+            title: '',
+            url: '',
+            source: ''
+        }
+    ])
 
     const getUserData = async () => {
         const number = await AsyncStorage.getItem('number');
@@ -81,6 +93,9 @@ const Pathway = () => {
         return text;
     };
 
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <View style={styles.pathway}>
@@ -146,40 +161,48 @@ const Pathway = () => {
                     } />
                     {/*<Image style={[styles.resumeChild, styles.childLayout]} resizeMode="cover" source="Vector 74.png" />*/}
                     <Text style={[styles.jobOpenings, styles.jobOpeningsClr]}>Job Openings</Text>
+                    {loadingJobs ?
+                        <ActivityIndicator style={[styles.uiuxDesignerParent, styles.uiuxLayout]} animating={true} color="#000"/> :
                     <View style={[styles.uiuxDesignerParent, styles.uiuxLayout]}>
                         <View style={[styles.uiuxDesigner, styles.uiuxLayout]}>
-                            <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[0].title}</Text>
+                            <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[0].position}</Text>
                             <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[0].company}</Text>
                         </View>
                         {/*<Image style={styles.cg1Icon} resizeMode="cover" source="cg 1.png" />*/}
                     </View>
+                    }
                     <Pressable style={[styles.seeMore3, styles.seePosition]} onPress={() => {
                     }}>
                         <Text style={[styles.seeMore4, styles.seeTypo]}>See more</Text>
                     </Pressable>
                 </View>
-                <View style={[styles.vectorParent, styles.groupInnerLayout]}>
-                    <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[1].title}</Text>
-                    <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[1].company}</Text>
-                </View>
+                {loadingJobs ?
+                    <></>
+                    : jobsData.length > 1 &&
+                    <View style={[styles.vectorParent, styles.groupInnerLayout]}>
+                    <Text style={[styles.seniorSoftwareEngineer, styles.ifs1IconPosition]}>{jobsData[1].position}</Text>
+                    <Text style={[styles.codegenColombo, styles.ifs1IconPosition]}>{jobsData[1].company}</Text>
+                </View>}
                 <View style={[styles.ellipseParent, styles.parentShadowBox]}>
                     {/*<Image style={styles.frameItem} resizeMode="cover" source="Ellipse 139.png" />*/}
-                    <Text style={[styles.basicsOfUiux2, styles.basicsPosition]}>View</Text>
+                    {/* @ts-ignore*/}
+                    <Link href={coursesData[0].url} style={[styles.basicsOfUiux2, styles.basicsPosition]}>View</Link>
                     <View style={styles.rectangleGroup}>
                         <View style={[styles.frameInner, styles.frameLayout]}/>
                         <View style={[styles.shapes, styles.shapesLayout3]}>
                             {/*<Image style={[styles.ellipseIcon, styles.shapesChildLayout]} resizeMode="cover" source="Ellipse 117.png" />*/}
                             {/*<Image style={[styles.shapesChild1, styles.shapesLayout]} resizeMode="cover" source="Ellipse 118.png" />*/}
                             {/*<Image style={[styles.shapesChild2, styles.shapesLayout3]} resizeMode="cover" source="Ellipse 119.png" />*/}
-                            <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
+                            <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>{coursesData[0].source}</Text>
                         </View>
                         {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
-                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX Design`}</Text>
+                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{truncateText(coursesData[0].title, 25)}</Text>
                     </View>
                     {/*<Image style={styles.frameChild1} resizeMode="cover" source="Rectangle 6438.png" />*/}
                 </View>
                 <View style={[styles.basicsOfUiuxDesignParent, styles.parentShadowBox]}>
-                    <Text style={[styles.basicsOfUiux2, styles.basicsPosition]}>View</Text>
+                    {/* @ts-ignore*/}
+                    <Link href={coursesData[1].url} style={[styles.basicsOfUiux2, styles.basicsPosition]}>View</Link>
                     {/*<Image style={styles.frameChild1} resizeMode="cover" source="Rectangle 6438.png" />*/}
                     <View style={styles.rectangleGroup}>
                         <View style={[styles.frameInner, styles.frameLayout]}/>
@@ -187,10 +210,10 @@ const Pathway = () => {
                             {/*<Image style={[styles.ellipseIcon, styles.shapesChildLayout]} resizeMode="cover" source="Ellipse 117.png" />*/}
                             {/*<Image style={[styles.shapesChild1, styles.shapesLayout]} resizeMode="cover" source="Ellipse 118.png" />*/}
                             {/*<Image style={[styles.shapesChild2, styles.shapesLayout3]} resizeMode="cover" source="Ellipse 119.png" />*/}
-                            <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>Silverdole Selvester</Text>
+                            <Text style={[styles.silverdoleSelvester, styles.basicsTypo]}>{coursesData[1].source}</Text>
                         </View>
                         {/*<Image style={[styles.image64Icon, styles.shapesLayout]} resizeMode="cover" source="image 64.png" />*/}
-                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{`Basics of UI/UX Design`}</Text>
+                        <Text style={[styles.basicsOfUiux, styles.basicsTypo]}>{truncateText(coursesData[1].title, 25)}</Text>
                     </View>
                 </View>
                 <Pressable style={[styles.seeMore5, styles.seePosition]} onPress={() => {
@@ -322,7 +345,7 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins-Medium",
         fontWeight: "500",
         textAlign: "left",
-        position: "absolute"
+        position: "absolute",
     },
     easyParentLayout: {
         height: 22,
@@ -432,7 +455,7 @@ const styles = StyleSheet.create({
         overflow: "hidden"
     },
     basicsPosition: {
-        top: 147,
+        top: 165,
         fontSize: 18,
         color: "#000",
         left: 160
@@ -908,7 +931,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: "left",
         fontFamily: "DM Sans",
-        fontWeight: "700"
+        fontWeight: "700",
     },
     codegenColombo: {
         top: 92,
@@ -963,7 +986,7 @@ const styles = StyleSheet.create({
     },
     vectorParent: {
         top: 1100,
-        left: 28
+        left: 28,
     },
     frameItem: {
         top: 12,
