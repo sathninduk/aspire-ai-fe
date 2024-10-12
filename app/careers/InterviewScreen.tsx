@@ -131,6 +131,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     alignItems: 'center',
+    paddingTop: 40,
+    marginHorizontal: 30
   },
   title: {
     fontSize: 24,
@@ -149,13 +151,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     width: '100%',
+    
   },
   searchBar: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#6C63FF',
+    borderColor: '#f0ecf4',
     borderRadius: 10,
     padding: 10,
+    backgroundColor: '#f0ecf4'
   },
   getInterviewButton: {
     backgroundColor: '#6C63FF',
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     marginLeft: 15,
-    height: 52,
+    height: 40,
   },
   getInterviewButtonText: {
     color: 'white',
@@ -192,6 +196,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 1,
+    marginLeft: 5,
+    marginRight: 5
   },
   questionTitle: {
     marginBottom: 10,
