@@ -133,13 +133,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#4d47ff',
         paddingVertical: 5,
-        paddingHorizontal: 10,
+        paddingHorizontal: 5,
         borderRadius: 20,
         marginTop: 10,
     },
     editText: {
         color: '#fff',
         marginLeft: 5,
+        fontSize:14,
     },
     inputContainer: {
         padding: 20,

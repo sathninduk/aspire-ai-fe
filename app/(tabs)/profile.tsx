@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#4d47ff',
     paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     borderRadius: 20,
     marginTop: 10,
     position: 'absolute',
@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
   editText: {
     color: '#fff',
     marginLeft: 5,
+    fontSize:13,
   },
   menuSection: {
     paddingVertical: 20,
