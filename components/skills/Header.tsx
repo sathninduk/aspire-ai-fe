@@ -6,9 +6,9 @@ const Header = ({ onChange, active }: { onChange: (screen: string) => void, acti
     <View style={styles.container}>
       <Text style={styles.title}>Skills</Text>
       <View style={styles.tabContainer}>
-        <TouchableOpacity onPress={() => onChange?.("viewed")}>
+        {/* <TouchableOpacity onPress={() => onChange?.("viewed")}>
           <Text style={[styles.tab, active === "viewed" ? styles.activeTab : {}]}>Viewed</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={() => onChange?.("overview")}>
           <Text style={[styles.tab, active === "overview" ? styles.activeTab : {}]} >Overview</Text>
         </TouchableOpacity>

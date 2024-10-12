@@ -37,12 +37,12 @@ export default function Overview() {
             <SearchBar />
             <Text style={styles.specialization}>Specialization</Text>
             <View style={{ flex: 1, flexDirection: "row", height: "100%", flexWrap: "wrap", gap: 20, justifyContent: "center" }}>
-                <Specialization selected containerStyle={{ width: "45%" }} />
-                <Specialization selected containerStyle={{ width: "45%" }} />
-                <Specialization selected containerStyle={{ width: "45%" }} />
-                <Specialization selected containerStyle={{ width: "45%" }} />
-                <Specialization selected containerStyle={{ width: "45%" }} />
-                <Specialization selected containerStyle={{ width: "45%" }} />
+            <Specialization selected containerStyle={{ width: "45%" }} title="User Experience Design" coursesCount={140} icon={require("../../assets/images/icon_design.png")} />
+    <Specialization selected containerStyle={{ width: "45%" }} title="Web Development" coursesCount={200} icon={require("../../assets/images/icon_design.png")} />
+    <Specialization selected containerStyle={{ width: "45%" }} title="Digital Marketing" coursesCount={180} icon={require("../../assets/images/icon_design.png")} />
+    <Specialization selected containerStyle={{ width: "45%" }} title="Data Science" coursesCount={120} icon={require("../../assets/images/icon_design.png")} />
+    <Specialization selected containerStyle={{ width: "45%" }} title="Mobile App Development" coursesCount={160} icon={require("../../assets/images/icon_design.png")} />
+    <Specialization selected containerStyle={{ width: "45%" }} title="Graphic Design" coursesCount={100} icon={require("../../assets/images/icon_design.png")} />
             </View>
             <Text style={styles.sectionTitle}>Course Recommendations</Text>
             <FlatList

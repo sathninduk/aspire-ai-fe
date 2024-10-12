@@ -12,21 +12,33 @@ interface CourseCardProps {
 const CourseCard: React.FC<CourseCardProps> = ({ title, url, source }) => {
   // Function to handle opening the course URL
   const handlePress = () => {
-    Linking.openURL(url ?? "");
+    if (url) {
+      Linking.openURL(url);
+    }
+  };
+
+  // Function to handle "Mark as completed" action
+  const handleMarkAsCompleted = () => {
+    console.log(`${title} marked as completed`);
+    // You can add further actions, like updating the status in state or making an API call.
   };
 
   return (
     <View style={{ flex: 1, borderRadius: 15 }}>
       <View style={styles.card}>
-        {/* <CardImage /> */}
-        <Image style={{ position: "absolute", height: 314, width: "100%" }} resizeMode='cover' source={require('../../assets/images/cardimage.png')} />
+        <Image
+          style={{ position: "absolute", height: 314, width: "100%" }}
+          resizeMode="cover"
+          source={require('../../assets/images/cardimage.png')}
+        />
         <View style={{ paddingLeft: 200 }}>
           <Text style={styles.silverdoleSelvester}>{title ?? ""}</Text>
           <Text style={styles.basicsOfUiux}>{source ?? ""}</Text>
         </View>
       </View>
+
       <View style={{ padding: 17 }}>
-        <Text style={styles.title2}>Basics of UI/UX Design</Text>
+        <Text style={styles.title2}>{title ?? ""}</Text>
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ flex: 1, flexDirection: "row", gap: 10, alignItems: "center" }}>
             <Image source={require('../../assets/images/clock.png')} />
@@ -35,7 +47,16 @@ const CourseCard: React.FC<CourseCardProps> = ({ title, url, source }) => {
             <Text style={styles.rating}>4.7</Text>
           </View>
 
-          <TouchableHighlight><Text style={styles.viewCourse}>View Course</Text></TouchableHighlight>
+          <TouchableHighlight onPress={handlePress}>
+            <Text style={styles.viewCourse}>View Course</Text>
+          </TouchableHighlight>
+        </View>
+
+        {/* "Mark as Completed" Button */}
+        <View style={styles.actionContainer}>
+          <TouchableOpacity onPress={handleMarkAsCompleted} style={styles.completedButton}>
+            <Text style={styles.completedButtonText}>Mark as Completed</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -46,7 +67,6 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#E0DDFF',
     borderRadius: 12,
-    // padding: 16,
     position: "relative",
     height: 314,
     overflow: "hidden",
@@ -96,25 +116,21 @@ const styles = StyleSheet.create({
     color: "rgba(0, 0, 0, 0.5)",
     textAlign: "left"
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#3A3A3A',
-    marginBottom: 8,
-  },
-  source: {
-    fontSize: 12,
-    color: '#9B9B9B',
-    marginBottom: 4,
-  },
   actionContainer: {
+    marginTop: 16,
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 12,
+    justifyContent: 'flex-start', // Aligns the button to the left
   },
-  actionText: {
-    color: '#8A6AF7',
-    fontWeight: '600',
+  completedButton: {
+    backgroundColor: '#6a41ff',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  completedButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 });
 

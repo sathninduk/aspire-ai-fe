@@ -3,40 +3,69 @@ import { FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-nativ
 import CircularProgress from "react-native-circular-progress-indicator";
 import { Course, fetchCourses } from "../services/courseService";
 import CourseCard from "@/components/skills/CourseCard";
+import { useRoute } from '@react-navigation/native'; // Import useRoute from react-navigation
 
 function ViewSkillStatus() {
-    const [recommendedCourses, setRecommendedCourses] = useState<Course[]>([]); // Correctly typed array
+    const route = useRoute(); // Get the route prop
+    const [recommendedCourses, setRecommendedCourses] = useState<Course[]>([]);
+    const [progress, setProgress] = useState<number>(0);
+    const [title, setTitle] = useState<string>(''); // Declare title state
 
     useEffect(() => {
         const fetchInitialCourses = async () => {
             try {
-                console.log("fetching courses")
                 const courses = await fetchCourses('oracle sql');
-                console.log("courses", courses)
-
                 setRecommendedCourses(courses);
             } catch (error) {
                 console.error('Failed to fetch courses:', error);
             }
         };
 
+        // Access progress and title from route params
+        const { progress: progressParam, title: titleParam } = route.params || {}; // Default to an empty object
+
+        if (progressParam) {
+            const parsedProgress = Number(progressParam);
+            console.log("Parsed Progress:", parsedProgress);
+
+            // Ensure the parsed progress is between 0 and 100
+            const validProgress = Math.min(Math.max(parsedProgress, 0), 100);
+            setProgress(validProgress);
+            console.log("Set Progress:", validProgress);
+        }
+
+        if (titleParam) { // Check if titleParam is defined
+            setTitle(titleParam); // Set the title state
+        }
+
         fetchInitialCourses();
-    }, []);
+    }, [route.params]); // Use route.params to trigger updates when parameters change
+
     return (
         <View style={{ height: "100%", backgroundColor: "white" }}>
             <ScrollView>
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
                     <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 98, alignItems: "center" }}>
-                        <Image source={require("../../assets/images/Filter.png")} resizeMode="contain" style={{ height: 40, marginRight: 12 }} />
-                        <Text>{"Project Management"}</Text>
+                        <Image 
+                            source={require("../../assets/images/Filter.png")} 
+                            resizeMode="contain" 
+                            style={{ height: 40, marginRight: 12 }} 
+                        />
+                        <Text style={styles.sectionTitle}>
+                            {title || "Loading..."} {/* Fallback text if title is empty */}
+                        </Text>
                     </View>
                     <Text style={styles.yourProgress}>Your Progress</Text>
                     <View>
-                        <CircularProgress value={80} activeStrokeColor="#6a41ff" radius={130} />
+                        <CircularProgress 
+                            value={progress} 
+                            activeStrokeColor="#6a41ff" 
+                            radius={130} 
+                        />
                     </View>
                 </View>
-                <View style={{padding: 28}}>
-                <Text style={styles.sectionTitle}>Course Recommendations</Text>
+                <View style={{ padding: 28 }}>
+                    <Text style={styles.sectionTitle}>Course Recommendations</Text>
                     <FlatList
                         data={recommendedCourses}
                         renderItem={({ item }) => (
@@ -53,10 +82,8 @@ function ViewSkillStatus() {
                 </View>
             </ScrollView>
         </View>
-    )
+    );
 }
-
-export default ViewSkillStatus;
 
 const styles = StyleSheet.create({
     yourProgress: {
@@ -65,12 +92,8 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins-SemiBold",
         color: "#000",
         textAlign: "center",
-        width: 169,
-        height: 38,
-        // flex: 1,
         marginTop: 56,
         marginBottom: 33,
-        // backgroundColor: "red"
     },
     courseList: {
         paddingVertical: 16,
@@ -81,6 +104,8 @@ const styles = StyleSheet.create({
         fontFamily: "DMSans-Bold",
         color: "#150a33",
         textAlign: "left",
-        marginTop: 46
+        marginTop: 46,
     },
 });
+
+export default ViewSkillStatus;
