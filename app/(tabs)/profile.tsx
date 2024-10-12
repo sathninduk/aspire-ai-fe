@@ -1,22 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../navigation/types'; // Adjust the path based on your structure
-import { CompositeNavigationProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { Link } from 'expo-router'; // Import the Link component
 
-type ProfileScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<RootStackParamList, 'MainTabs'>,
-  StackNavigationProp<RootStackParamList>
->;
-
 export default function TabProfileScreen() {
-  const navigation = useNavigation<ProfileScreenNavigationProp>(); // Specify the type for navigation
+  // State to handle expanded sections for all items
+  const [expandedSections, setExpandedSections] = useState({
+    aboutMe: true,
+    workExperience: true,
+    education: true,
+    skills: true,
+    preferences: true,
+  });
+
+  // Data for sections
+  const aboutMeData = "I am a passionate software architect with more than 6+ years in the Industry.";
+  const workExperienceData = "Software Architect. Worked on various projects including mobile and web applications.";
+  const educationData = "Information Technology Specialized in Software Engineering";
+  const skillData = "React, React Native, JavaScript, TypeScript, SQL, Node.js.";
+  const preferencesData = "Dark Mode, English Language.";
+
+  // Toggle section
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section], // Toggle the specific section
+    }));
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -30,7 +43,7 @@ export default function TabProfileScreen() {
         <Text style={styles.location}>Colombo, Sri Lanka</Text>
         <Link
           href="/profile/editProfile" // Set the href to the EditProfile route
-          style={styles.editButton} // Apply the same styles as before
+          style={styles.editButton}
         >
           <Ionicons name="pencil" size={20} color="#fff" />
           <Text style={styles.editText}>Edit profile</Text>
@@ -39,30 +52,55 @@ export default function TabProfileScreen() {
 
       {/* Menu Sections */}
       <View style={styles.menuSection}>
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => toggleSection('aboutMe')}>
           <Ionicons name="person-outline" size={20} color="#6c63ff" />
           <Text style={styles.menuText}>About me</Text>
         </TouchableOpacity>
+        {expandedSections.aboutMe && (
+          <View style={styles.detailContainer}>
+            <Text>{aboutMeData}</Text>
+          </View>
+        )}
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => toggleSection('workExperience')}>
           <FontAwesome5 name="briefcase" size={20} color="#6c63ff" />
           <Text style={styles.menuText}>Work experience</Text>
         </TouchableOpacity>
+        {expandedSections.workExperience && (
+          <View style={styles.detailContainer}>
+            <Text>{workExperienceData}</Text>
+          </View>
+        )}
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => toggleSection('education')}>
           <Ionicons name="school-outline" size={20} color="#6c63ff" />
           <Text style={styles.menuText}>Education</Text>
         </TouchableOpacity>
+        {expandedSections.education && (
+          <View style={styles.detailContainer}>
+            <Text>{educationData}</Text>
+          </View>
+        )}
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => toggleSection('skills')}>
           <Ionicons name="snow-outline" size={20} color="#6c63ff" />
           <Text style={styles.menuText}>Skill</Text>
         </TouchableOpacity>
+        {expandedSections.skills && (
+          <View style={styles.detailContainer}>
+            <Text>{skillData}</Text>
+          </View>
+        )}
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => toggleSection('preferences')}>
           <MaterialIcons name="settings" size={20} color="#6c63ff" />
           <Text style={styles.menuText}>Preferences</Text>
         </TouchableOpacity>
+        {expandedSections.preferences && (
+          <View style={styles.detailContainer}>
+            <Text>{preferencesData}</Text>
+          </View>
+        )}
 
         <TouchableOpacity style={styles.menuItem}>
           <Ionicons name="log-out-outline" size={20} color="#6c63ff" />
@@ -84,7 +122,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     padding: 20,
     alignItems: 'center',
-    position: 'relative', // Add this to use absolute positioning inside the header
+    position: 'relative',
   },
   profileImage: {
     width: 80,
@@ -109,9 +147,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 20,
     marginTop: 10,
-    position: 'absolute', // Use absolute positioning
-    right: 30, // Align to the right
-    top: 125, // Adjust the top position if necessary
+    position: 'absolute',
+    right: 30,
+    top: 125,
   },
   editText: {
     color: '#fff',
@@ -135,5 +173,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#000',
   },
+  detailContainer: {
+    padding: 10,
+    marginHorizontal: 40,
+    marginBottom: 10,
+    backgroundColor: '#e8e8e8',
+    borderRadius: 10,
+  },
 });
-

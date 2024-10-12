@@ -143,7 +143,7 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = ({ navigation }) => 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
+        padding: 4,
         backgroundColor: '#fff',
     },
     headerContainer: {
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
         padding: 16,
         borderRadius: 10,
-        marginBottom: 20,
+        marginBottom: 15,
         marginTop:0
     },
     sectionHeader: {
