@@ -4,7 +4,7 @@ import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import {useAuthRedirect} from "@/app/hooks/useAuthRedirect";
+import { useAuthRedirect } from "@/app/hooks/useAuthRedirect";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -12,7 +12,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: "#6A41FF",
+        tabBarInactiveTintColor: "#A49EB5", // Add this line
         headerShown: false,
       }}>
       <Tabs.Screen
@@ -25,40 +26,31 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-          name="skill"
-          options={{
-              title: 'Skill',
-              tabBarIcon: ({ color, focused }) => (
-                  <TabBarIcon name={focused ? 'book' : 'book-outline'} color={color} />
-              ),
-          }}
-      />
-      {/*<Tabs.Screen*/}
-      {/*  name="ai"*/}
-      {/*  options={{*/}
-      {/*    title: 'AI',*/}
-      {/*    tabBarIcon: ({ color, focused }) => (*/}
-      {/*      <TabBarIcon name={focused ? 'star' : 'star-outline'} color={color} />*/}
-      {/*    ),*/}
-      {/*  }}*/}
-      {/*/>*/}
-      <Tabs.Screen
-          name="job"
-          options={{
-              title: 'Job',
-              tabBarIcon: ({ color, focused }) => (
-                  <TabBarIcon name={focused ? 'briefcase' : 'briefcase-outline'} color={color} />
-              ),
-          }}
+        name="skill"
+        options={{
+          title: 'Skill',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'book' : 'book-outline'} color={color} />
+          ),
+        }}
       />
       <Tabs.Screen
-          name="profile"
-          options={{
-              title: 'Profile',
-              tabBarIcon: ({ color, focused }) => (
-                  <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
-              ),
-          }}
+        name="job"
+        options={{
+          title: 'Job',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'briefcase' : 'briefcase-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
+          ),
+        }}
       />
     </Tabs>
   );
