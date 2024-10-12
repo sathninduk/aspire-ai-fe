@@ -131,6 +131,11 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = ({ navigation }) => 
                 </View>
                 {/* Add input fields or additional preferences here */}
             </View>
+             {/* Save button */}
+             <Link href= "/(tabs)/profile"
+              style={styles.saveButton} >
+                <Text style={styles.saveButtonText}>Save</Text>
+            </Link>
         </ScrollView>
     );
 };
@@ -147,6 +152,7 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 20,
         padding: 20,
         alignItems: 'center',
+        marginBottom:20
     },
     profileImage: {
         width: 80,
@@ -184,6 +190,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 10,
         marginBottom: 20,
+        marginTop:0
     },
     sectionHeader: {
         flexDirection: 'row',
@@ -236,6 +243,18 @@ const styles = StyleSheet.create({
         color: '#6c63ff',
         marginTop: 10,
         fontWeight: 'bold',
+    },
+    saveButton: {
+        backgroundColor: '#6c63ff',
+        padding: 15,
+        margin: 5,
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    saveButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
     },
 });
 

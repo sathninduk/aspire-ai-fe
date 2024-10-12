@@ -93,9 +93,10 @@ const EditBio: React.FC = () => {
             </View>
 
             {/* Save button */}
-            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Link href ="/(tabs)/profile"
+            style={styles.saveButton} >
                 <Text style={styles.saveButtonText}>Save</Text>
-            </TouchableOpacity>
+            </Link>
         </ScrollView>
     );
 };
@@ -178,11 +179,13 @@ const styles = StyleSheet.create({
         margin: 20,
         borderRadius: 8,
         alignItems: 'center',
+        alignContent:'center'
     },
     saveButtonText: {
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 16,
+        
     },
 });
 
