@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { Button, Searchbar } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native';
-import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { Button } from 'react-native-paper';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { BACKEND_URL } from '@/config';
 
-interface InterviewScreenProps {}
-
-const InterviewScreen: React.FC<InterviewScreenProps> = () => {
+const InterviewScreen: React.FC = () => {
   const [jobKeyword, setJobKeyword] = useState<string>('');
   const [interviewQuestions, setInterviewQuestions] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -16,31 +13,33 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
 
   const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
-  // Default common interview questions
   const defaultQuestions = [
-    { title: "Common Interview Questions", questions: [
+    {
+      title: "Common Interview Questions",
+      questions: [
         "Tell me about yourself.",
         "What are your strengths and weaknesses?",
         "Why do you want to work here?",
         "Where do you see yourself in five years?",
         "Describe a challenge you've faced at work and how you handled it.",
-      ] 
+      ],
     },
-    { title: "Behavioral Interview Questions", questions: [
+    {
+      title: "Behavioral Interview Questions",
+      questions: [
         "Give an example of a time you demonstrated leadership skills.",
         "Describe a situation where you had to work as part of a team.",
         "How do you handle conflict in the workplace?",
         "Can you share an instance where you made a mistake and how you fixed it?",
         "What motivates you to do your best work?",
-      ] 
-    }
+      ],
+    },
   ];
 
-  // Function to fetch interview questions
-  const fetchInterviewQuestions = async (jobKeyword: string) => {
+  const fetchInterviewQuestions = async () => {
     setLoading(true);
     setError(null);
-    setInterviewQuestions([]); // Clear previous questions
+    setInterviewQuestions([]);
 
     try {
       const response = await fetch(`${BACKEND_URL}/interview/questions`, {
@@ -52,14 +51,15 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
-      setInterviewQuestions(data.questions || []); // Ensure it's an array
-    } catch (error) {
-      console.error("Error fetching interview questions:", error);
-      setError('Failed to load questions, please try again later.');
+      setInterviewQuestions(data.questions || []);
+    } catch (err) {
+      const message = (err instanceof Error) ? err.message : 'Failed to load questions.';
+      console.error("Error fetching interview questions:", message);
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -67,7 +67,6 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={{ height: 20 }} /> {/* Adds space */}
       <Text style={styles.title}>Careers</Text>
       <View style={styles.tabContainer}>
         <Button 
@@ -88,16 +87,15 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
         </Button>
       </View>
       <View style={styles.searchContainer}>
-        <Searchbar
+        <TextInput
           style={styles.searchBar}
           value={jobKeyword}
           onChangeText={setJobKeyword}
           placeholder="Search Interview"
-          id="jobKeyword" // Unique ID for the input field
         />
         <TouchableOpacity 
           style={styles.getInterviewButton}
-          onPress={() => fetchInterviewQuestions(jobKeyword)}
+          onPress={fetchInterviewQuestions}
         >
           <Text style={styles.getInterviewButtonText}>Get Interview</Text>
         </TouchableOpacity>
@@ -106,33 +104,33 @@ const InterviewScreen: React.FC<InterviewScreenProps> = () => {
       {loading && <Text style={styles.loadingText}>Loading...</Text>}
       {error && <Text style={styles.errorText}>{error}</Text>}
       <View style={styles.questionsContainer}>
-        {interviewQuestions.length === 0 && defaultQuestions.map((item, index) => (
-          <View key={index} style={styles.questionBlock}>
-            <Text style={styles.questionTitle}>{item.title}</Text>
-            {item.questions.map((question, qIndex) => (
-              <Text key={qIndex} style={styles.question}>{question}</Text>
-            ))}
-          </View>
-        ))}
-        {interviewQuestions.length > 0 && (
-          <View style={styles.questionBlock}>
-            <Text style={styles.questionTitle}>Interview Questions for "{jobKeyword}"</Text>
-            {interviewQuestions.map((question, index) => (
-              <Text key={index} style={styles.question}>{question}</Text>
-            ))}
-          </View>
+        {interviewQuestions.length === 0 ? (
+          defaultQuestions.map((item, index) => (
+            <QuestionBlock key={index} title={item.title} questions={item.questions} />
+          ))
+        ) : (
+          <QuestionBlock title={`Interview Questions for "${jobKeyword}"`} questions={interviewQuestions} />
         )}
       </View>
     </ScrollView>
   );
 };
 
+// Component to render question blocks
+const QuestionBlock: React.FC<{ title: string; questions: string[] }> = ({ title, questions }) => (
+  <View style={styles.questionBlock}>
+    <Text style={styles.questionTitle}>{title}</Text>
+    {questions.map((question, qIndex) => (
+      <Text key={qIndex} style={styles.question}>{question}</Text>
+    ))}
+  </View>
+);
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Ensure the container takes the full screen height
+    flex: 1,
     padding: 20,
-    justifyContent: 'flex-start', // Align children at the start of the container
-    alignItems: 'center', // Center children horizontally
+    alignItems: 'center',
   },
   title: {
     fontSize: 24,
@@ -154,7 +152,10 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     flex: 1,
+    borderWidth: 1,
+    borderColor: '#6C63FF',
     borderRadius: 10,
+    padding: 10,
   },
   getInterviewButton: {
     backgroundColor: '#6C63FF',
@@ -193,7 +194,6 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   questionTitle: {
-    margin: 0,
     marginBottom: 10,
     fontSize: 20,
     color: '#6C63FF',
